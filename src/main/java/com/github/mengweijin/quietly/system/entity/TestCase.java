@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("QTL_API_CASE")
-public class ApiCase extends BaseEntity {
+public class TestCase extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

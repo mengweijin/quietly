@@ -1,18 +1,3 @@
-drop table IF EXISTS QTL_DATA_SOURCE;
-create TABLE QTL_DATA_SOURCE (
-  id bigint NOT NULL COMMENT 'id',
-  url varchar(200) NOT NULL COMMENT 'jdbc url',
-  username varchar(60) NOT NULL COMMENT 'Database username',
-  password varchar(60) DEFAULT NULL COMMENT 'Database password',
-  deleted int(4) DEFAULT 0 COMMENT 'Logic delete,（0 no delete; 1 deleted）',
-  create_by varchar(64) NULL COMMENT 'Creator',
-  create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',
-  update_by varchar(64) NULL COMMENT 'Revisor',
-  update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'Revisor time',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Data source info';
-
-
 drop table IF EXISTS QTL_API;
 create TABLE QTL_API (
   id bigint NOT NULL COMMENT 'primary key id',
@@ -29,8 +14,8 @@ create TABLE QTL_API (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='application program interface';
 
 
-drop table IF EXISTS QTL_API_CASE;
-create TABLE QTL_API_CASE (
+drop table IF EXISTS QTL_TEST_CASE;
+create TABLE QTL_TEST_CASE (
   id bigint NOT NULL COMMENT 'id',
   case_name varchar(100) NOT NULL COMMENT 'test case name',
   description varchar(500) NOT NULL COMMENT 'test case description',

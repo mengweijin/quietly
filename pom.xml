@@ -17,18 +17,12 @@
     <properties>
         <cucumber.version>7.3.2</cucumber.version>
         <rest-assured.version>5.0.1</rest-assured.version>
-        <beetl.version>3.10.0.RELEASE</beetl.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.mengweijin</groupId>
             <artifactId>quickboot-mybatis-plus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ibeetl</groupId>
-            <artifactId>beetl</artifactId>
-            <version>${beetl.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>

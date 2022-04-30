@@ -1,7 +1,7 @@
 package com.github.mengweijin.quietly.system.controller;
 
-import com.github.mengweijin.quietly.system.entity.ApiCase;
-import com.github.mengweijin.quietly.system.service.ApiCaseService;
+import com.github.mengweijin.quietly.system.entity.TestCase;
+import com.github.mengweijin.quietly.system.service.TestCaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +29,7 @@ import java.io.Serializable;
 @Validated
 @RestController
 @RequestMapping("/api-case")
-public class ApiCaseController  {
+public class TestCaseController {
 
     /**
      * <p>
@@ -37,7 +37,12 @@ public class ApiCaseController  {
      * </p>
      */
     @Autowired
-    private ApiCaseService apiCaseService;
+    private TestCaseService testCaseService;
+
+    @GetMapping("/run/{caseId}")
+    public void runCase(@PathVariable Long caseId) {
+        testCaseService.runCase(caseId);
+    }
 
     /**
      * <p>
@@ -47,30 +52,30 @@ public class ApiCaseController  {
      * @return ApiCase
      */
     @GetMapping("/{id}")
-    public ApiCase getById(@PathVariable("id") Serializable id) {
-        return apiCaseService.getById(id);
+    public TestCase getById(@PathVariable("id") Serializable id) {
+        return testCaseService.getById(id);
     }
 
     /**
      * <p>
      * Add ApiCase
      * </p>
-     * @param apiCase apiCase
+     * @param testCase apiCase
      */
     @PostMapping
-    public void add(@Valid @RequestBody ApiCase apiCase) {
-        apiCaseService.save(apiCase);
+    public void add(@Valid @RequestBody TestCase testCase) {
+        testCaseService.save(testCase);
     }
 
     /**
      * <p>
      * Update ApiCase
      * </p>
-     * @param apiCase apiCase
+     * @param testCase apiCase
      */
     @PutMapping
-    public void update(@Valid @RequestBody ApiCase apiCase) {
-        apiCaseService.updateById(apiCase);
+    public void update(@Valid @RequestBody TestCase testCase) {
+        testCaseService.updateById(testCase);
     }
 
     /**
@@ -81,7 +86,7 @@ public class ApiCaseController  {
      */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Serializable id) {
-        apiCaseService.removeById(id);
+        testCaseService.removeById(id);
     }
 
 }
