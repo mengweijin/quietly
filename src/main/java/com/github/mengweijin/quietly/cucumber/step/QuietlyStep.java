@@ -11,8 +11,13 @@ public interface QuietlyStep {
     String ASSERT_HTTP_RESPONSE_BODY_BY_JSON_PATH = "ASSERT_HTTP_RESPONSE_BODY_BY_JSON_PATH";
     String ASSERT_HTTP_RESPONSE_CODE = "ASSERT_HTTP_RESPONSE_CODE";
     String CALL_API = "CALL_API";
-    String EXECUTE_SQL = "EXECUTE_SQL";
+    String EXECUTE_UPDATE_SQL = "EXECUTE_UPDATE_SQL";
     String SET_HEADER = "SET_HEADER";
 
-    void execute(Long caseId, Long stepId);
+    /**
+     * execute step
+     * @param caseId caseId
+     * @param stepId stepId
+     */
+    void execute(Long caseId, Long stepId) throws Exception;
 }

@@ -40,5 +40,12 @@ public class StepService extends ServiceImpl<StepMapper, Step> implements IServi
     public Set<String> getStepDefinition(){
         return new TreeSet<>(stepDefinition.keySet());
     }
+
+    public void updateActualValueById(Long stepId, String actualValue) {
+        Step step = new Step();
+        step.setId(stepId);
+        step.setActualValue(actualValue);
+        this.updateById(step);
+    }
 }
 
