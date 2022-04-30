@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.mengweijin</groupId>
         <artifactId>quickboot-parent</artifactId>
-        <version>1.0.44</version>
+        <version>1.0.45-SNAPSHOT</version>
     </parent>
 
     <artifactId>quietly</artifactId>
@@ -15,13 +15,35 @@
     <description>A api test platform</description>
 
     <properties>
-
+        <cucumber.version>7.3.2</cucumber.version>
+        <rest-assured.version>5.0.1</rest-assured.version>
+        <beetl.version>3.10.0.RELEASE</beetl.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.mengweijin</groupId>
             <artifactId>quickboot-mybatis-plus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ibeetl</groupId>
+            <artifactId>beetl</artifactId>
+            <version>${beetl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.rest-assured</groupId>-->
+<!--            <artifactId>rest-assured</artifactId>-->
+<!--            <version>${rest-assured.version}</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -33,15 +55,7 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.alibaba.testable</groupId>
             <artifactId>testable-all</artifactId>
@@ -56,11 +70,10 @@
                 <version>1.0.12</version>
                 <configuration>
                     <parameters>
-                        <outputPackage>com.github.mengweijin.quietly</outputPackage>
-                        <tables>SYS_USER</tables>
-                        <tablePrefix>sys_</tablePrefix>
+                        <outputPackage>com.github.mengweijin.quietly.system</outputPackage>
+                        <tables>QTL_DATA_SOURCE,QTL_API,QTL_API_CASE,QTL_STEP</tables>
+                        <tablePrefix>QTL_</tablePrefix>
                         <superEntityClass>com.github.mengweijin.quickboot.mybatis.entity.BaseEntity</superEntityClass>
-                        <lombokModel>true</lombokModel>
                         <dbInfo>
                             <username>sa</username>
                             <password/>
