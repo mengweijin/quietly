@@ -1,20 +1,22 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.github.mengweijin.quietly.system.entity.Step;
+import com.github.mengweijin.quietly.system.service.StepService;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.mengweijin.quietly.system.entity.Step;
-import com.github.mengweijin.quietly.system.service.StepService;
+
+import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * <p>
@@ -37,6 +39,11 @@ public class StepController  {
      */
     @Autowired
     private StepService stepService;
+
+    @GetMapping("/definition/set")
+    public Set<String> getStepDefinition(){
+        return stepService.getStepDefinition();
+    }
 
     /**
      * <p>

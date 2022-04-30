@@ -1,12 +1,15 @@
 package com.github.mengweijin.quietly.system.service;
 
+import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.mengweijin.quickboot.framework.util.Const;
 import com.github.mengweijin.quietly.cucumber.CucumberRunner;
 import com.github.mengweijin.quietly.cucumber.ScenarioThreadLocal;
 import com.github.mengweijin.quietly.cucumber.StepArgs;
 import com.github.mengweijin.quietly.cucumber.enums.CaseStatus;
 import com.github.mengweijin.quietly.cucumber.service.CucumberService;
+import com.github.mengweijin.quietly.system.entity.Step;
 import com.github.mengweijin.quietly.system.entity.TestCase;
 import com.github.mengweijin.quietly.system.mapper.TestCaseMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -39,12 +45,15 @@ public class TestCaseService extends ServiceImpl<TestCaseMapper, TestCase> imple
     @Autowired
     private CucumberService cucumberService;
 
+    @Autowired
+    private StepService stepService;
+
     public void runCase(Long caseId) {
         this.updateStatusById(caseId, CaseStatus.RUNNING);
 
         try {
             ScenarioThreadLocal.set(new StepArgs().setCaseId(caseId));
-            File feature = cucumberService.generateFeature(caseId);
+            File feature = this.generateFeature(caseId);
             CucumberRunner.runCase(feature);
         } catch (Throwable throwable) {
             log.error("Run case [" + caseId + "] error!", throwable);
@@ -74,6 +83,32 @@ public class TestCaseService extends ServiceImpl<TestCaseMapper, TestCase> imple
         testCase.setId(id);
         testCase.setFeatureContent(content);
         return this.updateById(testCase);
+    }
+
+    public File generateFeature(Long caseId) {
+        TestCase testCase = this.getById(caseId);
+        List<Step> stepList = stepService.lambdaQuery().eq(Step::getCaseId, caseId).orderByAsc(Step::getSeq).list();
+
+        List<String> contentList = new ArrayList<>();
+        contentList.add("Feature: " + testCase.getCaseName());
+        contentList.add("");
+        contentList.add("    @DataSource");
+        contentList.add("    Scenario Outline: " + testCase.getDescription());
+        stepList.forEach(step ->
+                contentList.add("        " + step.getStepDefinition() + " <testCaseId> " + step.getId()));
+        contentList.add("");
+        contentList.add("        Examples:");
+        contentList.add("            |testCaseId|");
+        contentList.add("            |" + caseId + "|");
+
+        String content = String.join("\r\n", contentList);
+        log.debug("Feature content: \n{}", content);
+
+        this.updateFeatureContentById(caseId, content);
+
+        File feature = FileUtil.file(Const.PROJECT_PATH + "features" + File.separatorChar + caseId + ".feature");
+        FileUtil.mkdir(feature.getParentFile());
+        return FileUtil.writeLines(contentList, feature, StandardCharsets.UTF_8);
     }
 }
 
