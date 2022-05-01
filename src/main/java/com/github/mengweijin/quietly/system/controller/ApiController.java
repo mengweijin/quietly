@@ -1,5 +1,7 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.mengweijin.quickboot.mybatis.Pager;
 import com.github.mengweijin.quietly.system.entity.Api;
 import com.github.mengweijin.quietly.system.service.ApiService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,12 @@ public class ApiController  {
      */
     @Autowired
     private ApiService apiService;
+
+    @GetMapping("/pager")
+    public Pager<Api> getPager(Pager<Api> pager) {
+        IPage<Api> page = apiService.page(pager.toPage());
+        return pager.toPager(page);
+    }
 
     /**
      * <p>
