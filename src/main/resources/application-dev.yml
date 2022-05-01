@@ -1,6 +1,3 @@
-server:
-  servlet:
-    context-path: /quietly
 quietly:
   #step-package: com.github.mengweijin.quietly.step
   test:
