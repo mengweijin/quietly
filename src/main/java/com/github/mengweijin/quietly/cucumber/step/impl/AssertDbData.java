@@ -46,32 +46,21 @@ public class AssertDbData implements QuietlyStep {
         String firstSql = sqls.split(Const.SEMICOLON)[0];
         JdbcTemplate jdbcTemplate = ScenarioThreadLocal.get().getJdbcTemplate();
         List<Map<String, Object>> mapList = jdbcTemplate.query(firstSql, new CamelColumnMapRowMapper());
-
         ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
+
         String expectValue = step.getExpectValue();
+        String actualValue = objectMapper.writeValueAsString(mapList);
 
-        String actualValue;
-        if(JSONUtil.isJsonObj(expectValue)) {
-            actualValue = objectMapper.writeValueAsString(CollUtil.getFirst(mapList));
-            log.debug("Expect value: {}", expectValue);
-            log.debug("Actual value: {}", actualValue);
-            stepService.updateActualValueById(stepId, actualValue);
+        log.debug("Expect value: {}", expectValue);
+        log.debug("Actual value: {}", actualValue);
+        stepService.updateActualValueById(stepId, actualValue);
 
-            JSONAssert.assertEquals(expectValue, actualValue, false);
-        } else if(JSONUtil.isJsonArray(expectValue)) {
-            actualValue = objectMapper.writeValueAsString(mapList);
-
-            log.debug("Expect value: {}", expectValue);
-            log.debug("Actual value: {}", actualValue);
-            stepService.updateActualValueById(stepId, actualValue);
-
+        if(JSONUtil.isJsonArray(expectValue)) {
             JSONAssert.assertEquals(expectValue, new JSONArray(actualValue), false);
+        } else if(JSONUtil.isJsonObj(expectValue)) {
+            String assertValue = objectMapper.writeValueAsString(CollUtil.getFirst(mapList));
+            JSONAssert.assertEquals(expectValue, assertValue, false);
         } else {
-            actualValue = objectMapper.writeValueAsString(mapList);
-            log.debug("Expect value: {}", expectValue);
-            log.debug("Actual value: {}", actualValue);
-            stepService.updateActualValueById(stepId, actualValue);
-
             Assertions.assertEquals(expectValue, actualValue);
         }
     }
