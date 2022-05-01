@@ -40,7 +40,7 @@ public class StepController  {
     @Autowired
     private StepService stepService;
 
-    @GetMapping("/definition/set")
+    @GetMapping("/definition/list")
     public Set<String> getStepDefinition(){
         return stepService.getStepDefinition();
     }
