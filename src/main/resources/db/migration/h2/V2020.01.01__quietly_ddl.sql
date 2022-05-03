@@ -90,7 +90,7 @@ drop table IF EXISTS QTL_STEP_DEFINITION;
 create TABLE QTL_STEP_DEFINITION (
   id bigint NOT NULL COMMENT 'id',
   case_id bigint NOT NULL COMMENT 'QTL_CASE_DEFINITION id',
-  step_type bigint NOT NULL COMMENT '执行步骤类型。关联枚举类 com.github.mengweijin.quietly.enums.CaseStep',
+  step_type bigint NOT NULL COMMENT '执行步骤类型。关联枚举类 com.github.mengweijin.quietly.enums.StepType',
   action_expression varchar NOT NULL COMMENT '行为表达式。执行SQL就是具体的SQL语句；调用接口就是关联的表QTL_API_DEFINITION的 id；',
   action_sql_datasource_id bigint NULL COMMENT '执行SQL关联的数据库 QTL_ENVIRONMENT_DATASOURCE id.',
   action_api_url_args varchar NULL COMMENT '调用接口 url 参数JSON。以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。如：http://localhost:8080/quietly?username=${username}。',
