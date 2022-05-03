@@ -1,8 +1,11 @@
 package com.github.mengweijin.quietly.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
+import com.github.mengweijin.quietly.enums.CaseStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -26,12 +29,14 @@ public class CaseExecuteHistory extends BaseEntity {
     /**
      * QTL_CASE_DEFINITION id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     @TableField("CASE_ID")
     private Long caseId;
 
     /**
      * 执行失败时，记录 QTL_STEP_DEFINITION id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     @TableField("ERROR_STEP_ID")
     private Long errorStepId;
 
@@ -51,9 +56,9 @@ public class CaseExecuteHistory extends BaseEntity {
     private String errorInfo;
 
     /**
-     * Refer to com.github.mengweijin.quietly.enums.CaseStatus enum.
+     * Refer to ${@link com.github.mengweijin.quietly.enums.CaseStatus} enum.
      */
     @TableField("STATUS")
-    private String status;
+    private CaseStatus status;
 
 }

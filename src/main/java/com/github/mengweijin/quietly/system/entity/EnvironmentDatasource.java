@@ -2,6 +2,8 @@ package com.github.mengweijin.quietly.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +28,7 @@ public class EnvironmentDatasource extends BaseEntity {
     /**
      * QTL_PROJECT_ENVIRONMENT id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     @TableField("ENVIRONMENT_ID")
     private Long environmentId;
 

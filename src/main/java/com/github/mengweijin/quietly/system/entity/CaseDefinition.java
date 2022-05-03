@@ -1,8 +1,9 @@
 package com.github.mengweijin.quietly.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
+import com.github.mengweijin.quietly.enums.CaseStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -36,10 +37,10 @@ public class CaseDefinition extends BaseEntity {
     private String description;
 
     /**
-     * 最新执行状态。Refer to com.github.mengweijin.quietly.enums.CaseStatus enum.
+     * 最新执行状态。Refer to ${@link com.github.mengweijin.quietly.enums.CaseStatus} enum.
      */
     @TableField("STATUS")
-    private String status;
+    private CaseStatus status;
 
     /**
      * Y, N
