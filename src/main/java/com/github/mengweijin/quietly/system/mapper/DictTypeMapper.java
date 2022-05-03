@@ -1,7 +1,7 @@
 package com.github.mengweijin.quietly.system.mapper;
 
-import com.github.mengweijin.quietly.system.entity.DictType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.mengweijin.quietly.system.entity.DictType;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

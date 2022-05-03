@@ -18,12 +18,27 @@
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID,
-        CREATE_BY,
-        CREATE_TIME,
-        UPDATE_BY,
-        UPDATE_TIME,
-        DICT_TYPE_ID, NAME, CODE, SEQ, DESCRIPTION, DELETED
+        dictData.ID,
+        dictData.CREATE_BY,
+        dictData.CREATE_TIME,
+        dictData.UPDATE_BY,
+        dictData.UPDATE_TIME,
+        dictData.DICT_TYPE_ID,
+        dictData.NAME,
+        dictData.CODE,
+        dictData.SEQ,
+        dictData.DESCRIPTION,
+        dictData.DELETED
     </sql>
+
+    <select id="selectByDictTypeCode" parameterType="java.io.Serializable" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from QTL_DICT_DATA dictData
+        left join QTL_DICT_TYPE dictType on dictData.DICT_TYPE_ID = dictType.ID
+        <where>
+            dictType.CODE = #{code}
+        </where>
+    </select>
 
 </mapper>

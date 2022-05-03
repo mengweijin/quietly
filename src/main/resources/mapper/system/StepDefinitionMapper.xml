@@ -10,7 +10,7 @@
     <result column="UPDATE_BY" property="updateBy" />
     <result column="UPDATE_TIME" property="updateTime" />
     <result column="CASE_ID" property="caseId" />
-    <result column="STEP_TYPE_ID" property="stepTypeId" />
+    <result column="STEP_TYPE_DATA_ID" property="stepTypeDataId" />
     <result column="ACTION_EXPRESSION" property="actionExpression" />
     <result column="ACTION_API_URL_ARGS" property="actionApiUrlArgs" />
     <result column="ACTION_API_BODY_ARGS" property="actionApiBodyArgs" />
@@ -29,7 +29,7 @@
         UPDATE_BY,
         UPDATE_TIME,
         CASE_ID,
-        STEP_TYPE_ID,
+        STEP_TYPE_DATA_ID,
         ACTION_EXPRESSION,
         ACTION_API_URL_ARGS,
         ACTION_API_BODY_ARGS,

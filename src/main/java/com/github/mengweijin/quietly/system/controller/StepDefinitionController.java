@@ -1,20 +1,23 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.github.mengweijin.quietly.system.entity.DictData;
+import com.github.mengweijin.quietly.system.entity.StepDefinition;
+import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.mengweijin.quietly.system.entity.StepDefinition;
-import com.github.mengweijin.quietly.system.service.StepDefinitionService;
+
+import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +40,11 @@ public class StepDefinitionController  {
      */
     @Autowired
     private StepDefinitionService stepDefinitionService;
+
+    @GetMapping("/getCaseStepTypeList")
+    public List<DictData> getCaseStepTypeList() {
+        return stepDefinitionService.getCaseStepTypeList();
+    }
 
     /**
      * <p>

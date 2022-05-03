@@ -5,19 +5,11 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 /**
  * @author mengweijin
  */
-public enum CaseStatus implements IEnum<String> {
+public enum DictTypeCode implements IEnum<String> {
     /**
-     * 用例执行状态
+     * 字典类型编码，需要和数据库对应。
      */
-    CREATED,
-
-    QUEUING,
-
-    RUNNING,
-
-    SUCCESS,
-
-    FAILED;
+    case_step_type;
 
     @Override
     public String getValue() {

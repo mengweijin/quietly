@@ -36,8 +36,8 @@ public class StepDefinition extends BaseEntity {
      * 执行步骤类型(表 QTL_DICT_TYPE 的 code=case_step_type 的类型)，关联表 QTL_DICT_DATA 的 id
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    @TableField("STEP_TYPE_ID")
-    private Long stepTypeId;
+    @TableField("STEP_TYPE_DATA_ID")
+    private Long stepTypeDataId;
 
     /**
      * 行为表达式。执行SQL就是具体的SQL语句；调用接口就是关联的表QTL_API_DEFINITION的 id；
