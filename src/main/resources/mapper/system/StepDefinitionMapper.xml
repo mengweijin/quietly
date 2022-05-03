@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.mengweijin.quietly.system.mapper.StepDefinitionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.mengweijin.quietly.system.entity.StepDefinition">
+    <result column="ID" property="id" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="UPDATE_TIME" property="updateTime" />
+    <result column="CASE_ID" property="caseId" />
+    <result column="STEP_TYPE_ID" property="stepTypeId" />
+    <result column="ACTION_EXPRESSION" property="actionExpression" />
+    <result column="ACTION_API_URL_ARGS" property="actionApiUrlArgs" />
+    <result column="ACTION_API_BODY_ARGS" property="actionApiBodyArgs" />
+    <result column="ACTION_API_HEADERS" property="actionApiHeaders" />
+    <result column="ASSERT_EXPRESSION" property="assertExpression" />
+    <result column="ASSERT_EXPECT_VALUE" property="assertExpectValue" />
+    <result column="ASSERT_ACTUAL_VALUE" property="assertActualValue" />
+    <result column="SEQ" property="seq" />
+    <result column="DELETED" property="deleted" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID,
+        CREATE_BY,
+        CREATE_TIME,
+        UPDATE_BY,
+        UPDATE_TIME,
+        CASE_ID,
+        STEP_TYPE_ID,
+        ACTION_EXPRESSION,
+        ACTION_API_URL_ARGS,
+        ACTION_API_BODY_ARGS,
+        ACTION_API_HEADERS,
+        ASSERT_EXPRESSION,
+        ASSERT_EXPECT_VALUE,
+        ASSERT_ACTUAL_VALUE,
+        SEQ,
+        DELETED
+    </sql>
+
+</mapper>

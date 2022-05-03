@@ -52,7 +52,7 @@
                 <configuration>
                     <parameters>
                         <outputPackage>com.github.mengweijin.quietly.system</outputPackage>
-                        <tables>QTL_DATA_SOURCE,QTL_API,QTL_API_CASE,QTL_STEP</tables>
+                        <tables>QTL_DICT_TYPE,QTL_DICT_DATA,QTL_PROJECT,QTL_PROJECT_ENVIRONMENT,QTL_ENVIRONMENT_DATASOURCE,QTL_API_DEFINITION,QTL_CASE_DEFINITION,QTL_STEP_DEFINITION,QTL_CASE_EXECUTE_HISTORY</tables>
                         <tablePrefix>QTL_</tablePrefix>
                         <superEntityClass>com.github.mengweijin.quickboot.mybatis.entity.BaseEntity</superEntityClass>
                         <dbInfo>
