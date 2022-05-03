@@ -2,16 +2,11 @@ package com.github.mengweijin.quietly.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.mengweijin.quietly.cucumber.step.QuietlyStep;
 import com.github.mengweijin.quietly.system.entity.Step;
 import com.github.mengweijin.quietly.system.mapper.StepMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * <p>
@@ -26,8 +21,6 @@ import java.util.TreeSet;
 @Service
 public class StepService extends ServiceImpl<StepMapper, Step> implements IService<Step> {
 
-    @Autowired
-    private Map<String, QuietlyStep> stepDefinition;
 
     /**
      * <p>
@@ -36,10 +29,6 @@ public class StepService extends ServiceImpl<StepMapper, Step> implements IServi
      */
     @Autowired
     private StepMapper stepMapper;
-
-    public Set<String> getStepDefinition(){
-        return new TreeSet<>(stepDefinition.keySet());
-    }
 
     public void updateActualValueById(Long stepId, String actualValue) {
         Step step = new Step();

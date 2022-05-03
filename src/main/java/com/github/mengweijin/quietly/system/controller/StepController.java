@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * <p>
@@ -39,11 +38,6 @@ public class StepController  {
      */
     @Autowired
     private StepService stepService;
-
-    @GetMapping("/definition/list")
-    public Set<String> getStepDefinition(){
-        return stepService.getStepDefinition();
-    }
 
     /**
      * <p>

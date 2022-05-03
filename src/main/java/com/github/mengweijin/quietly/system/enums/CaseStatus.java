@@ -1,4 +1,4 @@
-package com.github.mengweijin.quietly.cucumber.enums;
+package com.github.mengweijin.quietly.system.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 
