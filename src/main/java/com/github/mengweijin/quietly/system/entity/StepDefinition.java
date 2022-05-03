@@ -50,7 +50,7 @@ public class StepDefinition extends BaseEntity {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     @TableField("ACTION_SQL_DATASOURCE_ID")
-    private String actionSqlDatasourceId;
+    private Long actionSqlDatasourceId;
 
     /**
      * 调用接口 url 参数JSON。以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。如：http://localhost:8080/quietly?username=${username}。

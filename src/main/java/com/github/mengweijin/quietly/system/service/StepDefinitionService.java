@@ -1,16 +1,12 @@
 package com.github.mengweijin.quietly.system.service;
 
-import com.github.mengweijin.quietly.enums.DictTypeCode;
-import com.github.mengweijin.quietly.system.entity.DictData;
-import lombok.extern.slf4j.Slf4j;
-import com.github.mengweijin.quietly.system.entity.StepDefinition;
-import com.github.mengweijin.quietly.system.mapper.StepDefinitionMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.mengweijin.quietly.system.entity.StepDefinition;
+import com.github.mengweijin.quietly.system.mapper.StepDefinitionMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -33,11 +29,5 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
     @Autowired
     private StepDefinitionMapper stepDefinitionMapper;
 
-    @Autowired
-    private DictDataService dictDataService;
-
-    public List<DictData> getCaseStepTypeList() {
-        return dictDataService.getByDictTypeCode(DictTypeCode.case_step_type);
-    }
 }
 

@@ -1,10 +1,12 @@
 package com.github.mengweijin.quietly.system.controller;
 
-import com.github.mengweijin.quietly.system.entity.DictData;
+import com.github.mengweijin.quietly.enums.CaseStep;
+import com.github.mengweijin.quietly.system.dto.CaseStepDto;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -41,9 +46,18 @@ public class StepDefinitionController  {
     @Autowired
     private StepDefinitionService stepDefinitionService;
 
+    @Cacheable("stepDefinition")
     @GetMapping("/getCaseStepTypeList")
-    public List<DictData> getCaseStepTypeList() {
-        return stepDefinitionService.getCaseStepTypeList();
+    public List<String> getCaseStepTypeList() {
+        return CaseStep.getCaseStepTypes();
+    }
+
+    @Cacheable("stepDefinition")
+    @GetMapping("/getCaseStepList")
+    public List<CaseStepDto> getCaseStepListByType(@RequestParam @NotBlank String caseStepType) {
+        return CaseStep.getCaseStepByPrefix(caseStepType).stream()
+                .map(step -> new CaseStepDto().setKey(step.name()).setName(step.getLabel()))
+                .collect(Collectors.toList());
     }
 
     /**
