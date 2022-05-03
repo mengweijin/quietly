@@ -1,6 +1,6 @@
 package com.github.mengweijin.quietly.system.controller;
 
-import com.github.mengweijin.quietly.enums.CaseStep;
+import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.system.dto.CaseStepDto;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
@@ -47,15 +47,15 @@ public class StepDefinitionController  {
     private StepDefinitionService stepDefinitionService;
 
     @Cacheable("stepDefinition")
-    @GetMapping("/getCaseStepTypeList")
-    public List<String> getCaseStepTypeList() {
-        return CaseStep.getCaseStepTypes();
+    @GetMapping("/getStepTypeList")
+    public List<String> getStepTypeList() {
+        return StepType.getStepTypes();
     }
 
     @Cacheable("stepDefinition")
-    @GetMapping("/getCaseStepList")
-    public List<CaseStepDto> getCaseStepListByType(@RequestParam @NotBlank String caseStepType) {
-        return CaseStep.getCaseStepByPrefix(caseStepType).stream()
+    @GetMapping("/getStepListByType")
+    public List<CaseStepDto> getStepListByType(@RequestParam @NotBlank String stepType) {
+        return StepType.getStepByPrefix(stepType).stream()
                 .map(step -> new CaseStepDto().setKey(step.name()).setName(step.getLabel()))
                 .collect(Collectors.toList());
     }

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * 用例步骤枚举
  * @author mengweijin
  */
-public enum CaseStep implements IEnum<String> {
+public enum StepType implements IEnum<String> {
     /**
      * 行为：执行一条 SQL 语句
      */
@@ -44,7 +44,7 @@ public enum CaseStep implements IEnum<String> {
 
     private String label;
 
-    CaseStep(String label) {
+    StepType(String label) {
         this.label = label;
     }
 
@@ -52,15 +52,15 @@ public enum CaseStep implements IEnum<String> {
         return this.label;
     }
 
-    public static List<String> getCaseStepTypes() {
-        return Arrays.stream(CaseStep.values())
+    public static List<String> getStepTypes() {
+        return Arrays.stream(StepType.values())
                 .map(step -> StrUtil.subBefore(step.name(), '_', false))
                 .distinct()
                 .collect(Collectors.toList());
     }
 
-    public static List<CaseStep> getCaseStepByPrefix(String prefix) {
-        return Arrays.stream(CaseStep.values())
+    public static List<StepType> getStepByPrefix(String prefix) {
+        return Arrays.stream(StepType.values())
                 .filter(step -> step.name().startsWith(prefix))
                 .collect(Collectors.toList());
     }

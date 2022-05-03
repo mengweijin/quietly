@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
+import com.github.mengweijin.quietly.enums.StepType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -33,11 +34,10 @@ public class StepDefinition extends BaseEntity {
     private Long caseId;
 
     /**
-     * 执行步骤类型(表 QTL_DICT_TYPE 的 code=case_step_type 的类型)，关联表 QTL_DICT_DATA 的 id
+     * 执行步骤类型。关联枚举类 ${@link StepType}
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    @TableField("STEP_TYPE_DATA_ID")
-    private Long stepTypeDataId;
+    @TableField("STEP_TYPE")
+    private StepType stepType;
 
     /**
      * 行为表达式。执行SQL就是具体的SQL语句；调用接口就是关联的表QTL_API_DEFINITION的 id；
