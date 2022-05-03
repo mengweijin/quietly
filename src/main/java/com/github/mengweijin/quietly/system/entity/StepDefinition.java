@@ -46,6 +46,13 @@ public class StepDefinition extends BaseEntity {
     private String actionExpression;
 
     /**
+     * 执行SQL关联的数据库 QTL_ENVIRONMENT_DATASOURCE id.
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    @TableField("ACTION_SQL_DATASOURCE_ID")
+    private String actionSqlDatasourceId;
+
+    /**
      * 调用接口 url 参数JSON。以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。如：http://localhost:8080/quietly?username=${username}。
      */
     @TableField("ACTION_API_URL_ARGS")

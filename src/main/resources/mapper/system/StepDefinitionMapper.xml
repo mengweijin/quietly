@@ -12,6 +12,7 @@
     <result column="CASE_ID" property="caseId" />
     <result column="STEP_TYPE_DATA_ID" property="stepTypeDataId" />
     <result column="ACTION_EXPRESSION" property="actionExpression" />
+    <result column="ACTION_SQL_DATASOURCE_ID" property="actionSqlDatasourceId" />
     <result column="ACTION_API_URL_ARGS" property="actionApiUrlArgs" />
     <result column="ACTION_API_BODY_ARGS" property="actionApiBodyArgs" />
     <result column="ACTION_API_HEADERS" property="actionApiHeaders" />
@@ -31,6 +32,7 @@
         CASE_ID,
         STEP_TYPE_DATA_ID,
         ACTION_EXPRESSION,
+        ACTION_SQL_DATASOURCE_ID,
         ACTION_API_URL_ARGS,
         ACTION_API_BODY_ARGS,
         ACTION_API_HEADERS,

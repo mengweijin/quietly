@@ -139,6 +139,7 @@ create TABLE QTL_STEP_DEFINITION (
   case_id bigint NOT NULL COMMENT 'QTL_CASE_DEFINITION id',
   step_type_data_id bigint NOT NULL COMMENT '执行步骤类型(表 QTL_DICT_TYPE 的 code=case_step_type 的类型)，关联表 QTL_DICT_DATA 的 id',
   action_expression varchar NOT NULL COMMENT '行为表达式。执行SQL就是具体的SQL语句；调用接口就是关联的表QTL_API_DEFINITION的 id；',
+  action_sql_datasource_id bigint NULL COMMENT '执行SQL关联的数据库 QTL_ENVIRONMENT_DATASOURCE id.',
   action_api_url_args varchar NULL COMMENT '调用接口 url 参数JSON。以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。如：http://localhost:8080/quietly?username=${username}。',
   action_api_body_args varchar NULL COMMENT '调用接口请求体参数JSON。以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。可以从表 QTL_API_DEFINITION 中获取 API 默认参数并合并到这里。',
   action_api_headers varchar NULL COMMENT '调用接口请求头参数JSON。以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。可以从表 QTL_API_DEFINITION 中获取 API 默认参数并合并到这里。',
