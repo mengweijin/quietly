@@ -29,8 +29,5 @@ public class EnvironmentDatasourceService extends ServiceImpl<EnvironmentDatasou
     @Autowired
     private EnvironmentDatasourceMapper environmentDatasourceMapper;
 
-    @Autowired
-    private StepDefinitionService stepDefinitionService;
-
 }
 

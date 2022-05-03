@@ -4,16 +4,17 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
+import com.github.mengweijin.quickboot.framework.jdbc.LowerColumnMapRowMapper;
 import com.github.mengweijin.quickboot.framework.util.Const;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.step.Step;
+import com.github.mengweijin.quietly.step.StepArgs;
 import com.github.mengweijin.quietly.system.entity.EnvironmentDatasource;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.EnvironmentDatasourceService;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class ExecuteSqlAction implements Step {
     }
 
     @Override
-    public void invoke(Long stepId) {
+    public Object invoke(Long stepId, StepArgs stepArgs) {
         StepDefinition stepDefinition = stepDefinitionService.getById(stepId);
         EnvironmentDatasource environmentDatasource = environmentDatasourceService.getById(stepDefinition.getActionSqlDatasourceId());
 
@@ -65,9 +66,10 @@ public class ExecuteSqlAction implements Step {
         } else if(sqlArray.length != 1) {
             throw new QuickBootClientException("Not support multiple select sql in one step. Because it's a bad practice.");
         } else {
-            List<Map<String, Object>> mapList = jdbcTemplate.query(sqlArray[0], new ColumnMapRowMapper());
+            List<Map<String, Object>> mapList = jdbcTemplate.query(sqlArray[0], new LowerColumnMapRowMapper());
+            return mapList;
         }
-
+        return null;
     }
 
     public void checkDatasource(Long stepId, EnvironmentDatasource environmentDatasource) {

@@ -23,6 +23,11 @@ public enum StepType implements IEnum<String> {
     ACTION_SEND_HTTP_REQUEST("发送 HTTP 请求"),
 
     /**
+     * 断言：上一个Action执行后，对其返回的结果进行HTTP 状态码断言。如：200，400，404，500
+     */
+    ASSERT_HTTP_RESPONSE_CODE("响应状态码"),
+
+    /**
      * 断言：上一个Action执行后，对其返回的结果进行字符串断言。expectValue.equals(responseActualValue)
      */
     ASSERT_STRING("字符串"),
