@@ -3,7 +3,6 @@ package com.github.mengweijin.quietly.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.mengweijin.quietly.system.entity.EnvironmentDatasource;
-import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.mapper.EnvironmentDatasourceMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +32,5 @@ public class EnvironmentDatasourceService extends ServiceImpl<EnvironmentDatasou
     @Autowired
     private StepDefinitionService stepDefinitionService;
 
-    public EnvironmentDatasource getByStepDefinitionId(Long stepId) {
-        StepDefinition stepDefinition = stepDefinitionService.getById(stepId);
-        if(stepDefinition != null) {
-            Long actionSqlDatasourceId = stepDefinition.getActionSqlDatasourceId();
-            if(actionSqlDatasourceId != null) {
-                return this.getById(actionSqlDatasourceId);
-            }
-        }
-        return null;
-    }
 }
 
