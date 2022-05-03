@@ -21,6 +21,12 @@
     <result column="ASSERT_ACTUAL_VALUE" property="assertActualValue" />
     <result column="SEQ" property="seq" />
     <result column="DELETED" property="deleted" />
+    <result column="FIELD_1" property="field1" />
+    <result column="FIELD_2" property="field2" />
+    <result column="FIELD_3" property="field3" />
+    <result column="FIELD_4" property="field4" />
+    <result column="FIELD_5" property="field5" />
+    <result column="FIELD_6" property="field6" />
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -40,7 +46,13 @@
         ASSERT_EXPECT_VALUE,
         ASSERT_ACTUAL_VALUE,
         SEQ,
-        DELETED
+        DELETED,
+        FIELD_1,
+        FIELD_2,
+        FIELD_3,
+        FIELD_4,
+        FIELD_5,
+        FIELD_6
     </sql>
 
 </mapper>

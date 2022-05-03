@@ -100,4 +100,35 @@ public class StepDefinition extends BaseEntity {
     @TableField("DELETED")
     private Integer deleted;
 
+    /**
+     * 备用字段。如果用户需要自定义 Step 定义的话，上面这些字段可能不够，所以留几个备用字段。
+     */
+    @TableField("FIELD_1")
+    private Integer field1;
+
+    /**
+     * 备用字段。如果用户需要自定义 Step 定义的话，上面这些字段可能不够，所以留几个备用字段。
+     */
+    @TableField("FIELD_2")
+    private Integer field2;
+    /**
+     * 备用字段。如果用户需要自定义 Step 定义的话，上面这些字段可能不够，所以留几个备用字段。
+     */
+    @TableField("FIELD_3")
+    private Integer field3;
+    /**
+     * 备用字段。如果用户需要自定义 Step 定义的话，上面这些字段可能不够，所以留几个备用字段。
+     */
+    @TableField("FIELD_4")
+    private Integer field4;
+    /**
+     * 备用字段。如果用户需要自定义 Step 定义的话，上面这些字段可能不够，所以留几个备用字段。
+     */
+    @TableField("FIELD_5")
+    private Integer field5;
+    /**
+     * 备用字段。如果用户需要自定义 Step 定义的话，上面这些字段可能不够，所以留几个备用字段。
+     */
+    @TableField("FIELD_6")
+    private Integer field6;
 }
