@@ -1,4 +1,4 @@
-package com.github.mengweijin.quietly.system.enums;
+package com.github.mengweijin.quietly.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 
@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.annotation.IEnum;
  */
 
 public enum CaseStatus implements IEnum<String> {
+    /**
+     * 用例执行状态
+     */
     CREATED,
 
     QUEUING,
