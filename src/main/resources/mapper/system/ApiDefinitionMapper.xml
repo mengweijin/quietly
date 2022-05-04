@@ -17,7 +17,6 @@
     <result column="NAME" property="name" />
     <result column="DESCRIPTION" property="description" />
     <result column="REQUEST_MEDIA_TYPE" property="requestMediaType" />
-    <result column="RESPONSE_DATA_TYPE" property="responseDataType" />
     <result column="DELETED" property="deleted" />
     </resultMap>
     <!-- 通用查询结果列 -->
@@ -35,7 +34,6 @@
         NAME,
         DESCRIPTION,
         REQUEST_MEDIA_TYPE,
-        RESPONSE_DATA_TYPE,
         DELETED
     </sql>
 

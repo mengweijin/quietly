@@ -48,11 +48,6 @@ public enum StepType implements IEnum<String> {
      */
     ASSERT_API_RESPONSE_BY_JSON_PATH("断言-根据 JSON-Path 表达式"),
 
-    /**
-     * 断言：上一个Action执行后，对其返回的结果进行XML-Path断言。用户提供一个 XML-path 表达式和期待值，以此和 response 响应的值做比对。
-     */
-    ASSERT_API_RESPONSE_BY_XML_PATH("断言-根据 XML-Path 表达式"),
-
     ASSERT_DB_BY_QUERY_SQL("断言-数据库-根据一个查询SQL");
 
     private final String label;

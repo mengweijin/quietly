@@ -58,7 +58,6 @@ create TABLE QTL_API_DEFINITION (
   name varchar(100) NOT NULL COMMENT 'api name',
   description varchar(500) NULL COMMENT 'api description',
   request_media_type varchar(100) NULL DEFAULT 'application/json;charset=UTF-8' COMMENT '请求media类型. For example: "application/json;charset=UTF-8". Refer to ${@link class org.springframework.http.MediaType}',
-  response_data_type varchar(100) NULL COMMENT '响应数据类型. Refer to ${@link com.github.mengweijin.quietly.enums.ResponseDataType}',
   deleted int NOT NULL DEFAULT 0 COMMENT '逻辑删除。0：未删除；1：已删除；',
   create_by varchar(64) NULL COMMENT 'Creator',
   create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',

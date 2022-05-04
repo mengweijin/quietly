@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
-import com.github.mengweijin.quietly.enums.ResponseDataType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -75,12 +74,6 @@ public class ApiDefinition extends BaseEntity {
      */
     @TableField("REQUEST_MEDIA_TYPE")
     private String requestMediaType;
-
-    /**
-     * 响应数据类型. Refer to ${@link com.github.mengweijin.quietly.enums.ResponseDataType}
-     */
-    @TableField("RESPONSE_DATA_TYPE")
-    private ResponseDataType responseDataType;
 
     /**
      * 逻辑删除。0：未删除；1：已删除；
