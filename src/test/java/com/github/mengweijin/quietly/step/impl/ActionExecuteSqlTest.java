@@ -9,11 +9,11 @@ import java.util.List;
  * @author mengweijin
  * @date 2022/5/4
  */
-class ActionExecuteUpdateSqlTest {
+class ActionExecuteSqlTest {
 
     @Test
     void filterUpdateSql() {
-        ActionExecuteUpdateSql action = new ActionExecuteUpdateSql();
+        ActionExecuteSql action = new ActionExecuteSql();
         String[] sqls = {
                 "select * from table",
                 "insert into table",

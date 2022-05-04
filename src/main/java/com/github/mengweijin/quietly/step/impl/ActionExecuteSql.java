@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class ActionExecuteUpdateSql extends AbstractExecuteSql {
+public class ActionExecuteSql extends AbstractExecuteSql {
 
     public static final String[] UPDATE_SQL_TAGS = {"insert", "update", "delete"};
 
     @Override
     public StepType stepType() {
-        return StepType.ACTION_EXECUTE_UPDATE_SQL;
+        return StepType.ACTION_EXECUTE_SQL;
     }
 
     @Override

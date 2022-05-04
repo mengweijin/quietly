@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,15 +46,9 @@ public class StepDefinitionController  {
     private StepDefinitionService stepDefinitionService;
 
     @Cacheable("stepDefinition")
-    @GetMapping("/getStepTypeList")
-    public List<String> getStepTypeList() {
-        return StepType.getStepTypes();
-    }
-
-    @Cacheable("stepDefinition")
-    @GetMapping("/getStepListByType")
-    public List<CaseStepDto> getStepListByType(@RequestParam @NotBlank String stepType) {
-        return StepType.getStepByPrefix(stepType).stream()
+    @GetMapping("/getStepList")
+    public List<CaseStepDto> getStepList() {
+        return Arrays.stream(StepType.values())
                 .map(step -> new CaseStepDto().setKey(step.name()).setName(step.getLabel()))
                 .collect(Collectors.toList());
     }
