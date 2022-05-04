@@ -1,19 +1,20 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.github.mengweijin.quietly.system.entity.CaseDefinition;
+import com.github.mengweijin.quietly.system.service.CaseDefinitionService;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.mengweijin.quietly.system.entity.CaseDefinition;
-import com.github.mengweijin.quietly.system.service.CaseDefinitionService;
+
+import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
@@ -37,6 +38,12 @@ public class CaseDefinitionController  {
      */
     @Autowired
     private CaseDefinitionService caseDefinitionService;
+
+    @GetMapping("/runCase/{id}")
+    public void runCase(@PathVariable("id") Long id) {
+        caseDefinitionService.runCase(id);
+    }
+
 
     /**
      * <p>

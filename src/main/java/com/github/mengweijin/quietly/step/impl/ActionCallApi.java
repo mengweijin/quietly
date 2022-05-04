@@ -2,11 +2,14 @@ package com.github.mengweijin.quietly.step.impl;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.step.Step;
 import com.github.mengweijin.quietly.step.StepArgs;
 import com.github.mengweijin.quietly.system.dto.ApiArgsDto;
+import com.github.mengweijin.quietly.system.dto.ApiRequestActualInfoDto;
 import com.github.mengweijin.quietly.system.entity.ApiDefinition;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.ApiDefinitionService;
@@ -20,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,12 +81,21 @@ public class ActionCallApi implements Step {
         HttpEntity<Object> httpEntity = new HttpEntity<>(requestBody, headers);
         ResponseEntity<Object> responseEntity;
         try {
+            ApiRequestActualInfoDto dto = new ApiRequestActualInfoDto();
+            dto.setUrl(url);
+            dto.setHeaders(headers);
+            dto.setRequestBody(requestBody);
+            String info = objectMapper.writeValueAsString(dto);
+            stepDefinitionService.updateApiRequestActualInfoById(stepId, info);
+
             responseEntity = restTemplate.exchange(url, apiDefinition.getHttpMethod(), httpEntity, Object.class);
         } catch (HttpStatusCodeException e) {
             responseEntity = ResponseEntity
                     .status(e.getRawStatusCode())
                     .headers(e.getResponseHeaders())
                     .body(e.getResponseBodyAsString());
+        } catch (JsonProcessingException e) {
+            throw new QuickBootException(e.getMessage());
         }
 
         Map<String, Object> map = new HashMap<>(1);

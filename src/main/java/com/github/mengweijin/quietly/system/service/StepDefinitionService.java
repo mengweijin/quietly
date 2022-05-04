@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * <p>
  * QTL_STEP_DEFINITION implement
@@ -42,6 +45,17 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
         StepDefinition stepDefinition = new StepDefinition();
         stepDefinition.setId(stepId);
         stepDefinition.setActualValue(actualValue);
+        stepDefinitionMapper.updateById(stepDefinition);
+    }
+
+    public List<StepDefinition> getByCaseIdOrderBySeqAsc(Serializable caseId) {
+        return this.lambdaQuery().eq(StepDefinition::getCaseId, caseId).orderByAsc(StepDefinition::getSeq).list();
+    }
+
+    public void updateApiRequestActualInfoById(Long stepId, String info) {
+        StepDefinition stepDefinition = new StepDefinition();
+        stepDefinition.setId(stepId);
+        stepDefinition.setApiRequestActualInfo(info);
         stepDefinitionMapper.updateById(stepDefinition);
     }
 }
