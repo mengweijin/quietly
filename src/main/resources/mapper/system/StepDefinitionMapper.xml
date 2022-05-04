@@ -11,22 +11,15 @@
     <result column="UPDATE_TIME" property="updateTime" />
     <result column="CASE_ID" property="caseId" />
     <result column="STEP_TYPE" property="stepType" />
-    <result column="ACTION_EXPRESSION" property="actionExpression" />
-    <result column="ACTION_SQL_DATASOURCE_ID" property="actionSqlDatasourceId" />
-    <result column="ACTION_API_URL_ARGS" property="actionApiUrlArgs" />
-    <result column="ACTION_API_BODY_ARGS" property="actionApiBodyArgs" />
-    <result column="ACTION_API_HEADERS" property="actionApiHeaders" />
-    <result column="ASSERT_EXPRESSION" property="assertExpression" />
-    <result column="ASSERT_EXPECT_VALUE" property="assertExpectValue" />
-    <result column="ASSERT_ACTUAL_VALUE" property="assertActualValue" />
+    <result column="EXPRESSION" property="expression" />
+    <result column="DATASOURCE_ID" property="datasourceId" />
+    <result column="API_ID" property="apiId" />
+    <result column="API_ARGS" property="apiArgs" />
+    <result column="EXPECT_VALUE" property="expectValue" />
+    <result column="ACTUAL_VALUE" property="actualValue" />
     <result column="SEQ" property="seq" />
     <result column="DELETED" property="deleted" />
-    <result column="FIELD_1" property="field1" />
-    <result column="FIELD_2" property="field2" />
-    <result column="FIELD_3" property="field3" />
-    <result column="FIELD_4" property="field4" />
-    <result column="FIELD_5" property="field5" />
-    <result column="FIELD_6" property="field6" />
+    <result column="API_REQUEST_ACTUAL_INFO" property="apiRequestActualInfo" />
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -37,22 +30,15 @@
         UPDATE_TIME,
         CASE_ID,
         STEP_TYPE,
-        ACTION_EXPRESSION,
-        ACTION_SQL_DATASOURCE_ID,
-        ACTION_API_URL_ARGS,
-        ACTION_API_BODY_ARGS,
-        ACTION_API_HEADERS,
-        ASSERT_EXPRESSION,
-        ASSERT_EXPECT_VALUE,
-        ASSERT_ACTUAL_VALUE,
+        EXPRESSION,
+        DATASOURCE_ID,
+        API_ID,
+        API_ARGS,
+        EXPECT_VALUE,
+        ACTUAL_VALUE,
         SEQ,
         DELETED,
-        FIELD_1,
-        FIELD_2,
-        FIELD_3,
-        FIELD_4,
-        FIELD_5,
-        FIELD_6
+        API_REQUEST_ACTUAL_INFO
     </sql>
 
 </mapper>

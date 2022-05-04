@@ -4,8 +4,9 @@ import cn.hutool.json.JSONUtil;
 import com.github.mengweijin.quietly.enums.StepType;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.assertj.core.util.Arrays;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -20,8 +21,6 @@ public class StepArgs {
 
     private Object stepData;
 
-    private DataType stepDateType;
-
     public enum DataType {
         /**
          * 数据类型
@@ -33,10 +32,10 @@ public class StepArgs {
         STRING_JSON_ARRAY,
         JSON_OBJECT,
         JSON_ARRAY,
-        OBJECT
+        ARRAY
     }
 
-    public static StepArgs.DataType selectDataType(Object object) {
+    public static StepArgs.DataType getDataType(Object object) {
         if(object == null) {
             return null;
         }
@@ -56,12 +55,15 @@ public class StepArgs {
             }
             return StepArgs.DataType.STRING;
         }
-        if(object instanceof List) {
+        if(object instanceof Collection) {
             return DataType.JSON_ARRAY;
         }
         if(object instanceof Map) {
             return DataType.JSON_OBJECT;
         }
-        return DataType.OBJECT;
+        if(Arrays.isArray(object)){
+            return DataType.ARRAY;
+        }
+        return DataType.JSON_OBJECT;
     }
 }

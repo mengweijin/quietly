@@ -5,7 +5,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.step.Step;
 import com.github.mengweijin.quietly.step.StepArgs;
@@ -48,8 +47,8 @@ public class SendHttpRequestAction implements Step {
         if(StrUtil.isNotBlank(headersJson)) {
             JSONObject jsonObject = JSONUtil.parseObj(headersJson);
 
-            HashMap<?, ?> argsMap = new HashMap<>();
-            if(stepArgs.getStepData() != null && stepArgs.getStepDateType() == StepArgs.DataType.JSON_OBJECT) {
+            HashMap<?, ?> argsMap = new HashMap<>(16);
+            if(StepArgs.DataType.JSON_OBJECT == StepArgs.getDataType(stepArgs.getStepData())) {
                 argsMap = objectMapper.convertValue(stepArgs.getStepData(), HashMap.class);
             }
 
@@ -73,38 +72,6 @@ public class SendHttpRequestAction implements Step {
     }
 
     public String headerProcess(StepArgs stepArgs, StepDefinition stepDefinition){
-        String headersJson = stepDefinition.getActionApiHeaders();
-        if(!JSONUtil.isJsonObj(headersJson)) {
-            throw new QuickBootException("Can't parse header args, because it is not a correct JSON object, please check you step definition config.");
-        }
-
-
-
-        boolean contains = ReUtil.contains("\\$\\{\\S+}", headersJson);
-        // contain ${\S+} ----> need to process header placeholder value.
-        if(contains) {
-            StepArgs.DataType stepDateType = stepArgs.getStepDateType();
-            if(StepArgs.DataType.JSON_OBJECT != stepDateType) {
-                throw new QuickBootException("Can't parse StepArgs to process header placeholder value, because the StepArgs is not a JSON object, please check you code.");
-            }
-            JSONObject jsonObject = JSONUtil.parseObj(stepArgs.getStepData());
-        }
-
-        JSONObject jsonObject = JSONUtil.parseObj(headersJson);
-        HttpHeaders headers = new HttpHeaders();
-        jsonObject.forEach((k, v) -> {
-
-            boolean match = ReUtil.isMatch("^\\$\\{\\S+}$", StrUtil.toStringOrNull(v));
-            if(match) {
-
-            }
-            headers.add(k, StrUtil.toStringOrNull(v));
-        });
-
-
-
-
-
 
 
         return null;

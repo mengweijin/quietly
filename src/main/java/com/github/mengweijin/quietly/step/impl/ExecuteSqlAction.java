@@ -45,14 +45,11 @@ public class ExecuteSqlAction implements Step {
     @Override
     public Object invoke(Long stepId, StepArgs stepArgs) {
         StepDefinition stepDefinition = stepDefinitionService.getById(stepId);
-        EnvironmentDatasource environmentDatasource = environmentDatasourceService.getById(stepDefinition.getActionSqlDatasourceId());
+        EnvironmentDatasource ed = environmentDatasourceService.getById(stepDefinition.getActionSqlDatasourceId());
 
-        this.checkDatasource(stepId, environmentDatasource);
+        this.checkDatasource(stepId, ed);
 
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-                environmentDatasource.getUrl(),
-                environmentDatasource.getUsername(),
-                environmentDatasource.getPassword());
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(ed.getUrl(), ed.getUsername(), ed.getPassword());
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         String sqls = stepDefinition.getActionExpression();

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
+import com.github.mengweijin.quietly.enums.ResponseDataType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -46,16 +47,16 @@ public class ApiDefinition extends BaseEntity {
     private String url;
 
     /**
-     * request body 中的参数，以 JSON 格式存储。如：{\"username\"=\"admin\", \"status\"=\"123456\"}
-     */
-    @TableField("DEFAULT_BODY_ARGS")
-    private String defaultBodyArgs;
-
-    /**
      * 请求头中的参数，以 ${} 作为占位符，JSON 格式存储。如：{\"contentType\"=\"application/json;charset=UTF-8\", \"token\"=\"${token}\"}
      */
-    @TableField("DEFAULT_HEADERS")
-    private String defaultHeaders;
+    @TableField("HEADERS_SAMPLE")
+    private String headersSample;
+
+    /**
+     * request body 中的参数，以 JSON 格式存储。如：{\"username\"=\"admin\", \"status\"=\"123456\"}
+     */
+    @TableField("BODY_ARGS_SAMPLE")
+    private String bodyArgsSample;
 
     /**
      * api name
@@ -76,10 +77,10 @@ public class ApiDefinition extends BaseEntity {
     private String requestMediaType;
 
     /**
-     * 响应数据类型. For example: \"application/json;charset=UTF-8\". Refer to class ${@link org.springframework.http.MediaType}
+     * 响应数据类型. Refer to ${@link com.github.mengweijin.quietly.enums.ResponseDataType}
      */
-    @TableField("RESPONSE_MEDIA_TYPE")
-    private String responseMediaType;
+    @TableField("RESPONSE_DATA_TYPE")
+    private ResponseDataType responseDataType;
 
     /**
      * 逻辑删除。0：未删除；1：已删除；

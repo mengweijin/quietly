@@ -12,12 +12,12 @@
     <result column="PROJECT_ID" property="projectId" />
     <result column="HTTP_METHOD" property="httpMethod" />
     <result column="URL" property="url" />
-    <result column="DEFAULT_BODY_ARGS" property="defaultBodyArgs" />
-    <result column="DEFAULT_HEADERS" property="defaultHeaders" />
+    <result column="HEADERS_SAMPLE" property="headersSample" />
+    <result column="BODY_ARGS_SAMPLE" property="bodyArgsSample" />
     <result column="NAME" property="name" />
     <result column="DESCRIPTION" property="description" />
     <result column="REQUEST_MEDIA_TYPE" property="requestMediaType" />
-    <result column="RESPONSE_MEDIA_TYPE" property="responseMediaType" />
+    <result column="RESPONSE_DATA_TYPE" property="responseDataType" />
     <result column="DELETED" property="deleted" />
     </resultMap>
     <!-- 通用查询结果列 -->
@@ -27,7 +27,16 @@
         CREATE_TIME,
         UPDATE_BY,
         UPDATE_TIME,
-        PROJECT_ID, HTTP_METHOD, URL, DEFAULT_BODY_ARGS, DEFAULT_HEADERS, NAME, DESCRIPTION, REQUEST_MEDIA_TYPE, RESPONSE_MEDIA_TYPE, DELETED
+        PROJECT_ID,
+        HTTP_METHOD,
+        URL,
+        HEADERS_SAMPLE,
+        BODY_ARGS_SAMPLE,
+        NAME,
+        DESCRIPTION,
+        REQUEST_MEDIA_TYPE,
+        RESPONSE_DATA_TYPE,
+        DELETED
     </sql>
 
 </mapper>

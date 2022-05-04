@@ -30,12 +30,12 @@ public interface Step {
         StepArgs stepArgs = StepContextHolder.get();
 
         // 重置 StepContextHolder
-        StepContextHolder.get().setStepType(stepType()).setStepData(null).setStepDateType(null);
+        StepContextHolder.get().setStepType(stepType()).setStepData(null);
 
         // 执行逻辑
         Object object = this.invoke(stepId, stepArgs);
 
         // 设置  StepContextHolder
-        StepContextHolder.get().setStepType(stepType()).setStepData(object).setStepDateType(StepArgs.selectDataType(object));
+        StepContextHolder.get().setStepType(stepType()).setStepData(object);
     }
 }
