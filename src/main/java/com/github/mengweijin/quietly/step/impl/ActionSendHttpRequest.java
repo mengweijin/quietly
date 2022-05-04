@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class SendHttpRequestAction implements Step {
+public class ActionSendHttpRequest implements Step {
 
     @Autowired
     private StepDefinitionService stepDefinitionService;
@@ -43,7 +43,7 @@ public class SendHttpRequestAction implements Step {
 
         // header
         HttpHeaders headers = new HttpHeaders();
-        String headersJson = stepDefinition.getActionApiHeaders();
+        String headersJson = stepDefinition.getApiArgs();
         if(StrUtil.isNotBlank(headersJson)) {
             JSONObject jsonObject = JSONUtil.parseObj(headersJson);
 

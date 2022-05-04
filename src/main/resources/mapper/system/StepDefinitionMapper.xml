@@ -18,8 +18,10 @@
     <result column="EXPECT_VALUE" property="expectValue" />
     <result column="ACTUAL_VALUE" property="actualValue" />
     <result column="SEQ" property="seq" />
+    <result column="STATUS" property="status" />
     <result column="DELETED" property="deleted" />
     <result column="API_REQUEST_ACTUAL_INFO" property="apiRequestActualInfo" />
+    <result column="ERROR_INFO" property="errorInfo" />
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -37,8 +39,10 @@
         EXPECT_VALUE,
         ACTUAL_VALUE,
         SEQ,
+        STATUS,
         DELETED,
-        API_REQUEST_ACTUAL_INFO
+        API_REQUEST_ACTUAL_INFO,
+        ERROR_INFO
     </sql>
 
 </mapper>

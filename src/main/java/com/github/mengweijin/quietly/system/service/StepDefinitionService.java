@@ -2,6 +2,7 @@ package com.github.mengweijin.quietly.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.mengweijin.quietly.enums.CaseStatus;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.mapper.StepDefinitionMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,5 +30,19 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
     @Autowired
     private StepDefinitionMapper stepDefinitionMapper;
 
+    public void updateStatusById(Long stepId, CaseStatus caseStatus) {
+        StepDefinition stepDefinition = new StepDefinition();
+        stepDefinition.setId(stepId);
+        stepDefinition.setStatus(caseStatus);
+        stepDefinitionMapper.updateById(stepDefinition);
+    }
+
+
+    public void updateActualValueById(Long stepId, String actualValue) {
+        StepDefinition stepDefinition = new StepDefinition();
+        stepDefinition.setId(stepId);
+        stepDefinition.setActualValue(actualValue);
+        stepDefinitionMapper.updateById(stepDefinition);
+    }
 }
 

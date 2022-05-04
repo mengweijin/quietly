@@ -1,6 +1,11 @@
 package com.github.mengweijin.quietly.step;
 
+import cn.hutool.extra.spring.SpringUtil;
+import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
+import com.github.mengweijin.quietly.enums.CaseStatus;
 import com.github.mengweijin.quietly.enums.StepType;
+import com.github.mengweijin.quietly.system.entity.StepDefinition;
+import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 
 /**
  * @author mengweijin
@@ -19,23 +24,37 @@ public interface Step {
      * @param stepId stepId
      * @param stepArgs stepArgs
      */
-    Object invoke(Long stepId, StepArgs stepArgs);
+    Object invoke(Long stepId, StepArgs stepArgs) throws Exception;
 
     /**
      * 入口方法
      * @param stepId stepId
      */
     default void run(Long stepId) {
-        // 临时保存 StepArgs
-        StepArgs stepArgs = StepContextHolder.get();
+        StepDefinitionService stepDefinitionService = SpringUtil.getBean(StepDefinitionService.class);
+        try{
+            stepDefinitionService.updateStatusById(stepId, CaseStatus.RUNNING);
 
-        // 重置 StepContextHolder
-        StepContextHolder.get().setStepType(stepType()).setStepData(null);
+            // 临时保存 StepArgs
+            StepArgs stepArgs = StepContextHolder.get();
 
-        // 执行逻辑
-        Object object = this.invoke(stepId, stepArgs);
+            // 重置 StepContextHolder
+            StepContextHolder.get().setStepType(stepType()).setStepData(null);
 
-        // 设置  StepContextHolder
-        StepContextHolder.get().setStepType(stepType()).setStepData(object);
+            // 执行逻辑
+            Object object = this.invoke(stepId, stepArgs);
+
+            // 设置  StepContextHolder
+            StepContextHolder.get().setStepType(stepType()).setStepData(object);
+
+            stepDefinitionService.updateStatusById(stepId, CaseStatus.SUCCESS);
+        } catch (Throwable t) {
+            StepDefinition stepDefinition = new StepDefinition();
+            stepDefinition.setId(stepId);
+            stepDefinition.setStatus(CaseStatus.FAILED);
+            stepDefinition.setErrorInfo(t.getMessage());
+            stepDefinitionService.updateById(stepDefinition);
+            throw new QuickBootException(t);
+        }
     }
 }
