@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 /**
  * @author mengweijin
  */
-public enum CaseStatus implements IEnum<String> {
+public enum CaseStepStatus implements IEnum<String> {
     /**
      * 用例执行状态
      */

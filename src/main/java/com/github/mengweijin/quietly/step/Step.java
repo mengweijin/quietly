@@ -2,7 +2,7 @@ package com.github.mengweijin.quietly.step;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
-import com.github.mengweijin.quietly.enums.CaseStatus;
+import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
@@ -33,7 +33,7 @@ public interface Step {
     default void run(Long stepId) {
         StepDefinitionService stepDefinitionService = SpringUtil.getBean(StepDefinitionService.class);
         try{
-            stepDefinitionService.updateStatusById(stepId, CaseStatus.RUNNING);
+            stepDefinitionService.updateStatusById(stepId, CaseStepStatus.RUNNING);
 
             // 临时保存 StepArgs
             StepArgs stepArgs = StepContextHolder.get();
@@ -47,11 +47,11 @@ public interface Step {
             // 设置  StepContextHolder
             StepContextHolder.get().setStepType(stepType()).setStepData(object);
 
-            stepDefinitionService.updateStatusById(stepId, CaseStatus.SUCCESS);
+            stepDefinitionService.updateStatusById(stepId, CaseStepStatus.SUCCESS);
         } catch (Throwable t) {
             StepDefinition stepDefinition = new StepDefinition();
             stepDefinition.setId(stepId);
-            stepDefinition.setStatus(CaseStatus.FAILED);
+            stepDefinition.setStatus(CaseStepStatus.FAILED);
             stepDefinition.setErrorInfo(t.getMessage());
             stepDefinitionService.updateById(stepDefinition);
             throw new QuickBootException(t);

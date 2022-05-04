@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
-import com.github.mengweijin.quietly.enums.CaseStatus;
+import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.enums.StepType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -94,10 +94,10 @@ public class StepDefinition extends BaseEntity {
     private Integer seq;
 
     /**
-     * 最新执行状态。Refer to ${@link com.github.mengweijin.quietly.enums.CaseStatus} enum.
+     * 最新执行状态。Refer to ${@link CaseStepStatus} enum.
      */
     @TableField("STATUS")
-    private CaseStatus status;
+    private CaseStepStatus status;
 
     /**
      * 逻辑删除。0：未删除；1：已删除；
