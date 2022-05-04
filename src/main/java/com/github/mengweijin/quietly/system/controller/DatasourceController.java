@@ -1,7 +1,6 @@
 package com.github.mengweijin.quietly.system.controller;
 
 import com.github.mengweijin.quietly.system.entity.Datasource;
-import com.github.mengweijin.quietly.system.entity.EnvironmentDatasource;
 import com.github.mengweijin.quietly.system.service.EnvironmentDatasourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
