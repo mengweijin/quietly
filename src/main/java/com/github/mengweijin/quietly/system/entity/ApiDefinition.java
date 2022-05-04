@@ -71,7 +71,7 @@ public class ApiDefinition extends BaseEntity {
     private String description;
 
     /**
-     * 请求数据类型. For example: \"application/json;charset=UTF-8\". Refer to class ${@link org.springframework.http.MediaType}
+     * 请求数据类型. For example: "application/json;charset=UTF-8". Refer to class ${@link org.springframework.http.MediaType}
      */
     @TableField("REQUEST_MEDIA_TYPE")
     private String requestMediaType;

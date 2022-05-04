@@ -15,13 +15,18 @@
     <description>A api test platform</description>
 
     <properties>
-        <rest-assured.version>5.0.1</rest-assured.version>
+        <fastjson.version>2.0.1</fastjson.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.mengweijin</groupId>
             <artifactId>quickboot-mybatis-plus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

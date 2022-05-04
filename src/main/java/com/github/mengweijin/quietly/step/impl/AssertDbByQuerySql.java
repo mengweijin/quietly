@@ -44,7 +44,7 @@ public class AssertDbByQuerySql extends AbstractExecuteSql {
     }
 
     @Override
-    public Object executeSql(StepDefinition stepDefinition, JdbcTemplate jdbcTemplate) throws Exception {
+    public Map<String, Object> executeSql(StepDefinition stepDefinition, JdbcTemplate jdbcTemplate) throws Exception {
         String sql = stepDefinition.getExpression();
         if(!sql.trim().toLowerCase(Locale.ROOT).startsWith(SELECT_SQL_TAG)) {
             String msg = "No select SQL was found for this step type:" + stepType()

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import java.util.Map;
+
 /**
  * @author mengweijin
  * @date 2022/5/3
@@ -29,7 +31,7 @@ public abstract class AbstractExecuteSql implements Step {
     private EnvironmentDatasourceService environmentDatasourceService;
 
     @Override
-    public Object invoke(Long stepId, StepArgs stepArgs) throws Exception {
+    public Map<String, Object> invoke(Long stepId, StepArgs stepArgs) throws Exception {
         StepDefinition stepDefinition = stepDefinitionService.getById(stepId);
 
         this.checkSqlIsEmpty(stepDefinition);
@@ -46,7 +48,7 @@ public abstract class AbstractExecuteSql implements Step {
      * @return Object
      * @throws Exception exception
      */
-    public abstract Object executeSql(StepDefinition stepDefinition, JdbcTemplate jdbcTemplate) throws Exception;
+    public abstract Map<String, Object> executeSql(StepDefinition stepDefinition, JdbcTemplate jdbcTemplate) throws Exception;
 
     protected void checkSqlIsEmpty(StepDefinition stepDefinition) {
         Long stepId = stepDefinition.getId();

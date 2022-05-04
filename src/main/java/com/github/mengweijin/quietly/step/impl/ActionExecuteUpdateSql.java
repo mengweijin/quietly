@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +31,7 @@ public class ActionExecuteUpdateSql extends AbstractExecuteSql {
     }
 
     @Override
-    public Object executeSql(StepDefinition stepDefinition, JdbcTemplate jdbcTemplate) {
+    public Map<String, Object> executeSql(StepDefinition stepDefinition, JdbcTemplate jdbcTemplate) {
         String sql = stepDefinition.getExpression();
         Long stepId = stepDefinition.getId();
         List<String> sqlList = this.filterUpdateSql(sql.split(Const.SEMICOLON));

@@ -6,6 +6,7 @@ import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
+import java.util.Map;
 
 /**
  * @author mengweijin
@@ -23,8 +24,9 @@ public interface Step {
      * 子类实现方法
      * @param stepId stepId
      * @param stepArgs stepArgs
+     * @return
      */
-    Object invoke(Long stepId, StepArgs stepArgs) throws Exception;
+    Map<String, Object> invoke(Long stepId, StepArgs stepArgs) throws Exception;
 
     /**
      * 入口方法
@@ -39,13 +41,13 @@ public interface Step {
             StepArgs stepArgs = StepContextHolder.get();
 
             // 重置 StepContextHolder
-            StepContextHolder.get().setStepType(stepType()).setStepData(null);
+            StepContextHolder.get().setData(null);
 
             // 执行逻辑
-            Object object = this.invoke(stepId, stepArgs);
+            Map<String, Object> map = this.invoke(stepId, stepArgs);
 
             // 设置  StepContextHolder
-            StepContextHolder.get().setStepType(stepType()).setStepData(object);
+            StepContextHolder.get().setData(map);
 
             stepDefinitionService.updateStatusById(stepId, CaseStepStatus.SUCCESS);
         } catch (Throwable t) {
