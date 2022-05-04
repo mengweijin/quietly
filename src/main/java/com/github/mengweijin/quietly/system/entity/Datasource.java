@@ -1,9 +1,7 @@
 package com.github.mengweijin.quietly.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,17 +18,10 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("QTL_ENVIRONMENT_DATASOURCE")
-public class EnvironmentDatasource extends BaseEntity {
+@TableName("QTL_DATASOURCE")
+public class Datasource extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * QTL_PROJECT_ENVIRONMENT id
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    @TableField("ENVIRONMENT_ID")
-    private Long environmentId;
 
     /**
      * datasource name

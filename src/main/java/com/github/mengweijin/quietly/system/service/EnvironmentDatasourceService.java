@@ -2,8 +2,8 @@ package com.github.mengweijin.quietly.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.mengweijin.quietly.system.entity.EnvironmentDatasource;
-import com.github.mengweijin.quietly.system.mapper.EnvironmentDatasourceMapper;
+import com.github.mengweijin.quietly.system.entity.Datasource;
+import com.github.mengweijin.quietly.system.mapper.DatasourceMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class EnvironmentDatasourceService extends ServiceImpl<EnvironmentDatasourceMapper, EnvironmentDatasource> implements IService<EnvironmentDatasource> {
+public class EnvironmentDatasourceService extends ServiceImpl<DatasourceMapper, Datasource> implements IService<Datasource> {
 
     /**
      * <p>
@@ -27,7 +27,7 @@ public class EnvironmentDatasourceService extends ServiceImpl<EnvironmentDatasou
      * </p>
      */
     @Autowired
-    private EnvironmentDatasourceMapper environmentDatasourceMapper;
+    private DatasourceMapper datasourceMapper;
 
 }
 

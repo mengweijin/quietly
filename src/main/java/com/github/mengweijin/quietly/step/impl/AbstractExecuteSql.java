@@ -6,7 +6,7 @@ import com.github.mengweijin.quickboot.framework.exception.QuickBootClientExcept
 import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
 import com.github.mengweijin.quietly.step.Step;
 import com.github.mengweijin.quietly.step.StepArgs;
-import com.github.mengweijin.quietly.system.entity.EnvironmentDatasource;
+import com.github.mengweijin.quietly.system.entity.Datasource;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.EnvironmentDatasourceService;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
@@ -61,7 +61,7 @@ public abstract class AbstractExecuteSql implements Step {
     }
 
     protected JdbcTemplate getJdbcTemplate(StepDefinition stepDefinition){
-        EnvironmentDatasource ed = environmentDatasourceService.getById(stepDefinition.getDatasourceId());
+        Datasource ed = environmentDatasourceService.getById(stepDefinition.getDatasourceId());
         Long stepId = stepDefinition.getId();
 
         // check datasource

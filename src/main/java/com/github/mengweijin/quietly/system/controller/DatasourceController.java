@@ -1,7 +1,8 @@
 package com.github.mengweijin.quietly.system.controller;
 
-import com.github.mengweijin.quietly.system.entity.ProjectEnvironment;
-import com.github.mengweijin.quietly.system.service.ProjectEnvironmentService;
+import com.github.mengweijin.quietly.system.entity.Datasource;
+import com.github.mengweijin.quietly.system.entity.EnvironmentDatasource;
+import com.github.mengweijin.quietly.system.service.EnvironmentDatasourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * QTL_PROJECT_ENVIRONMENT Controller
+ * QTL_ENVIRONMENT_DATASOURCE Controller
  * </p>
  *
  * @author mengweijin
@@ -28,65 +29,60 @@ import java.io.Serializable;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/project-environment")
-public class ProjectEnvironmentController  {
+@RequestMapping("/environment-datasource")
+public class DatasourceController {
 
     /**
      * <p>
-     * ProjectEnvironmentService
+     * EnvironmentDatasourceService
      * </p>
      */
     @Autowired
-    private ProjectEnvironmentService projectEnvironmentService;
-
-    @GetMapping("/enable/{id}")
-    public void enableById(@PathVariable("id") Long id) {
-        projectEnvironmentService.enableById(id);
-    }
+    private EnvironmentDatasourceService environmentDatasourceService;
 
     /**
      * <p>
-     * Get ProjectEnvironment by id
+     * Get EnvironmentDatasource by id
      * </p>
      * @param id id
-     * @return ProjectEnvironment
+     * @return EnvironmentDatasource
      */
     @GetMapping("/{id}")
-    public ProjectEnvironment getById(@PathVariable("id") Long id) {
-        return projectEnvironmentService.getById(id);
+    public Datasource getById(@PathVariable("id") Serializable id) {
+        return environmentDatasourceService.getById(id);
     }
 
     /**
      * <p>
-     * Add ProjectEnvironment
+     * Add EnvironmentDatasource
      * </p>
-     * @param projectEnvironment projectEnvironment
+     * @param datasource environmentDatasource
      */
     @PostMapping
-    public void add(@Valid @RequestBody ProjectEnvironment projectEnvironment) {
-        projectEnvironmentService.save(projectEnvironment);
+    public void add(@Valid @RequestBody Datasource datasource) {
+        environmentDatasourceService.save(datasource);
     }
 
     /**
      * <p>
-     * Update ProjectEnvironment
+     * Update EnvironmentDatasource
      * </p>
-     * @param projectEnvironment projectEnvironment
+     * @param datasource environmentDatasource
      */
     @PutMapping
-    public void update(@Valid @RequestBody ProjectEnvironment projectEnvironment) {
-        projectEnvironmentService.updateById(projectEnvironment);
+    public void update(@Valid @RequestBody Datasource datasource) {
+        environmentDatasourceService.updateById(datasource);
     }
 
     /**
      * <p>
-     * Delete ProjectEnvironment by id
+     * Delete EnvironmentDatasource by id
      * </p>
      * @param id id
      */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Serializable id) {
-        projectEnvironmentService.removeById(id);
+        environmentDatasourceService.removeById(id);
     }
 
 }
