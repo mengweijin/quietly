@@ -10,6 +10,7 @@ create TABLE QTL_PROJECT (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='project info';
 
+insert into QTL_PROJECT values (1, 'Quietly', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 drop table IF EXISTS QTL_PROJECT_ENVIRONMENT;
@@ -18,6 +19,7 @@ create TABLE QTL_PROJECT_ENVIRONMENT (
   project_id bigint NOT NULL COMMENT 'QTL_PROJECT id',
   name varchar(10) NOT NULL COMMENT 'environment name。DEV/SIT/UAT/PRE-PROD/PROD',
   base_url varchar(100) NULL COMMENT 'project base url on current environment. For Example: http://127.0.0.1:8080/',
+  enabled char(1) NOT NULL DEFAULT 'N' COMMENT 'Y, N',
   deleted int NOT NULL DEFAULT 0 COMMENT '逻辑删除。0：未删除；1：已删除；',
   create_by varchar(64) NULL COMMENT 'Creator',
   create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',
@@ -26,6 +28,10 @@ create TABLE QTL_PROJECT_ENVIRONMENT (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='QTL_PROJECT_ENVIRONMENT';
 
+insert into QTL_PROJECT_ENVIRONMENT values (1, 1, 'DEV', 'http://localhost:8080/', 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_PROJECT_ENVIRONMENT values (2, 1, 'SIT', 'http://localhost:8080/', 'N', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_PROJECT_ENVIRONMENT values (3, 1, 'UAT', 'http://localhost:8080/', 'N', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_PROJECT_ENVIRONMENT values (4, 1, 'PRE-PROD', 'http://localhost:8080/', 'N', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 drop table IF EXISTS QTL_ENVIRONMENT_DATASOURCE;

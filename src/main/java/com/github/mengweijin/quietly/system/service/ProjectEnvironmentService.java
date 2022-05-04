@@ -1,10 +1,11 @@
 package com.github.mengweijin.quietly.system.service;
 
-import lombok.extern.slf4j.Slf4j;
-import com.github.mengweijin.quietly.system.entity.ProjectEnvironment;
-import com.github.mengweijin.quietly.system.mapper.ProjectEnvironmentMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quietly.system.entity.ProjectEnvironment;
+import com.github.mengweijin.quietly.system.mapper.ProjectEnvironmentMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,16 @@ public class ProjectEnvironmentService extends ServiceImpl<ProjectEnvironmentMap
      */
     @Autowired
     private ProjectEnvironmentMapper projectEnvironmentMapper;
+
+    public void enableById(Long id) {
+        this.lambdaUpdate()
+                .set(ProjectEnvironment::getEnabled, Const.N)
+                .eq(ProjectEnvironment::getEnabled, Const.Y)
+                .update();
+        this.lambdaUpdate()
+                .set(ProjectEnvironment::getEnabled, Const.Y)
+                .eq(ProjectEnvironment::getId, id)
+                .update();
+    }
 }
 

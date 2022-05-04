@@ -45,6 +45,12 @@ public class ProjectEnvironment extends BaseEntity {
     private String baseUrl;
 
     /**
+     * Y, N
+     */
+    @TableField("ENABLED")
+    private String enabled;
+
+    /**
      * 逻辑删除。0：未删除；1：已删除；
      */
     @TableField("DELETED")

@@ -1,19 +1,20 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.github.mengweijin.quietly.system.entity.ProjectEnvironment;
+import com.github.mengweijin.quietly.system.service.ProjectEnvironmentService;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.mengweijin.quietly.system.entity.ProjectEnvironment;
-import com.github.mengweijin.quietly.system.service.ProjectEnvironmentService;
+
+import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
@@ -38,6 +39,11 @@ public class ProjectEnvironmentController  {
     @Autowired
     private ProjectEnvironmentService projectEnvironmentService;
 
+    @GetMapping("/enable/{id}")
+    public void enableById(@PathVariable("id") Long id) {
+        projectEnvironmentService.enableById(id);
+    }
+
     /**
      * <p>
      * Get ProjectEnvironment by id
@@ -46,7 +52,7 @@ public class ProjectEnvironmentController  {
      * @return ProjectEnvironment
      */
     @GetMapping("/{id}")
-    public ProjectEnvironment getById(@PathVariable("id") Serializable id) {
+    public ProjectEnvironment getById(@PathVariable("id") Long id) {
         return projectEnvironmentService.getById(id);
     }
 
