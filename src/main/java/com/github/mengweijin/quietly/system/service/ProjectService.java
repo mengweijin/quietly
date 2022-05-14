@@ -1,10 +1,10 @@
 package com.github.mengweijin.quietly.system.service;
 
-import lombok.extern.slf4j.Slf4j;
-import com.github.mengweijin.quietly.system.entity.Project;
-import com.github.mengweijin.quietly.system.mapper.ProjectMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.mengweijin.quietly.system.entity.Project;
+import com.github.mengweijin.quietly.system.mapper.ProjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +28,6 @@ public class ProjectService extends ServiceImpl<ProjectMapper, Project> implemen
      */
     @Autowired
     private ProjectMapper projectMapper;
+
 }
 

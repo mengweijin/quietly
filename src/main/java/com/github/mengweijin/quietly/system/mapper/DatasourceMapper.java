@@ -15,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DatasourceMapper extends BaseMapper<Datasource> {
 
+    Datasource getByCaseDefinitionId(Long caseId);
 }
 

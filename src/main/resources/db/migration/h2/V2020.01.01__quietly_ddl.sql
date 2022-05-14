@@ -2,6 +2,7 @@ drop table IF EXISTS QTL_PROJECT;
 create TABLE QTL_PROJECT (
   id bigint NOT NULL COMMENT 'id',
   name varchar(30) NULL COMMENT 'name',
+  default_datasource_id bigint NULL COMMENT '默认数据源 ID，如果 QTL_STEP_DEFINITION 中没有设置 datasource，则从这里获取。',
   deleted int NOT NULL DEFAULT 0 COMMENT '逻辑删除。0：未删除；1：已删除；',
   create_by varchar(64) NULL COMMENT 'Creator',
   create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',
@@ -10,7 +11,7 @@ create TABLE QTL_PROJECT (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='project info';
 
-insert into QTL_PROJECT values (1, 'Quietly', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_PROJECT values (1, 'Quietly', 1, 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 
@@ -60,6 +61,7 @@ insert into QTL_API_DEFINITION values (1, 1, 'GET', 'http://localhost:8080/step-
 drop table IF EXISTS QTL_CASE_DEFINITION;
 create TABLE QTL_CASE_DEFINITION (
   id bigint NOT NULL COMMENT 'id',
+  project_id bigint NOT NULL COMMENT 'QTL_PROJECT id',
   name varchar(100) NOT NULL COMMENT 'name',
   description varchar(500) NOT NULL COMMENT 'description',
   status varchar(20) NOT NULL DEFAULT 'CREATED' COMMENT '最新执行状态。Refer to com.github.mengweijin.quietly.enums.CaseStatus enum.',
@@ -72,7 +74,7 @@ create TABLE QTL_CASE_DEFINITION (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='QTL_CASE_DEFINITION';
 
-insert into QTL_CASE_DEFINITION values (1, '获取步骤定义列表接口测试', '获取步骤定义列表-成功', 'CREATED', 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_CASE_DEFINITION values (1, 1, '获取步骤定义列表接口测试', '获取步骤定义列表-成功', 'CREATED', 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 drop table IF EXISTS QTL_STEP_DEFINITION;
@@ -103,6 +105,6 @@ insert into QTL_STEP_DEFINITION values(1, 1, 'ACTION_CALL_API', null, null, 1, n
 insert into QTL_STEP_DEFINITION values(2, 1, 'ASSERT_API_RESPONSE_HTTP_CODE', null, null, null, null, '200', null, 2, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 insert into QTL_STEP_DEFINITION values(3, 1, 'ASSERT_API_RESPONSE_BY_JSON_PATH', '$[0].key', null, null, null, 'ACTION_CALL_API', null, 3, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 insert into QTL_STEP_DEFINITION values(4, 1, 'ASSERT_API_RESPONSE_BY_JSON_PATH', '$[0].name', null, null, null, '动作-调用接口', null, 4, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
-insert into QTL_STEP_DEFINITION values(5, 1, 'ASSERT_DB_BY_QUERY_SQL', 'SELECT http_method FROM QTL_API_DEFINITION where id=1;', 1, null, null, 'GET', null, 5, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
-insert into QTL_STEP_DEFINITION values(6, 1, 'ASSERT_DB_BY_QUERY_SQL', 'SELECT project_id, http_method FROM QTL_API_DEFINITION where id=1;', 1, null, null, '{"project_id": 1, "HTTP_METHOD": "GET"}', null, 6, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
-insert into QTL_STEP_DEFINITION values(7, 1, 'ASSERT_DB_BY_QUERY_SQL', 'SELECT project_id, http_method FROM QTL_API_DEFINITION where id=1;', 1, null, null, '[{"project_id": 1, "http_method": "GET"}]', null, 7, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_STEP_DEFINITION values(5, 1, 'ASSERT_DB_BY_QUERY_SQL', 'SELECT http_method FROM QTL_API_DEFINITION where id=1;', null, null, null, 'GET', null, 5, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_STEP_DEFINITION values(6, 1, 'ASSERT_DB_BY_QUERY_SQL', 'SELECT project_id, http_method FROM QTL_API_DEFINITION where id=1;', null, null, null, '{"project_id": 1, "HTTP_METHOD": "GET"}', null, 6, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_STEP_DEFINITION values(7, 1, 'ASSERT_DB_BY_QUERY_SQL', 'SELECT project_id, http_method FROM QTL_API_DEFINITION where id=1;', null, null, null, '[{"project_id": 1, "http_method": "GET"}]', null, 7, 'CREATED', 0, null, null, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());

@@ -83,5 +83,6 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
     public void updateErrorInfoById(Long stepId, String errorInfo) {
         this.lambdaUpdate().set(StepDefinition::getErrorInfo, errorInfo).eq(StepDefinition::getId, stepId).update();
     }
+
 }
 

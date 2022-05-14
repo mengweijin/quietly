@@ -58,20 +58,20 @@ public abstract class AbstractExecuteSql extends AbstractStep {
         }
     }
 
-    protected JdbcTemplate getJdbcTemplate(StepDefinition stepDefinition){
-        Datasource ed = environmentDatasourceService.getById(stepDefinition.getDatasourceId());
+    protected JdbcTemplate getJdbcTemplate(StepDefinition stepDefinition) {
+        Datasource ds = environmentDatasourceService.getByStepDefinition(stepDefinition);
+
         Long stepId = stepDefinition.getId();
-
         // check datasource
-        if(ed == null) {
-            throw new QuickBootException("No environment datasource was found for stepId: " + stepId);
+        if(ds == null) {
+            throw new QuickBootException("No datasource was found for stepId: " + stepId);
         }
-        DbType dbType = DbType.getDbType(ed.getDbType());
+        DbType dbType = DbType.getDbType(ds.getDbType());
         if(dbType == DbType.OTHER) {
-            throw new QuickBootClientException(stepType().name() + " does not support current database type: " + ed.getDbType());
+            throw new QuickBootClientException(stepType().name() + " does not support current database type: " + ds.getDbType());
         }
 
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(ed.getUrl(), ed.getUsername(), ed.getPassword());
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(ds.getUrl(), ds.getUsername(), ds.getPassword());
         return new JdbcTemplate(dataSource);
     }
 

@@ -18,12 +18,28 @@
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID,
-        CREATE_BY,
-        CREATE_TIME,
-        UPDATE_BY,
-        UPDATE_TIME,
-        NAME, DB_TYPE, URL, USERNAME, PASSWORD, DELETED
+        ds.ID,
+        ds.CREATE_BY,
+        ds.CREATE_TIME,
+        ds.UPDATE_BY,
+        ds.UPDATE_TIME,
+        ds.NAME,
+        ds.DB_TYPE,
+        ds.URL,
+        ds.USERNAME,
+        ds.PASSWORD,
+        ds.DELETED
     </sql>
+
+    <select id="getByCaseDefinitionId" parameterType="java.io.Serializable" resultType="com.github.mengweijin.quietly.system.entity.Datasource">
+        select
+        <include refid="Base_Column_List"/>
+        from QTL_DATASOURCE ds
+        left join QTL_PROJECT p on p.DEFAULT_DATASOURCE_ID = ds.ID
+        left join QTL_CASE_DEFINITION c on c.PROJECT_ID = p.ID
+        <where>
+            c.id = #{caseId}
+        </where>
+    </select>
 
 </mapper>

@@ -9,6 +9,7 @@
     <result column="CREATE_TIME" property="createTime" />
     <result column="UPDATE_BY" property="updateBy" />
     <result column="UPDATE_TIME" property="updateTime" />
+    <result column="PROJECT_ID" property="projectId" />
     <result column="NAME" property="name" />
     <result column="DESCRIPTION" property="description" />
     <result column="STATUS" property="status" />
@@ -22,6 +23,7 @@
         CREATE_TIME,
         UPDATE_BY,
         UPDATE_TIME,
+        PROJECT_ID,
         NAME, DESCRIPTION, STATUS, ENABLED, DELETED
     </sql>
 

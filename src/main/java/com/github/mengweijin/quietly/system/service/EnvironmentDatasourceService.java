@@ -3,6 +3,7 @@ package com.github.mengweijin.quietly.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.mengweijin.quietly.system.entity.Datasource;
+import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.mapper.DatasourceMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,12 @@ public class EnvironmentDatasourceService extends ServiceImpl<DatasourceMapper, 
     @Autowired
     private DatasourceMapper datasourceMapper;
 
+    public Datasource getByStepDefinition(StepDefinition stepDefinition) {
+        Long datasourceId = stepDefinition.getDatasourceId();
+        if(datasourceId == null) {
+            return datasourceMapper.getByCaseDefinitionId(stepDefinition.getCaseId());
+        }
+        return this.getById(datasourceId);
+    }
 }
 
