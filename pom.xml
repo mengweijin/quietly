@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.mengweijin</groupId>
         <artifactId>quickboot-parent</artifactId>
-        <version>1.0.45-SNAPSHOT</version>
+        <version>1.0.45</version>
     </parent>
 
     <artifactId>quietly</artifactId>
@@ -15,8 +15,7 @@
     <description>A api test platform</description>
 
     <properties>
-        <cucumber.version>7.3.2</cucumber.version>
-        <rest-assured.version>5.0.1</rest-assured.version>
+        <fastjson.version>2.0.1</fastjson.version>
     </properties>
 
     <dependencies>
@@ -25,19 +24,9 @@
             <artifactId>quickboot-mybatis-plus</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.rest-assured</groupId>-->
-<!--            <artifactId>rest-assured</artifactId>-->
-<!--            <version>${rest-assured.version}</version>-->
-<!--        </dependency>-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>compile</scope>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -49,7 +38,10 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.alibaba.testable</groupId>
             <artifactId>testable-all</artifactId>
@@ -61,11 +53,11 @@
             <plugin>
                 <groupId>com.github.mengweijin</groupId>
                 <artifactId>code-generator-maven-plugin</artifactId>
-                <version>1.0.12</version>
+                <version>1.0.13</version>
                 <configuration>
                     <parameters>
                         <outputPackage>com.github.mengweijin.quietly.system</outputPackage>
-                        <tables>QTL_DATA_SOURCE,QTL_API,QTL_API_CASE,QTL_STEP</tables>
+                        <tables>QTL_PROJECT</tables>
                         <tablePrefix>QTL_</tablePrefix>
                         <superEntityClass>com.github.mengweijin.quickboot.mybatis.entity.BaseEntity</superEntityClass>
                         <dbInfo>

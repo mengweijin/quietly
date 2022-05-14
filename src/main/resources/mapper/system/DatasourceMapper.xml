@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.mengweijin.quietly.system.mapper.DatasourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.mengweijin.quietly.system.entity.Datasource">
+    <result column="ID" property="id" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="UPDATE_TIME" property="updateTime" />
+    <result column="NAME" property="name" />
+    <result column="DB_TYPE" property="dbType" />
+    <result column="URL" property="url" />
+    <result column="USERNAME" property="username" />
+    <result column="PASSWORD" property="password" />
+    <result column="DELETED" property="deleted" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ds.ID,
+        ds.CREATE_BY,
+        ds.CREATE_TIME,
+        ds.UPDATE_BY,
+        ds.UPDATE_TIME,
+        ds.NAME,
+        ds.DB_TYPE,
+        ds.URL,
+        ds.USERNAME,
+        ds.PASSWORD,
+        ds.DELETED
+    </sql>
+
+    <select id="getByCaseDefinitionId" parameterType="java.io.Serializable" resultType="com.github.mengweijin.quietly.system.entity.Datasource">
+        select
+        <include refid="Base_Column_List"/>
+        from QTL_DATASOURCE ds
+        left join QTL_PROJECT p on p.DEFAULT_DATASOURCE_ID = ds.ID
+        left join QTL_CASE_DEFINITION c on c.PROJECT_ID = p.ID
+        <where>
+            c.id = #{caseId}
+        </where>
+    </select>
+
+</mapper>

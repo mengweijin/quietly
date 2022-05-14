@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.mengweijin.quietly.system.mapper.StepDefinitionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.mengweijin.quietly.system.entity.StepDefinition">
+    <result column="ID" property="id" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="UPDATE_TIME" property="updateTime" />
+    <result column="CASE_ID" property="caseId" />
+    <result column="STEP_TYPE" property="stepType" />
+    <result column="EXPRESSION" property="expression" />
+    <result column="DATASOURCE_ID" property="datasourceId" />
+    <result column="API_ID" property="apiId" />
+    <result column="API_ARGS" property="apiArgs" />
+    <result column="EXPECT_VALUE" property="expectValue" />
+    <result column="ACTUAL_VALUE" property="actualValue" />
+    <result column="SEQ" property="seq" />
+    <result column="STATUS" property="status" />
+    <result column="DELETED" property="deleted" />
+    <result column="API_REQUEST_ACTUAL_INFO" property="apiRequestActualInfo" />
+    <result column="ERROR_INFO" property="errorInfo" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID,
+        CREATE_BY,
+        CREATE_TIME,
+        UPDATE_BY,
+        UPDATE_TIME,
+        CASE_ID,
+        STEP_TYPE,
+        EXPRESSION,
+        DATASOURCE_ID,
+        API_ID,
+        API_ARGS,
+        EXPECT_VALUE,
+        ACTUAL_VALUE,
+        SEQ,
+        STATUS,
+        DELETED,
+        API_REQUEST_ACTUAL_INFO,
+        ERROR_INFO
+    </sql>
+
+</mapper>
