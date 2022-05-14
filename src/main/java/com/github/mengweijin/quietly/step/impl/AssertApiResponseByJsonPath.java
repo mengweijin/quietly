@@ -3,6 +3,7 @@ package com.github.mengweijin.quietly.step.impl;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mengweijin.quietly.enums.StepType;
+import com.github.mengweijin.quietly.step.AbstractAssertApi;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import com.jayway.jsonpath.JsonPath;
@@ -10,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import java.util.Map;
  * @date 2022/5/3
  */
 @Slf4j
-@Service
+@Component
 public class AssertApiResponseByJsonPath extends AbstractAssertApi {
 
     @Autowired

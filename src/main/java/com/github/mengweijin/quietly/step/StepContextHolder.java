@@ -13,8 +13,7 @@ public class StepContextHolder {
     }
 
     public static StepArgs get() {
-        StepArgs stepArgs = threadLocal.get();
-        return stepArgs == null ? new StepArgs() : stepArgs;
+        return threadLocal.get();
     }
 
     public static void clear(){

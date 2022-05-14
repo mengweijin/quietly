@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
 import com.github.mengweijin.quietly.enums.StepType;
-import com.github.mengweijin.quietly.step.Step;
+import com.github.mengweijin.quietly.step.AbstractStep;
 import com.github.mengweijin.quietly.step.StepArgs;
 import com.github.mengweijin.quietly.system.dto.ApiArgsDto;
 import com.github.mengweijin.quietly.system.dto.ApiRequestActualInfoDto;
@@ -20,7 +20,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,8 +32,8 @@ import java.util.Map;
  * @date 2022/5/3
  */
 @Slf4j
-@Service
-public class ActionCallApi implements Step {
+@Component
+public class ActionCallApi extends AbstractStep {
 
     public static final String REGEX_PLACEHOLDER = "\\$\\{\\S+}";
 
@@ -70,7 +70,7 @@ public class ActionCallApi implements Step {
         String apiArgs =  this.processPlaceholder(stepDefinition.getApiArgs(), argsMap);
         // header
         HttpHeaders headers = new HttpHeaders();
-        Object requestBody = new Object();
+        String requestBody = "";
         if(StrUtil.isNotBlank(apiArgs)) {
             ApiArgsDto apiArgsDto = objectMapper.convertValue(apiArgs, ApiArgsDto.class);
             headers = apiArgsDto.getHeaders();
@@ -99,7 +99,7 @@ public class ActionCallApi implements Step {
         }
 
         Map<String, Object> map = new HashMap<>(1);
-        map.put(StepArgs.API_RESPONSE_ENTITY, responseEntity);
+        map.put(StepArgs.KEY_API_RESPONSE_ENTITY, responseEntity);
         return map;
     }
 

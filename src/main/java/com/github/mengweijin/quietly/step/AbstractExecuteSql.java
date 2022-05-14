@@ -1,11 +1,9 @@
-package com.github.mengweijin.quietly.step.impl;
+package com.github.mengweijin.quietly.step;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
-import com.github.mengweijin.quietly.step.Step;
-import com.github.mengweijin.quietly.step.StepArgs;
 import com.github.mengweijin.quietly.system.entity.Datasource;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.EnvironmentDatasourceService;
@@ -22,7 +20,7 @@ import java.util.Map;
  * @date 2022/5/3
  */
 @Slf4j
-public abstract class AbstractExecuteSql implements Step {
+public abstract class AbstractExecuteSql extends AbstractStep {
 
     @Autowired
     private StepDefinitionService stepDefinitionService;

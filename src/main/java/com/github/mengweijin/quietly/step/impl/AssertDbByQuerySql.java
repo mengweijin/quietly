@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
 import com.github.mengweijin.quickboot.framework.jdbc.LowerColumnMapRowMapper;
 import com.github.mengweijin.quietly.enums.StepType;
+import com.github.mengweijin.quietly.step.AbstractExecuteSql;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Assertions;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import java.util.Map;
  * @date 2022/5/3
  */
 @Slf4j
-@Service
+@Component
 public class AssertDbByQuerySql extends AbstractExecuteSql {
 
     public static final String SELECT_SQL_TAG = "select";

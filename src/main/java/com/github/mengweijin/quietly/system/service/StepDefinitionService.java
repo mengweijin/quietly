@@ -1,7 +1,9 @@
 package com.github.mengweijin.quietly.system.service;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.mapper.StepDefinitionMapper;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -57,6 +60,28 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
         stepDefinition.setId(stepId);
         stepDefinition.setApiRequestActualInfo(info);
         stepDefinitionMapper.updateById(stepDefinition);
+    }
+
+    public void updateStatusBatchByIds(List<Long> idList, CaseStepStatus status) {
+        if(CollUtil.isEmpty(idList)) {
+            return;
+        }
+        this.lambdaUpdate()
+                .set(StepDefinition::getStatus, status)
+                .in(StepDefinition::getId, idList)
+                .update();
+    }
+
+    public void updateStatusBatchByIdsOfSteps(List<StepDefinition> stepDefinitionList, CaseStepStatus status) {
+        if(CollUtil.isEmpty(stepDefinitionList)) {
+            return;
+        }
+        List<Long> stepIdList = stepDefinitionList.stream().map(BaseEntity::getId).collect(Collectors.toList());
+        this.updateStatusBatchByIds(stepIdList, status);
+    }
+
+    public void updateErrorInfoById(Long stepId, String errorInfo) {
+        this.lambdaUpdate().set(StepDefinition::getErrorInfo, errorInfo).eq(StepDefinition::getId, stepId).update();
     }
 }
 

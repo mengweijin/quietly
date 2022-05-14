@@ -4,10 +4,11 @@ import cn.hutool.core.collection.CollUtil;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
 import com.github.mengweijin.quickboot.framework.util.Const;
 import com.github.mengweijin.quietly.enums.StepType;
+import com.github.mengweijin.quietly.step.AbstractExecuteSql;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @date 2022/5/3
  */
 @Slf4j
-@Service
+@Component
 public class ActionExecuteSql extends AbstractExecuteSql {
 
     public static final String[] UPDATE_SQL_TAGS = {"insert", "update", "delete"};

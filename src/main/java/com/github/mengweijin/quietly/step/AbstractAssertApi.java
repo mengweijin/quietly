@@ -1,7 +1,5 @@
-package com.github.mengweijin.quietly.step.impl;
+package com.github.mengweijin.quietly.step;
 
-import com.github.mengweijin.quietly.step.Step;
-import com.github.mengweijin.quietly.step.StepArgs;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,7 @@ import java.util.Optional;
  * @date 2022/5/3
  */
 @Slf4j
-public abstract class AbstractAssertApi implements Step {
+public abstract class AbstractAssertApi extends AbstractStep {
 
     @Autowired
     private StepDefinitionService stepDefinitionService;
@@ -28,7 +26,7 @@ public abstract class AbstractAssertApi implements Step {
 
         Optional<ResponseEntity<Object>> optional = Optional.ofNullable(stepArgs)
                 .map(StepArgs::getData)
-                .map(map -> map.get(StepArgs.API_RESPONSE_ENTITY))
+                .map(map -> map.get(StepArgs.KEY_API_RESPONSE_ENTITY))
                 .map(entity -> (ResponseEntity<Object>) entity);
 
         ResponseEntity<Object> responseEntity = null;
@@ -38,11 +36,11 @@ public abstract class AbstractAssertApi implements Step {
 
         Map<String, Object> objectMap = doAssert(stepDefinition, responseEntity);
         if(objectMap == null) {
-            objectMap = new HashMap<>();
+            objectMap = new HashMap<>(0);
         }
 
         // 参数传递
-        objectMap.put(StepArgs.API_RESPONSE_ENTITY, responseEntity);
+        objectMap.put(StepArgs.KEY_API_RESPONSE_ENTITY, responseEntity);
         return objectMap;
     }
 

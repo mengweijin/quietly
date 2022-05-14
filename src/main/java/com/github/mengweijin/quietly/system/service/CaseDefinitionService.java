@@ -4,12 +4,16 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.enums.StepType;
-import com.github.mengweijin.quietly.step.Step;
+import com.github.mengweijin.quietly.listener.event.CaseFailedEvent;
+import com.github.mengweijin.quietly.listener.event.CaseStartEvent;
+import com.github.mengweijin.quietly.listener.event.CaseSuccessEvent;
+import com.github.mengweijin.quietly.step.AbstractStep;
 import com.github.mengweijin.quietly.system.entity.CaseDefinition;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.mapper.CaseDefinitionMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,32 +43,39 @@ public class CaseDefinitionService extends ServiceImpl<CaseDefinitionMapper, Cas
     private StepDefinitionService stepDefinitionService;
 
     @Autowired
-    private List<Step> stepList;
+    private List<AbstractStep> AbstractStepList;
+
+    /**
+     * publish an application event of spring application.
+     */
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     public void runCase(Long id) {
         try {
-            this.updateStatusById(id, CaseStepStatus.RUNNING);
+            applicationEventPublisher.publishEvent(new CaseStartEvent(this, id));
 
             List<StepDefinition> stepDefinitionList = stepDefinitionService.getByCaseIdOrderBySeqAsc(id);
             stepDefinitionList.forEach(stepDefinition -> {
-                Step step = this.getStepByStepType(stepDefinition.getStepType());
+                AbstractStep step = this.getStepByStepType(stepDefinition.getStepType());
                 step.run(stepDefinition.getId());
             });
-            this.updateStatusById(id, CaseStepStatus.SUCCESS);
+
+            applicationEventPublisher.publishEvent(new CaseSuccessEvent(this, id));
         } catch (Throwable t) {
-            this.updateStatusById(id, CaseStepStatus.FAILED);
+            applicationEventPublisher.publishEvent(new CaseFailedEvent(this, id));
         }
     }
 
-    private void updateStatusById(Long id, CaseStepStatus status) {
+    public void updateStatusById(Long id, CaseStepStatus status) {
         CaseDefinition caseDefinition = new CaseDefinition();
         caseDefinition.setId(id);
         caseDefinition.setStatus(status);
         this.updateById(caseDefinition);
     }
 
-    public Step getStepByStepType(StepType stepType) {
-        return stepList.stream().filter(step-> step.stepType() == stepType).findFirst().get();
+    public AbstractStep getStepByStepType(StepType stepType) {
+        return AbstractStepList.stream().filter(AbstractStep -> AbstractStep.stepType() == stepType).findFirst().get();
     }
 }
 

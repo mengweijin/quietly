@@ -17,7 +17,9 @@ public enum CaseStepStatus implements IEnum<String> {
 
     SUCCESS,
 
-    FAILED;
+    FAILED,
+
+    CANCELED;
 
     @Override
     public String getValue() {

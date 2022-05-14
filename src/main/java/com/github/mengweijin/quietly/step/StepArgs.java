@@ -13,7 +13,7 @@ import java.util.Map;
 @Accessors(chain = true)
 public class StepArgs {
 
-    public static final String API_RESPONSE_ENTITY = "API_RESPONSE_ENTITY";
+    public static final String KEY_API_RESPONSE_ENTITY = "API_RESPONSE_ENTITY";
 
     private Map<String, Object> data;
 
