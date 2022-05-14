@@ -53,11 +53,11 @@
             <plugin>
                 <groupId>com.github.mengweijin</groupId>
                 <artifactId>code-generator-maven-plugin</artifactId>
-                <version>1.0.12</version>
+                <version>1.0.13</version>
                 <configuration>
                     <parameters>
                         <outputPackage>com.github.mengweijin.quietly.system</outputPackage>
-                        <tables>QTL_DICT_TYPE,QTL_DICT_DATA</tables>
+                        <tables>QTL_PROJECT</tables>
                         <tablePrefix>QTL_</tablePrefix>
                         <superEntityClass>com.github.mengweijin.quickboot.mybatis.entity.BaseEntity</superEntityClass>
                         <dbInfo>
