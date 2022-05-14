@@ -66,7 +66,7 @@ public class RunCaseApplicationListener {
 
         // Update status of the execution of subsequent steps to canceled
         StepDefinition step = stepDefinitionService.getById(stepId);
-        List<StepDefinition> stepDefinitionList = stepDefinitionService.getByCaseIdOrderBySeqAsc(stepDefinition.getCaseId());
+        List<StepDefinition> stepDefinitionList = stepDefinitionService.getByCaseIdOrderBySeqAsc(step.getCaseId());
         List<Long> stepIdList = stepDefinitionList.stream()
                 .filter(item -> item.getSeq() > step.getSeq())
                 .map(StepDefinition::getId)

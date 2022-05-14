@@ -63,28 +63,37 @@ public class AssertDbByQuerySql extends AbstractExecuteSql {
         log.debug("Expect value: {}", expectValue);
 
         if(JSONUtil.isJsonObj(expectValue)) {
+            Map expectMap = objectMapper.readValue(expectValue, HashMap.class);
+            expectMap = this.keyToLowerCase(expectMap);
+            expectValue = objectMapper.writeValueAsString(expectMap);
+            log.debug("Expect value: {}", expectValue);
+
             Map<String, Object> map = jdbcTemplate.queryForObject(sql, new LowerColumnMapRowMapper());
-
             Map<String, Object> resultMap = this.keyToLowerCase(map);
-
             String actualValue = objectMapper.writeValueAsString(resultMap);
             log.debug("Actual value: {}", actualValue);
+
             stepDefinitionService.updateActualValueById(stepDefinition.getId(), actualValue);
 
             JSONAssert.assertEquals(expectValue, actualValue, false);
 
         } else if(JSONUtil.isJsonArray(expectValue)) {
+            List expectList = objectMapper.readValue(expectValue, ArrayList.class);
+            expectList = this.keyToLowerCase(expectList);
+            expectValue = objectMapper.writeValueAsString(expectList);
+            log.debug("Expect value: {}", expectValue);
+
             List<Map<String, Object>> list = jdbcTemplate.query(sql, new LowerColumnMapRowMapper());
-
             List<Map<String, Object>> mapList = this.keyToLowerCase(list);
-
             String actualValue = objectMapper.writeValueAsString(mapList);
             log.debug("Actual value: {}", actualValue);
+
             stepDefinitionService.updateActualValueById(stepDefinition.getId(), actualValue);
 
             JSONAssert.assertEquals(expectValue, new JSONArray(actualValue), false);
 
         } else {
+            log.debug("Expect value: {}", expectValue);
             String actualValue = jdbcTemplate.queryForObject(sql, String.class);
             log.debug("Actual value: {}", actualValue);
             stepDefinitionService.updateActualValueById(stepDefinition.getId(), actualValue);
