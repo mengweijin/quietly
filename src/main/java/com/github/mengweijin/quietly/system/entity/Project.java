@@ -1,9 +1,7 @@
 package com.github.mengweijin.quietly.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,14 +28,6 @@ public class Project extends BaseEntity {
      */
     @TableField("NAME")
     private String name;
-
-    /**
-     * default_datasource_id
-     * 默认数据源 ID，如果 QTL_STEP_DEFINITION 中没有设置 datasource，则从这里获取。
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    @TableField("DEFAULT_DATASOURCE_ID")
-    private Long defaultDatasourceId;
 
     /**
      * 逻辑删除。0：未删除；1：已删除；

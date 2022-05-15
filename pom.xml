@@ -12,7 +12,7 @@
     <artifactId>quietly</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>quietly</name>
-    <description>A api test platform</description>
+    <description>A application test platform</description>
 
     <properties>
         <fastjson.version>2.0.2</fastjson.version>

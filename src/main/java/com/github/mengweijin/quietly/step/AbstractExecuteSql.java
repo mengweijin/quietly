@@ -6,7 +6,7 @@ import com.github.mengweijin.quickboot.framework.exception.QuickBootClientExcept
 import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
 import com.github.mengweijin.quietly.system.entity.Datasource;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
-import com.github.mengweijin.quietly.system.service.EnvironmentDatasourceService;
+import com.github.mengweijin.quietly.system.service.DatasourceService;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public abstract class AbstractExecuteSql extends AbstractStep {
     private StepDefinitionService stepDefinitionService;
 
     @Autowired
-    private EnvironmentDatasourceService environmentDatasourceService;
+    private DatasourceService datasourceService;
 
     @Override
     public Map<String, Object> invoke(Long stepId, StepArgs stepArgs) throws Exception {
@@ -59,13 +59,9 @@ public abstract class AbstractExecuteSql extends AbstractStep {
     }
 
     protected JdbcTemplate getJdbcTemplate(StepDefinition stepDefinition) {
-        Datasource ds = environmentDatasourceService.getByStepDefinition(stepDefinition);
+        Datasource ds = datasourceService.getByStepDefinition(stepDefinition);
 
-        Long stepId = stepDefinition.getId();
-        // check datasource
-        if(ds == null) {
-            throw new QuickBootException("No datasource was found for stepId: " + stepId);
-        }
+
         DbType dbType = DbType.getDbType(ds.getDbType());
         if(dbType == DbType.OTHER) {
             throw new QuickBootClientException(stepType().name() + " does not support current database type: " + ds.getDbType());

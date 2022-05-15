@@ -9,11 +9,13 @@
     <result column="CREATE_TIME" property="createTime" />
     <result column="UPDATE_BY" property="updateBy" />
     <result column="UPDATE_TIME" property="updateTime" />
+    <result column="PROJECT_ID" property="projectId" />
     <result column="NAME" property="name" />
     <result column="DB_TYPE" property="dbType" />
     <result column="URL" property="url" />
     <result column="USERNAME" property="username" />
     <result column="PASSWORD" property="password" />
+    <result column="AS_DEFAULT" property="asDefault" />
     <result column="DELETED" property="deleted" />
     </resultMap>
     <!-- 通用查询结果列 -->
@@ -23,23 +25,14 @@
         ds.CREATE_TIME,
         ds.UPDATE_BY,
         ds.UPDATE_TIME,
+        ds.PROJECT_ID,
         ds.NAME,
         ds.DB_TYPE,
         ds.URL,
         ds.USERNAME,
         ds.PASSWORD,
+        ds.AS_DEFAULT,
         ds.DELETED
     </sql>
-
-    <select id="getByCaseDefinitionId" parameterType="java.io.Serializable" resultType="com.github.mengweijin.quietly.system.entity.Datasource">
-        select
-        <include refid="Base_Column_List"/>
-        from QTL_DATASOURCE ds
-        left join QTL_PROJECT p on p.DEFAULT_DATASOURCE_ID = ds.ID
-        left join QTL_CASE_DEFINITION c on c.PROJECT_ID = p.ID
-        <where>
-            c.id = #{caseId}
-        </where>
-    </select>
 
 </mapper>

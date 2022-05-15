@@ -2,7 +2,6 @@ drop table IF EXISTS QTL_PROJECT;
 create TABLE QTL_PROJECT (
   id bigint NOT NULL COMMENT 'id',
   name varchar(30) NULL COMMENT 'name',
-  default_datasource_id bigint NULL COMMENT '默认数据源 ID，如果 QTL_STEP_DEFINITION 中没有设置 datasource，则从这里获取。',
   deleted int NOT NULL DEFAULT 0 COMMENT '逻辑删除。0：未删除；1：已删除；',
   create_by varchar(64) NULL COMMENT 'Creator',
   create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',
@@ -11,18 +10,20 @@ create TABLE QTL_PROJECT (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='project info';
 
-insert into QTL_PROJECT values (1, 'Quietly', 1, 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_PROJECT values (1, 'Quietly', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 
 drop table IF EXISTS QTL_DATASOURCE;
 create TABLE QTL_DATASOURCE (
   id bigint NOT NULL COMMENT 'id',
+  project_id bigint NOT NULL COMMENT 'QTL_PROJECT id',
   name varchar(50) NOT NULL COMMENT 'datasource name',
-  db_type varchar(20) NOT NULL COMMENT 'database type. mysql/h2/oracle/redis/MongoDB etc. Refer to com.baomidou.mybatisplus.annotation.DbType',
+  db_type varchar(20) NOT NULL COMMENT 'database type. mysql/h2/oracle/redis/MongoDB etc. Refer to ${@link com.baomidou.mybatisplus.annotation.DbType}',
   url varchar(100) NOT NULL COMMENT 'jdbc url or others(For example: redis=http://host:port). ',
   username varchar(50) NULL COMMENT 'username',
   password varchar(50) NULL COMMENT 'password',
+  as_default char(1) NOT NULL DEFAULT 'N' COMMENT '是否作为默认数据源。Y, N',
   deleted int NOT NULL DEFAULT 0 COMMENT '逻辑删除。0：未删除；1：已删除；',
   create_by varchar(64) NULL COMMENT 'Creator',
   create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',
@@ -31,7 +32,7 @@ create TABLE QTL_DATASOURCE (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='QTL_DATASOURCE';
 
-insert into QTL_DATASOURCE values (1, 'Quietly', 'h2', 'jdbc:h2:file:./h2/quickboot;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL', 'sa', null, 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_DATASOURCE values (1, 1, 'Quietly', 'h2', 'jdbc:h2:file:./h2/quickboot;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL', 'sa', null, 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 

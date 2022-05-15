@@ -10,7 +10,6 @@
     <result column="UPDATE_BY" property="updateBy" />
     <result column="UPDATE_TIME" property="updateTime" />
     <result column="NAME" property="name" />
-    <result column="DEFAULT_DATASOURCE_ID" property="defaultDatasourceId" />
     <result column="DELETED" property="deleted" />
     </resultMap>
     <!-- 通用查询结果列 -->
@@ -21,7 +20,6 @@
         UPDATE_BY,
         UPDATE_TIME,
         NAME,
-        DEFAULT_DATASOURCE_ID,
         DELETED
     </sql>
 

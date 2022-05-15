@@ -1,7 +1,7 @@
 package com.github.mengweijin.quietly.system.controller;
 
 import com.github.mengweijin.quietly.system.entity.Datasource;
-import com.github.mengweijin.quietly.system.service.EnvironmentDatasourceService;
+import com.github.mengweijin.quietly.system.service.DatasourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +37,7 @@ public class DatasourceController {
      * </p>
      */
     @Autowired
-    private EnvironmentDatasourceService environmentDatasourceService;
+    private DatasourceService datasourceService;
 
     /**
      * <p>
@@ -48,7 +48,7 @@ public class DatasourceController {
      */
     @GetMapping("/{id}")
     public Datasource getById(@PathVariable("id") Serializable id) {
-        return environmentDatasourceService.getById(id);
+        return datasourceService.getById(id);
     }
 
     /**
@@ -59,7 +59,7 @@ public class DatasourceController {
      */
     @PostMapping
     public void add(@Valid @RequestBody Datasource datasource) {
-        environmentDatasourceService.save(datasource);
+        datasourceService.save(datasource);
     }
 
     /**
@@ -70,7 +70,7 @@ public class DatasourceController {
      */
     @PutMapping
     public void update(@Valid @RequestBody Datasource datasource) {
-        environmentDatasourceService.updateById(datasource);
+        datasourceService.updateById(datasource);
     }
 
     /**
@@ -81,7 +81,7 @@ public class DatasourceController {
      */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Serializable id) {
-        environmentDatasourceService.removeById(id);
+        datasourceService.removeById(id);
     }
 
 }
