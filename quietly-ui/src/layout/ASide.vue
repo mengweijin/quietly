@@ -9,7 +9,7 @@
       <el-menu-item index="/datasource">
         <el-icon><Coin /></el-icon> <template #title>数据库管理</template>
       </el-menu-item>
-      <el-sub-menu>
+      <el-sub-menu index="1-1-1">
         <template #title><el-icon><Platform /></el-icon> <span>接口测试</span></template>
         <el-menu-item index="1-1"><el-icon><Link /></el-icon>接口定义</el-menu-item>
         <el-menu-item index="1-2"><el-icon><Tickets /></el-icon>测试用例</el-menu-item>
