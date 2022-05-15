@@ -6,8 +6,8 @@
             <el-menu-item :index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
             <el-menu-item :index="'/'" style="height: var(--el-menu-item-height);">
               <span>当前项目：</span>
-              <el-select v-model="projectData.currentProjectId" placeholder="选择项目" size="small">
-                <el-option v-for="item in projectData.projectList" :key="item.id" :label="item.name" :value="item.id" />
+              <el-select v-model="currentProjectId" placeholder="选择项目" size="small">
+                <el-option v-for="item in projectList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-menu-item>
             <el-menu-item index="/project">
@@ -38,27 +38,30 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject } from "vue"
+import { ref, reactive, provide, inject, readonly } from "vue"
 const $axios = inject('$axios')
 
-const projectData = reactive({
-  currentProjectId: null,
-  projectList: []
-});
+// ref 和 reactive 都可以给变量添加响应性。
+// ref 取值和赋值要用 .value。如赋值：currentProjectId.value = '1'
+const currentProjectId = ref(null)
+const projectList = ref([])
+
+provide('currentProjectId', readonly(currentProjectId))
+// const currentProjectId = inject('currentProjectId')
 
 const getProjectList = () => {
   $axios.get('/project/list').then((response) => {
-    projectData.projectList = response.data
+    projectList.value = response.data
     // set sessionStorage
     // window.localStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
     // window.sessionStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
   let projectId = window.sessionStorage.getItem('CURRENT_USER_ACTIVE_PROJECT_ID')
     if(projectId) {
-      projectData.currentProjectId = projectId
+      currentProjectId.value = projectId
     } else {
-      if(projectData.projectList && projectData.projectList.length > 0) {
-        projectData.currentProjectId = projectData.projectList[0].id
-        window.sessionStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', projectData.currentProjectId)
+      if(projectList.value && projectList.value.length > 0) {
+        currentProjectId.value = projectList.value[0].id
+        window.sessionStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', currentProjectId.value)
       }
     }
   })
