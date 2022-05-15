@@ -1,10 +1,52 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+// 自动按需导入 Element-Plus 图标：https://element-plus.org/zh-CN/component/icon.html#auto-import
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+// 自动按需导入 Element-Plus 组件：https://element-plus.org/zh-CN/guide/quickstart.html#%E6%8C%89%E9%9C%80%E5%AF%BC%E5%85%A5
+// 就不用在 main.js 或者 .vue 组件中手动导入了。
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver, ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-      plugins: [vue()], // 配置需要使用的插件列表，这里将vue添加进去
+      plugins: [
+          vue(), // 配置需要使用的插件列表，这里将vue添加进去
+          AutoImport({
+            // Auto import functions from Vue, e.g. ref, reactive, toRef...
+            // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+            imports: ['vue'],
+            // Auto import functions from Element Plus, e.g. ElMessage, ElMessageBox... (with style)
+            // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
+            resolvers: [
+                ElementPlusResolver(),
+                // Auto import icon components
+                // 自动导入图标组件
+                IconsResolver({
+                  prefix: 'Icon',
+                }),
+            ], 
+          }),
+          Components({
+            resolvers: [
+                // Auto register icon components
+                // 自动注册图标组件
+                IconsResolver({
+                    enabledCollections: ['ep'],
+                }),
+                // Auto register Element Plus components
+                // 自动导入 Element Plus 组件
+                ElementPlusResolver(),
+                // 自动导入 NaiveUi 组件
+                NaiveUiResolver()
+            ], 
+          }),
+          Icons({
+            autoInstall: true,
+          }),
+      ], 
       // 配置文件别名
       // https://cn.vitejs.dev/config/#resolve-alias
       // 这里是将src目录配置别名为 @ 方便在项目中导入src目录下的文件
