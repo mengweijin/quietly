@@ -10,4 +10,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(VueRouter)
 app.mount('#app')
-app.config.globalProperties.$http = Http
+// app.config.globalProperties.axios = Http
+app.provide('$axios', Http)

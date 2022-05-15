@@ -9,7 +9,7 @@ import { ElMessage, ElLoading } from 'element-plus'
 // 创建axios实例（里面的配置不建议配置为上面注释的全局默认值，假如你还需要访问其他后台服务应用，就可以再按照下面的方式创建一个新对象来操作。）
 let axiosInstance = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
-    baseURL: import.meta.env.VITE_APP_BASE_URL,
+    baseURL: import.meta.env.VITE_AXIOS_BASE_URL,
     // 超时
     timeout: import.meta.env.VITE_AXIOS_TIMEOUT,
     // 允许携带cookie请求

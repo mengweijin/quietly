@@ -4,9 +4,10 @@
         <el-col :span="18">
           <el-menu router mode="horizontal">
             <el-menu-item v-bind:index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
-            <el-menu-item v-bind:index="'/goods'" style="height: var(--el-menu-item-height);">
-              <el-select v-model="value" placeholder="选择项目" size="small">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+            <el-menu-item style="height: var(--el-menu-item-height);">
+              <span>当前项目：</span>
+              <el-select v-model="data.currentProjectId" placeholder="选择项目" size="small">
+                <el-option v-for="item in data.projectList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-menu-item>
             <el-menu-item index="/project">
@@ -37,20 +38,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive, inject } from "vue"
+const $axios = inject('$axios')
 
-const value = ref('')
+const currentProjectId = ref('')
+const data = reactive({
+  currentProjectId: null,
+  projectList: []
+});
 
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-]
+$axios.get('/project/list').then((response) => {
+  // window.localStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+  // window.sessionStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+  data.projectList = response.data
+  let projectId = window.sessionStorage.getItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+  if(projectId) {
+    data.currentProjectId = projectId
+  } else {
+    if(data.projectList && data.projectList.length > 0) {
+      data.currentProjectId = data.projectList[0].id
+      window.sessionStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', data.currentProjectId)
+    }
+  }
+})
 </script>
 
 

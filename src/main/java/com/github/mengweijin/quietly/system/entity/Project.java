@@ -30,6 +30,12 @@ public class Project extends BaseEntity {
     private String name;
 
     /**
+     * Base url for current project. E.g.: http://localhost:8080/
+     */
+    @TableField("BASE_URL")
+    private String baseUrl;
+
+    /**
      * 逻辑删除。0：未删除；1：已删除；
      */
     @TableField("DELETED")

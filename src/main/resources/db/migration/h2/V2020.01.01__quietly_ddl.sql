@@ -2,6 +2,7 @@ drop table IF EXISTS QTL_PROJECT;
 create TABLE QTL_PROJECT (
   id bigint NOT NULL COMMENT 'id',
   name varchar(30) NULL COMMENT 'name',
+  base_url varchar(100) NULL COMMENT 'Base url for current project. E.g.:http://localhost:8080/',
   deleted int NOT NULL DEFAULT 0 COMMENT '逻辑删除。0：未删除；1：已删除；',
   create_by varchar(64) NULL COMMENT 'Creator',
   create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',
@@ -10,7 +11,7 @@ create TABLE QTL_PROJECT (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='project info';
 
-insert into QTL_PROJECT values (1, 'Quietly', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_PROJECT values (1, 'Quietly', 'http://localhost:8080/', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 

@@ -3,7 +3,6 @@ package com.github.mengweijin.quietly.step;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
-import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
 import com.github.mengweijin.quietly.system.entity.Datasource;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.DatasourceService;
@@ -60,7 +59,6 @@ public abstract class AbstractExecuteSql extends AbstractStep {
 
     protected JdbcTemplate getJdbcTemplate(StepDefinition stepDefinition) {
         Datasource ds = datasourceService.getByStepDefinition(stepDefinition);
-
 
         DbType dbType = DbType.getDbType(ds.getDbType());
         if(dbType == DbType.OTHER) {
