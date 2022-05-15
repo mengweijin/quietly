@@ -3,12 +3,12 @@ import { Icon } from '@vicons/utils'
 import {QqCircleFilled} from '@vicons/antd'
 import {EmailFilled} from '@vicons/material'
 
-const currentYear=new Date().getFullYear()
+const currentYear = new Date().getFullYear()
 </script>
 
 <template>
   <div>
-      <span style="color: #f313b9; font-size: 20px; width: 100px; margin-right: 20px;">QuickBoot UI</span>
+      <span style="color: #f313b9; font-size: 20px; width: 100px; margin-right: 20px;">Quietly Test Planform</span>
       <span>联系作者: </span>
       <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1002284406&site=qq&menu=yes" style="margin-right: 10px;">
           <Icon><QqCircleFilled /></Icon>

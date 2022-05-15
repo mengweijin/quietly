@@ -6,18 +6,17 @@
     </div>
     
     <el-menu router mode="vertical" :collapse="isCollapse" :collapse-transition="false" unique-opened>
-      <el-sub-menu index="1">
-        <template #title><el-icon><document /></el-icon> <span>menu one</span></template>
-        <el-menu-item index="1-1"><el-icon><document /></el-icon>item one</el-menu-item>
-        <el-menu-item index="1-2"><el-icon><document /></el-icon>item two</el-menu-item>
-      </el-sub-menu>
-      <el-menu-item index="2" disabled>
-        <el-icon><document /></el-icon>
-        <template #title>menu two</template>
+      <el-menu-item index="/datasource">
+        <el-icon><Coin /></el-icon> <template #title>数据库管理</template>
       </el-menu-item>
-      <el-menu-item index="3">
-        <el-icon><setting /></el-icon>
-        <template #title>menu three</template>
+      <el-sub-menu>
+        <template #title><el-icon><Platform /></el-icon> <span>接口测试</span></template>
+        <el-menu-item index="1-1"><el-icon><Link /></el-icon>接口定义</el-menu-item>
+        <el-menu-item index="1-2"><el-icon><Tickets /></el-icon>测试用例</el-menu-item>
+      </el-sub-menu>
+      <el-menu-item index="/help">
+        <el-icon><QuestionFilled /></el-icon>
+        <template #title>使用文档</template>
       </el-menu-item>
     </el-menu>
   </el-aside>

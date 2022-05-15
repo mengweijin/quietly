@@ -4,13 +4,25 @@
         <el-col :span="18">
           <el-menu router mode="horizontal">
             <el-menu-item v-bind:index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
-            <el-menu-item v-bind:index="'/goods'">商品管理</el-menu-item>
-            <el-menu-item v-bind:index="'/customer'" disabled>会员管理</el-menu-item>
+            <el-menu-item v-bind:index="'/goods'" style="height: var(--el-menu-item-height);">
+              <el-select v-model="value" placeholder="选择项目" size="small">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-menu-item>
+            <el-menu-item index="/project">
+              <el-icon><Grid /></el-icon> <template #title>项目管理</template>
+            </el-menu-item>
           </el-menu>
         </el-col>
         <el-col :span="6">
             <el-menu router mode="horizontal" style="justify-content:flex-end; ">
-              <el-menu-item v-bind:index="'1231231'"><el-icon><avatar /></el-icon>Admin</el-menu-item>
+              <!-- <el-menu-item v-bind:index="''"><el-icon><avatar /></el-icon>Admin</el-menu-item> -->
+              <el-menu-item><el-icon><avatar /></el-icon>Admin</el-menu-item>
+              <el-menu-item>
+                <a href="https://gitee.com/mengweijin" target="_blank" style="text-decoration:none;">
+                  <img alt="Gitee" src="/favicon-gitee.ico" style="height: 18px;vertical-align: middle;"> Gitee
+                </a>
+              </el-menu-item>
               <el-sub-menu v-bind:index="''">
                 <template #title><el-icon><setting /></el-icon><span>设置</span></template>
                 <!-- <el-menu-item v-bind:index="''"><el-icon><document /></el-icon>item one</el-menu-item>
@@ -23,6 +35,24 @@
     
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('')
+
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+  },
+]
+</script>
+
 
 <script>
 export default {
