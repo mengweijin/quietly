@@ -1,11 +1,11 @@
 <template>
-  <el-aside :width="isCollapse ? '64px' : '200px'">
+  <el-aside :width="asideData.isCollapse ? '64px' : '200px'">
     <div class="toggle-button" @click="toggleCollapse">
-      <el-icon :size="20" style="vertical-align: middle" v-show="isCollapse"><expand /></el-icon>
-      <el-icon :size="20" style="vertical-align: middle" v-show="!isCollapse"><fold /></el-icon>
+      <el-icon :size="20" style="vertical-align: middle" v-show="asideData.isCollapse"><expand /></el-icon>
+      <el-icon :size="20" style="vertical-align: middle" v-show="!asideData.isCollapse"><fold /></el-icon>
     </div>
     
-    <el-menu router mode="vertical" :collapse="isCollapse" :collapse-transition="false" unique-opened>
+    <el-menu router mode="vertical" :collapse="asideData.isCollapse" :collapse-transition="false" unique-opened>
       <el-menu-item index="/datasource">
         <el-icon><Coin /></el-icon> <template #title>数据库管理</template>
       </el-menu-item>
@@ -24,20 +24,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
-const isCollapse = ref(false)
-</script>
-
-<script>
-export default {
-  name: 'ASide',
-  methods: {
-    toggleCollapse() {
-      this.isCollapse = !this.isCollapse
-    }
-  }
-}
+const asideData = reactive({
+  isCollapse: false
+})
+const toggleCollapse = () => { asideData.isCollapse = !asideData.isCollapse }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -58,8 +50,6 @@ export default {
   /* 设置鼠标悬浮变小手效果 */
   cursor:pointer;
 }
-
-
 .el-menu {
   --el-menu-text-color: #D2D2D2;
   --el-menu-bg-color: #4A5064;

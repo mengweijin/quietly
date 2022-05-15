@@ -1,9 +1,3 @@
-<script setup>
-import Header from './Header.vue'
-import Footer from './Footer.vue'
-import ASide from './ASide.vue'
-</script>
-
 <template>
   <el-container>
       <el-header> <Header/> </el-header>
@@ -15,10 +9,10 @@ import ASide from './ASide.vue'
     </el-container>
 </template>
 
-<script>
-export default {
-  name: 'Layout',
-}
+<script setup>
+import Header from './Header.vue'
+import Footer from './Footer.vue'
+import ASide from './ASide.vue'
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

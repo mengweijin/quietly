@@ -1,11 +1,3 @@
-<script setup>
-import { Icon } from '@vicons/utils'
-import {QqCircleFilled} from '@vicons/antd'
-import {EmailFilled} from '@vicons/material'
-
-const currentYear = new Date().getFullYear()
-</script>
-
 <template>
   <div>
       <span style="color: #f313b9; font-size: 20px; width: 100px; margin-right: 20px;">Quietly Test Planform</span>
@@ -21,11 +13,12 @@ const currentYear = new Date().getFullYear()
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Footer'
-}
+<script setup>
+import { Icon } from '@vicons/utils'
+import {QqCircleFilled} from '@vicons/antd'
+import {EmailFilled} from '@vicons/material'
 
+const currentYear = new Date().getFullYear()
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
