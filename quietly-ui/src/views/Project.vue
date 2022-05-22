@@ -1,22 +1,21 @@
 <template>
     <div style="padding: 20px 20px">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="Approved by">
-                <el-input v-model="formInline.user" placeholder="Approved by" />
+        <el-form :inline="true" :model="queryForm">
+            <el-form-item label="ID" prop="id" :label-width="formLabelWidth">
+                <el-input v-model="queryForm.id" />
             </el-form-item>
-            <el-form-item label="Activity zone">
-                <el-select v-model="formInline.region" placeholder="Activity zone">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                </el-select>
+            <el-form-item label="NAME" prop="name" :label-width="formLabelWidth">
+                <el-input v-model="queryForm.name" />
             </el-form-item>
             <el-form-item>
-            <el-button type="primary">Query</el-button>
+                <el-button type="primary" :icon="Search" @click="handleQuery()">Query</el-button>
             </el-form-item>
         </el-form>
+
         <div class="flex" style="margin: 10px 10px;">
-            <el-button type="primary" :icon="Plus">添加</el-button>
+            <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
         </div>
+
         <el-table :data="projectList" stripe border>
             <el-table-column prop="id" label="ID" width="180" />
             <el-table-column prop="name" label="NAME" />
@@ -39,7 +38,7 @@
             </el-table-column>
             <el-table-column fixed="right" label="Operations">
                 <template #default="scope">
-                    <el-button type="primary" :icon="Edit" circle size="small" @click="editProjectDialogVisible = true"/>
+                    <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.$index, scope.row)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" >
                         <template #reference>
                             <el-button type="danger" :icon="Delete" circle size="small"/>
@@ -50,48 +49,55 @@
             </el-table-column>
         </el-table>
 
-        <ProjectEdit :editProjectDialogVisible="editProjectDialogVisible" @dialogEmit="dialogEmit"></ProjectEdit>
+        <ProjectEdit :dialogVisible="dialogVisible" :rowData="rowData" @closeDialogEmit="setDialogVisible(false)" @refreshEmit="setProjectList()"></ProjectEdit>
     </div>
 </template>
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { Search, Plus, Edit, Delete } from '@element-plus/icons-vue'
 import ProjectEdit from '@/components/project/Edit.vue'
-import { ElMessage } from 'element-plus'
-
 const $axios = inject('$axios')
 
-const editProjectDialogVisible = ref(false)
+const queryForm = reactive({
+    id: null,
+    name: null,
+})
 
-const dialogEmit = (isVisible) => {
-    editProjectDialogVisible.value = isVisible
+const handleQuery = () => {
+    setProjectList(queryForm)
 }
 
-const formInline = reactive({
-  user: '',
-  region: '',
-})
+const dialogVisible = ref(false)
+const rowData = ref(null)
+
 const projectList = ref([])
 
-const setProjectList = () => {
-  $axios.get('/project/list').then((response) => {
+const setProjectList = (args) => {
+  $axios.get('/project/list', {params: args}).then((response) => {
     projectList.value = response.data
   })
 }
 
-const handleEdit = (index, row) => {
-  console.log(index, row)
-}
 const handleDelete = (index, row) => {
   $axios.delete('/project/' + row.id).then((response) => {
     projectList.value.splice(index, 1)
   })
 }
 
+function handleAddOrEdit(index, row) {
+    if(row) {
+        rowData.value = row
+    }
+    setDialogVisible(true)
+}
+
+function setDialogVisible(isVisible) {
+    dialogVisible.value = isVisible
+}
+
 onMounted(() => {
   setProjectList()
-  ElMessage.error('Oops, this is a error message.')
 })
 </script>
 

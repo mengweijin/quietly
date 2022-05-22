@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="editProjectDialogVisible" @close="closeDialog" title="Add/Edit Project">
+    <el-dialog v-model="dialogVisible" @open="onOpenDialog" @close="onCloseDialog" title="Add/Edit Project">
         <el-form ref="formRef" :model="form" :rules="rules">
         <el-form-item label="ID" prop="id" :label-width="formLabelWidth" v-if="form.id">
             <el-input v-model="form.id" disabled autocomplete="off" />
@@ -13,7 +13,7 @@
         </el-form>
         <template #footer>
         <span class="dialog-footer">
-            <el-button @click="closeDialog()">Cancel</el-button>
+            <el-button @click="onCloseDialog()">Cancel</el-button>
             <el-button type="primary" @click="resetForm()">Reset</el-button>
             <el-button type="primary" @click="submitForm()">Confirm</el-button>
         </span>
@@ -22,27 +22,20 @@
 </template>
 
 <script setup>
-import { reactive, ref, getCurrentInstance } from 'vue'
-
-const { ctx } = getCurrentInstance()
+import { reactive, ref, toRef } from 'vue'
 const $axios = inject('$axios')
-
 
 /**
  * defineProps()接收父组件传递来的数据
  * defineEmits()抛出父组件将响应的方法
  */
-const props = defineProps(['editProjectDialogVisible'])
-const emit = defineEmits(['dialogEmit'])
-
-const dialogEmit = (isVisible) => {
-    emit('dialogEmit', isVisible)
-}
+const props = defineProps({'dialogVisible': Boolean, 'rowData': Object})
+const emit = defineEmits(['closeDialogEmit', 'refreshEmit'])
 
 const formLabelWidth = '140px'
 
 const formRef = ref(null)
-const form = reactive({
+const form = ref({
     id: null,
     name: null,
     baseUrl: null,
@@ -56,28 +49,41 @@ const rules = reactive({
 })
 
 const submitForm = () => {
-   formRef.value.validate((valid, fields) => {
-    if (valid) {
-        if(form.id) {
-            $axios.put('/project').then((response) => {
-                closeDialog()
-            })
+    formRef.value.validate((valid, fields) => {
+        if (valid) {
+            if(form.value.id) {
+                $axios.put('/project', form.value).then((response) => {
+                    resetForm()
+                    onCloseDialog()
+                    refreshTable()
+                })
+            } else {
+                $axios.post('/project', form.value).then((response) => {
+                    resetForm()
+                    onCloseDialog()
+                    refreshTable()
+                })
+            }
         } else {
-            $axios.post('/project').then((response) => {
-                closeDialog()
-            })
+        console.log('error submit!', fields)
         }
-    } else {
-      console.log('error submit!', fields)
-    }
-  })
+    })
 }
 
-const resetForm = () => { 
+function onOpenDialog() {
+    let rowRef = toRef(props, 'rowData')
+    if(rowRef && rowRef.value && rowRef.value.id) {
+        form.value = rowRef.value
+    }
+}
+function resetForm() {
     formRef.value.resetFields() 
 }
-
-const closeDialog = () => {
-    dialogEmit(false)
+function onCloseDialog() {
+    emit('closeDialogEmit', false)
 }
+function refreshTable() {
+    emit('refreshEmit')
+}
+
 </script>

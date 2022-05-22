@@ -1,5 +1,6 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.mengweijin.quietly.system.entity.Project;
 import com.github.mengweijin.quietly.system.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,8 @@ public class ProjectController  {
     private ProjectService projectService;
 
     @GetMapping("/list")
-    public List<Project> list() {
-        return projectService.list();
+    public List<Project> list(Project project) {
+        return projectService.list(new QueryWrapper<>(project));
     }
 
     /**

@@ -18,13 +18,13 @@
         <el-col :span="6">
             <el-menu router mode="horizontal" style="justify-content:flex-end; ">
               <!-- <el-menu-item v-bind:index="''"><el-icon><avatar /></el-icon>Admin</el-menu-item> -->
-              <el-menu-item :index="'/admin'"><el-icon><avatar /></el-icon>Admin</el-menu-item>
+              <el-menu-item :index="'/'"><el-icon><avatar /></el-icon>Admin</el-menu-item>
               <el-menu-item :index="'https://gitee.com/mengweijin/'">
                 <a href="https://gitee.com/mengweijin/" target="_blank" style="text-decoration:none;">
                   <img alt="Gitee" src="/favicon-gitee.ico" style="height: 18px;vertical-align: middle;"> Gitee
                 </a>
               </el-menu-item>
-              <el-sub-menu index="/setting">
+              <el-sub-menu index="'/'">
                 <template #title><el-icon><setting /></el-icon><span>设置</span></template>
                 <!-- <el-menu-item v-bind:index="''"><el-icon><document /></el-icon>item one</el-menu-item>
                 <el-menu-item v-bind:index="''"><el-icon><document /></el-icon>item two</el-menu-item>

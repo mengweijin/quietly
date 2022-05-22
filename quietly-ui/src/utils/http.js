@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { ElMessage, ElLoading } from 'element-plus'
+// 自动导入就不能再手动导入了
+// import { ElMessage, ElLoading } from 'element-plus'
 
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // axios中请求配置有baseURL选项，表示请求URL公共部分。参考文档 https://cn.vitejs.dev/guide/env-and-mode.html
