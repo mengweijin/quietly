@@ -10,7 +10,7 @@
                 <el-option v-for="item in projectList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-menu-item>
-            <el-menu-item index="/project">
+            <el-menu-item index="/project/home">
               <el-icon><Grid /></el-icon> <template #title>项目管理</template>
             </el-menu-item>
           </el-menu>
@@ -41,35 +41,42 @@
 import { ref, reactive, provide, inject, readonly } from "vue"
 const $axios = inject('$axios')
 
+/**
+ * window.localStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+ * window.sessionStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+ */
+const getCurrentProjectIdFromLocalStorage = function() {
+  return window.localStorage.getItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+}
+
+const setCurrentProjectIdToLocalStorage = function(projectId) {
+  window.localStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', projectId)
+}
+
 // ref 和 reactive 都可以给变量添加响应性。
 // ref 取值和赋值要用 .value。如赋值：currentProjectId.value = '1'
-const currentProjectId = ref(null)
+const currentProjectId = ref(getCurrentProjectIdFromLocalStorage())
 const projectList = ref([])
 
+/**
+ * import { inject } from "vue"
+ * const currentProjectId = inject('currentProjectId')
+ */
 provide('currentProjectId', readonly(currentProjectId))
-// const currentProjectId = inject('currentProjectId')
 
-const getProjectList = () => {
+const setProjectList = () => {
   $axios.get('/project/list').then((response) => {
     projectList.value = response.data
-    // set sessionStorage
-    // window.localStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
-    // window.sessionStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
-  let projectId = window.sessionStorage.getItem('CURRENT_USER_ACTIVE_PROJECT_ID')
-    if(projectId) {
-      currentProjectId.value = projectId
-    } else {
-      if(projectList.value && projectList.value.length > 0) {
-        currentProjectId.value = projectList.value[0].id
-        window.sessionStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', currentProjectId.value)
-      }
+    if(!currentProjectId.value && projectList.value && projectList.value.length > 0) {
+      currentProjectId.value = projectList.value[0].id
+      setCurrentProjectIdToLocalStorage(currentProjectId.value)
     }
   })
 }
 
 onMounted(() => {
-  getProjectList()
-});
+  setProjectList()
+})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

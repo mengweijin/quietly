@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '../layout/Layout.vue'
+import LayoutWithOutASide from '../layout/LayoutWithOutASide.vue'
 
 const routes = [
     { 
@@ -12,6 +13,19 @@ const routes = [
                 path: '/home',
                 components: {
                     default: () => import ('../views/Home.vue')
+                }
+            }
+        ]
+    }, 
+    {
+        path: '/project',
+        name: 'project',
+        component: LayoutWithOutASide,
+        children: [
+            {
+                path: 'home',
+                components: {
+                    default: () => import ('../views/Project.vue')
                 }
             }
         ]

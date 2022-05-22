@@ -86,7 +86,7 @@ public class ProjectController  {
      * @param id id
      */
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Serializable id) {
+    public void delete(@PathVariable("id") Long id) {
         projectService.removeById(id);
     }
 
