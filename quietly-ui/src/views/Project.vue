@@ -1,16 +1,6 @@
 <template>
     <div style="padding: 20px 20px">
-        <el-form :inline="true" :model="queryForm">
-            <el-form-item label="ID" prop="id" :label-width="formLabelWidth">
-                <el-input v-model="queryForm.id" />
-            </el-form-item>
-            <el-form-item label="NAME" prop="name" :label-width="formLabelWidth">
-                <el-input v-model="queryForm.name" />
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" :icon="Search" @click="handleQuery()">Query</el-button>
-            </el-form-item>
-        </el-form>
+        <ProjectSearch @searchEmit="setTableData"></ProjectSearch>
 
         <div class="flex" style="margin: 10px 10px;">
             <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
@@ -49,45 +39,39 @@
             </el-table-column>
         </el-table>
 
-        <ProjectEdit :dialogVisible="dialogVisible" :rowData="rowData" @closeDialogEmit="setDialogVisible(false)" @refreshEmit="setProjectList()"></ProjectEdit>
+        <ProjectEdit :dialogVisible="dialogVisible" :rowData="rowData" @closeDialogEmit="setDialogVisible(false)" @refreshEmit="setTableData()"></ProjectEdit>
     </div>
 </template>
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import { Search, Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import ProjectSearch from '@/components/project/Search.vue'
 import ProjectEdit from '@/components/project/Edit.vue'
 const $axios = inject('$axios')
-
-const queryForm = reactive({
-    id: null,
-    name: null,
-})
-
-const handleQuery = () => {
-    setProjectList(queryForm)
-}
 
 const dialogVisible = ref(false)
 const rowData = ref(null)
 
 const projectList = ref([])
 
-const setProjectList = (args) => {
-  $axios.get('/project/list', {params: args}).then((response) => {
-    projectList.value = response.data
-  })
+function setTableData(args) {
+    $axios.get('/project/list', {params: args}).then((response) => {
+        projectList.value = response.data
+    })
 }
 
-const handleDelete = (index, row) => {
-  $axios.delete('/project/' + row.id).then((response) => {
-    projectList.value.splice(index, 1)
-  })
+function handleDelete(index, row) {
+    $axios.delete('/project/' + row.id).then((response) => {
+        projectList.value.splice(index, 1)
+    })
 }
 
 function handleAddOrEdit(index, row) {
     if(row) {
         rowData.value = row
+    } else {
+        rowData.value = null
     }
     setDialogVisible(true)
 }
@@ -97,7 +81,7 @@ function setDialogVisible(isVisible) {
 }
 
 onMounted(() => {
-  setProjectList()
+    setTableData()
 })
 </script>
 

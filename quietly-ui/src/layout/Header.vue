@@ -24,7 +24,7 @@
                   <img alt="Gitee" src="/favicon-gitee.ico" style="height: 18px;vertical-align: middle;"> Gitee
                 </a>
               </el-menu-item>
-              <el-sub-menu index="'/'">
+              <el-sub-menu index="/">
                 <template #title><el-icon><setting /></el-icon><span>设置</span></template>
                 <!-- <el-menu-item v-bind:index="''"><el-icon><document /></el-icon>item one</el-menu-item>
                 <el-menu-item v-bind:index="''"><el-icon><document /></el-icon>item two</el-menu-item>

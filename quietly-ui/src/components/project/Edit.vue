@@ -14,7 +14,7 @@
         <template #footer>
         <span class="dialog-footer">
             <el-button @click="onCloseDialog()">Cancel</el-button>
-            <el-button type="primary" @click="resetForm()">Reset</el-button>
+            <el-button type="primary" @click="resetForm()" v-if="false">Reset</el-button>
             <el-button type="primary" @click="submitForm()">Confirm</el-button>
         </span>
         </template>
@@ -22,7 +22,8 @@
 </template>
 
 <script setup>
-import { reactive, ref, toRef } from 'vue'
+// toRefs: 转为普通对象，解构
+import { reactive, ref, toRef, toRefs } from 'vue'
 const $axios = inject('$axios')
 
 /**
@@ -80,7 +81,7 @@ function resetForm() {
     formRef.value.resetFields() 
 }
 function onCloseDialog() {
-    emit('closeDialogEmit', false)
+    emit('closeDialogEmit')
 }
 function refreshTable() {
     emit('refreshEmit')
