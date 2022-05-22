@@ -11,7 +11,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-            <el-button type="primary" @click="onSubmit">Query</el-button>
+            <el-button type="primary">Query</el-button>
             </el-form-item>
         </el-form>
         <div class="flex" style="margin: 10px 10px;">
@@ -39,18 +39,34 @@
             </el-table-column>
             <el-table-column fixed="right" label="Operations">
                 <template #default="scope">
-                    <el-button type="primary" :icon="Edit" circle size="small" @click="handleEdit(scope.$index, scope.row)"/>
-                    <el-button type="danger" :icon="Delete" circle size="small" @click="handleDelete(scope.$index, scope.row)"/>
+                    <el-button type="primary" :icon="Edit" circle size="small" @click="editProjectDialogVisible = true"/>
+                    <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" >
+                        <template #reference>
+                            <el-button type="danger" :icon="Delete" circle size="small"/>
+                        </template>
+                    </el-popconfirm>
+                    
                 </template>
             </el-table-column>
         </el-table>
+
+        <ProjectEdit :editProjectDialogVisible="editProjectDialogVisible" @dialogEmit="dialogEmit"></ProjectEdit>
     </div>
 </template>
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import { Plus, Delete, Edit } from '@element-plus/icons-vue'
+import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import ProjectEdit from '@/components/project/Edit.vue'
+import { ElMessage } from 'element-plus'
+
 const $axios = inject('$axios')
+
+const editProjectDialogVisible = ref(false)
+
+const dialogEmit = (isVisible) => {
+    editProjectDialogVisible.value = isVisible
+}
 
 const formInline = reactive({
   user: '',
@@ -68,11 +84,14 @@ const handleEdit = (index, row) => {
   console.log(index, row)
 }
 const handleDelete = (index, row) => {
-  $axios.delete('/project/' + row.id)
+  $axios.delete('/project/' + row.id).then((response) => {
+    projectList.value.splice(index, 1)
+  })
 }
 
 onMounted(() => {
   setProjectList()
+  ElMessage.error('Oops, this is a error message.')
 })
 </script>
 

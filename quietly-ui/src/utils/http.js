@@ -31,6 +31,8 @@ axiosInstance.interceptors.request.use(
     }
 )
 
+let messageDuration = Number(import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION)
+
 // 添加响应拦截器
 axiosInstance.interceptors.response.use(
     response => {
@@ -43,31 +45,31 @@ axiosInstance.interceptors.response.use(
         if (error.response.status) {
             switch (error.response.status) {
                 case 400:
-                    ElMessage.error({ message: error.response.status + ": " + JSON.stringify(error.response.data), duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ offset: 0, message: error.response.status + ": " + JSON.stringify(error.response.data), duration: messageDuration, showClose: true })
                     break;
                 case 401:
-                    ElMessage.error({ message: error.response.status + " Unauthorized", duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + " Unauthorized", duration: messageDuration, showClose: true })
                     break;
                 case 403:
-                    ElMessage.error({ message: error.response.status + " Forbidden", duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + " Forbidden", duration: messageDuration, showClose: true })
                     break;
                 case 404:
-                    ElMessage.error({ message: error.response.status + " Not Found", duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + " Not Found", duration: messageDuration, showClose: true })
                     break;
                 case 405:
-                    ElMessage.error({ message: error.response.status + " Method Not Allowed", duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + " Method Not Allowed", duration: messageDuration, showClose: true })
                     break;
                 case 406:
-                    ElMessage.error({ message: error.response.status + " Not Acceptable", duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + " Not Acceptable", duration: messageDuration, showClose: true })
                     break;
                 case 408:
-                    ElMessage.error({ message: error.response.status + " Request Timeout", duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + " Request Timeout", duration: messageDuration, showClose: true })
                     break;
                 case 500:
-                    ElMessage.error({ message: error.response.status + " Internal Server Error", duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + " Internal Server Error", duration: messageDuration, showClose: true })
                     break;
                 default:
-                    ElMessage.error({ message: error.response.status + ": " + JSON.stringify(error.response.data), duration: import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION, showClose: true })
+                    ElMessage.error({ message: error.response.status + ": " + JSON.stringify(error.response.data), duration: messageDuration, showClose: true })
                     break;
             }
         }
