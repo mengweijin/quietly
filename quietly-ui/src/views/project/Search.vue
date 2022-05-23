@@ -14,33 +14,23 @@
 </template>
 
 <script setup>
-import { reactive, ref, toRef } from 'vue'
+import { reactive, ref, toRef, inject } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import Utils from '@/util/utils.js'
 const emit = defineEmits(['searchEmit'])
 
 const searchFormRef = ref(null)
-const searchForm = reactive({
+const searchForm = ref({
     id: null,
     name: null,
 })
 
 const handleSearch = () => {
     // 处理 empty String issue
-    let args = {
-        id: formatValue(searchForm.id),
-        name: formatValue(searchForm.name),
-    }
-    
-    emit('searchEmit', args)
+    emit('searchEmit', Utils.trimObjectValue(searchForm.value))
 }
-function resetForm() {
+const resetForm = () => {
     searchFormRef.value.resetFields() 
 }
 
-function formatValue(val) {
-    if(val != null && val != undefined && val.trim() != '') {
-        return val.trim()
-    }
-    return null
-}
 </script>

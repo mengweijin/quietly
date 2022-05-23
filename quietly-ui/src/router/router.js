@@ -25,7 +25,7 @@ const routes = [
             {
                 path: 'home',
                 components: {
-                    default: () => import ('../views/Project.vue')
+                    default: () => import ('@/views/project/Index.vue')
                 }
             }
         ]

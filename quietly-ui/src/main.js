@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import VueRouter from './router/router.js'
-import Http from './utils/http.js'
+import Http from './util/http.js'
+import Utils from './util/utils.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App)
@@ -12,6 +13,7 @@ app.use(VueRouter)
 app.mount('#app')
 // app.config.globalProperties.axios = Http
 app.provide('$axios', Http)
+app.provide('$utils', Utils)
 
 /**
  * 全局监听所有 JS 错误

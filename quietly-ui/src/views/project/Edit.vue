@@ -1,20 +1,20 @@
 <template>
-    <el-dialog v-model="dialogVisible" @open="onOpenDialog" @close="onCloseDialog" title="Add/Edit Project">
+    <el-dialog v-model="data.visiable" @open="onOpenDialog" :title="data.id ? 'Edit' : 'Add'">
         <el-form ref="formRef" :model="form" :rules="rules">
-        <el-form-item label="ID" prop="id" :label-width="formLabelWidth" v-if="form.id">
+        <el-form-item label="ID" prop="id" :label-width="formLabelWidth" v-if="data.id">
             <el-input v-model="form.id" disabled autocomplete="off" />
         </el-form-item>
         <el-form-item label="NAME" prop="name" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" />
+            <el-input v-model="form.name" clearable autocomplete="off" />
         </el-form-item>
         <el-form-item label="BASE_URL" prop="baseUrl" :label-width="formLabelWidth">
-            <el-input v-model="form.baseUrl" autocomplete="off" />
+            <el-input v-model="form.baseUrl" clearable autocomplete="off" />
         </el-form-item>
         </el-form>
         <template #footer>
         <span class="dialog-footer">
-            <el-button @click="onCloseDialog()">Cancel</el-button>
-            <el-button type="primary" @click="resetForm()" v-if="false">Reset</el-button>
+            <el-button @click="closeDialog()">Cancel</el-button>
+            <el-button type="primary" @click="resetForm()" v-if="!data.id">Reset</el-button>
             <el-button type="primary" @click="submitForm()">Confirm</el-button>
         </span>
         </template>
@@ -26,14 +26,21 @@
 import { reactive, ref, toRef, toRefs } from 'vue'
 const $axios = inject('$axios')
 
+const formLabelWidth = ref('140px')
 /**
  * defineProps()接收父组件传递来的数据
  * defineEmits()抛出父组件将响应的方法
  */
-const props = defineProps({'dialogVisible': Boolean, 'rowData': Object})
+const props = defineProps({'data': Object})
 const emit = defineEmits(['closeDialogEmit', 'refreshEmit'])
 
-const formLabelWidth = '140px'
+/**
+ * 这样获取到的是值传递，非响应式的。const data = ref(props.data);
+ * 响应式应该这样获取：
+ * 方法1：const msg = toRef(props, 'data');
+ * 方法2：const { data } = toRefs(props);
+ */
+const data = toRef(props, 'data')
 
 const formRef = ref(null)
 const form = ref({
@@ -54,33 +61,36 @@ const submitForm = () => {
         if (valid) {
             if(form.value.id) {
                 $axios.put('/project', form.value).then((response) => {
-                    resetForm()
-                    onCloseDialog()
+                    closeDialog()
                     refreshTable()
                 })
             } else {
                 $axios.post('/project', form.value).then((response) => {
-                    resetForm()
-                    onCloseDialog()
+                    closeDialog()
                     refreshTable()
                 })
             }
         } else {
-        console.log('error submit!', fields)
+            console.log('error submit!', fields)
         }
     })
 }
 
 function onOpenDialog() {
-    let rowRef = toRef(props, 'rowData')
-    if(rowRef && rowRef.value && rowRef.value.id) {
-        form.value = rowRef.value
+    if(data.value.id) {
+        $axios.get('/project/' + data.value.id).then((response) => {
+            form.value.id = response.data.id
+            form.value.name = response.data.name
+            form.value.baseUrl = response.data.baseUrl
+        })
+    } else {
+        form.value = {}
     }
 }
 function resetForm() {
     formRef.value.resetFields() 
 }
-function onCloseDialog() {
+function closeDialog() {
     emit('closeDialogEmit')
 }
 function refreshTable() {

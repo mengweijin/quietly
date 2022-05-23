@@ -28,7 +28,8 @@
             </el-table-column>
             <el-table-column fixed="right" label="Operations">
                 <template #default="scope">
-                    <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.$index, scope.row)"/>
+                    <!-- <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.$index, scope.row)"/> -->
+                    <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.row.id)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" >
                         <template #reference>
                             <el-button type="danger" :icon="Delete" circle size="small"/>
@@ -39,19 +40,21 @@
             </el-table-column>
         </el-table>
 
-        <ProjectEdit :dialogVisible="dialogVisible" :rowData="rowData" @closeDialogEmit="setDialogVisible(false)" @refreshEmit="setTableData()"></ProjectEdit>
+        <ProjectEdit :data="data" @closeDialogEmit="setDialogVisiable(false)" @refreshEmit="setTableData()"></ProjectEdit>
     </div>
 </template>
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
-import ProjectSearch from '@/components/project/Search.vue'
-import ProjectEdit from '@/components/project/Edit.vue'
+import ProjectSearch from '@/views/project/Search.vue'
+import ProjectEdit from '@/views/project/Edit.vue'
 const $axios = inject('$axios')
 
-const dialogVisible = ref(false)
-const rowData = ref(null)
+const data = ref({
+    visiable: false,
+    id: null
+})
 
 const projectList = ref([])
 
@@ -67,17 +70,13 @@ function handleDelete(index, row) {
     })
 }
 
-function handleAddOrEdit(index, row) {
-    if(row) {
-        rowData.value = row
-    } else {
-        rowData.value = null
-    }
-    setDialogVisible(true)
+function handleAddOrEdit(id) {
+    data.value.id = id ? id : null
+    setDialogVisiable(true)
 }
 
-function setDialogVisible(isVisible) {
-    dialogVisible.value = isVisible
+function setDialogVisiable(isVisiable) {
+    data.value.visiable = isVisiable
 }
 
 onMounted(() => {
