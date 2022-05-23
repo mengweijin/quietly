@@ -1,5 +1,5 @@
 import axios from 'axios'
-// 自动导入就不能再手动导入了
+// 自动导入就不能再手动导入了, 否则样式丢失，不能正常显示
 // import { ElMessage, ElLoading } from 'element-plus'
 
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
