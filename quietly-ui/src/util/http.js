@@ -37,6 +37,9 @@ let messageDuration = Number(import.meta.env.VITE_AXIOS_ERROR_MESSAGE_DURATION)
 // 添加响应拦截器
 axiosInstance.interceptors.response.use(
     response => {
+        if(response.data && response.data.code === 200 && response.data.message === 'SUCCESS') {
+            ElMessage.success({ message: "SUCCESS!", duration: 3000, showClose: true })
+        }
         // 对响应数据做点什么
         return response;
     },
