@@ -26,9 +26,8 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="Operations">
+            <el-table-column fixed="right" label="Operations" width="200">
                 <template #default="scope">
-                    <!-- <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.$index, scope.row)"/> -->
                     <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.row.id)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" >
                         <template #reference>
