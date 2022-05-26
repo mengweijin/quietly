@@ -6,7 +6,7 @@
             <el-menu-item :index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
             <el-menu-item :index="'/'" style="height: var(--el-menu-item-height);">
               <span>当前项目：</span>
-              <el-select v-model="currentProjectId" placeholder="选择项目" size="small" @change="setCurrentProjectIdToLocalStorage">
+              <el-select v-model="currentProjectId" placeholder="选择项目" size="small" @change="onCurrentProjectIdChange">
                 <el-option v-for="item in projectList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-menu-item>
@@ -39,7 +39,7 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import projectStore from '@/store/projectStore.js'
+import projectLocalStorage from '@/util/projectLocalStorage.js'
 const $axios = inject('$axios')
 
 /**
@@ -59,37 +59,25 @@ const projectList = ref([])
  * import { inject } from "vue"
  * const currentProjectId = inject('currentProjectId')
  */
-provide('currentProjectId', readonly(currentProjectId))
+//provide('currentProjectId', readonly(currentProjectId))
 
 const setProjectList = () => {
     $axios.get('/project/list').then((response) => {
         projectList.value = response.data
         if(!currentProjectId.value && projectList.value && projectList.value.length > 0) {
           currentProjectId.value = projectList.value[0].id
-          setCurrentProjectIdToLocalStorage(currentProjectId.value)
+          projectLocalStorage.setProjectId(currentProjectId.value)
         }
-        debugger
-        projectStoreChange(currentProjectId.value)
     })
 }
 
-/**
- * window.localStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
- * window.sessionStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
- */
-function getCurrentProjectIdFromLocalStorage() {
-    return window.localStorage.getItem('CURRENT_USER_ACTIVE_PROJECT_ID')
-}
-function setCurrentProjectIdToLocalStorage(projectId) {
-    window.localStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', projectId)
-}
-
-function projectStoreChange(projectId) {
-    projectStore.projectId = projectId
+function onCurrentProjectIdChange(projectId) {
+    projectLocalStorage.setProjectId(projectId)
+    // // TODO 通过路由刷新整个页面
 }
 
 onMounted(() => {
-    currentProjectId.value = getCurrentProjectIdFromLocalStorage()
+    currentProjectId.value = projectLocalStorage.getProjectId()
     setProjectList()
 })
 </script>
