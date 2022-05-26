@@ -60,8 +60,7 @@ public abstract class AbstractExecuteSql extends AbstractStep {
     protected JdbcTemplate getJdbcTemplate(StepDefinition stepDefinition) {
         Datasource ds = datasourceService.getByStepDefinition(stepDefinition);
 
-        DbType dbType = DbType.getDbType(ds.getDbType());
-        if(dbType == DbType.OTHER) {
+        if(ds.getDbType() == DbType.OTHER) {
             throw new QuickBootClientException(stepType().name() + " does not support current database type: " + ds.getDbType());
         }
 

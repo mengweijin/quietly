@@ -1,5 +1,6 @@
 package com.github.mengweijin.quietly.system.entity;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -42,7 +43,7 @@ public class Datasource extends BaseEntity {
      * database type. mysql/h2/oracle/redis/MongoDB etc. Refer to com.baomidou.mybatisplus.annotation.DbType
      */
     @TableField("DB_TYPE")
-    private String dbType;
+    private DbType dbType;
 
     /**
      * jdbc url or others(For example: redis=http://host:port). 

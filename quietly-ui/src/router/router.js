@@ -14,6 +14,12 @@ const routes = [
                 components: {
                     default: () => import ('../views/Home.vue')
                 }
+            },
+            {
+                path: '/datasource',
+                components: {
+                    default: () => import ('@/views/datasource/Index.vue')
+                }
             }
         ]
     }, 

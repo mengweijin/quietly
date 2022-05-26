@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import VueRouter from './router/router.js'
+import { createPinia } from 'pinia'
 import Http from './util/http.js'
 import Utils from './util/utils.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -10,6 +11,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 app.use(VueRouter)
+app.use(createPinia())
 app.mount('#app')
 // app.config.globalProperties.axios = Http
 app.provide('$axios', Http)

@@ -6,27 +6,24 @@
             <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
         </div>
 
-        <el-table :data="tableDataList" stripe border highlight-current-row height="calc(100vh - 60px - 40px - 150px)">
-            <el-table-column prop="id" label="ID" width="180" />
-            <el-table-column prop="name" label="NAME" />
-            <el-table-column prop="baseUrl" label="BASE_URL" />
-            <el-table-column prop="createTime" label="CREATE_TIME" width="180">
-                <template #default="scope">
-                    <div style="display: flex; align-items: center">
-                        <el-icon><timer /></el-icon>
-                        <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
-                    </div>
-                </template>
-            </el-table-column>                   
-            <el-table-column prop="updateTime" label="UPDATE_TIME" width="180">
-                <template #default="scope">
-                    <div style="display: flex; align-items: center">
-                        <el-icon><timer /></el-icon>
-                        <span style="margin-left: 10px">{{ scope.row.updateTime }}</span>
+        <el-table :data="tableDataList" stripe highlight-current-row height="calc(100vh - 60px - 40px - 150px)">
+            <el-table-column type="expand">
+                <template #default="props">
+                    <div>
+                        <p>PROJECT_ID: {{ props.row.projectId }}</p>
+                        <p>CREATE_TIME: {{ props.row.createTime }}</p>
+                        <p>UPDATE_TIME: {{ props.row.updateTime }}</p>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="Operations" width="200">
+            <el-table-column prop="id" label="ID" width="180" />
+            <el-table-column prop="name" label="NAME" />
+            <el-table-column prop="dbType" label="DB_TYPE" width="100"/>
+            <el-table-column prop="url" label="JDBC_URL" />
+            <el-table-column prop="username" label="USERNAME" width="120" />
+            <el-table-column prop="password" label="PASSWORD" />
+            <el-table-column prop="asDefault" label="AS_DEFAULT" width="150"/>
+            <el-table-column fixed="right" label="Operations">
                 <template #default="scope">
                     <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.row.id)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" >
@@ -48,23 +45,28 @@ import { ref, reactive, provide, inject, readonly } from "vue"
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
+import { storeToRefs } from 'pinia'
+import projectStore from '@/store/projectStore.js'
+const { projectId } = storeToRefs(projectStore)
 const $axios = inject('$axios')
 
+debugger
 const data = ref({
     visiable: false,
-    id: null
+    id: null,
+    projectId: null
 })
 
 const tableDataList = ref([])
 
 function setTableData(args) {
-    $axios.get('/project/list', {params: args}).then((response) => {
+    $axios.get('/datasource/list', {params: args}).then((response) => {
         tableDataList.value = response.data
     })
 }
 
 function handleDelete(index, row) {
-    $axios.delete('/project/' + row.id).then((response) => {
+    $axios.delete('/datasource/' + row.id).then((response) => {
         tableDataList.value.splice(index, 1)
     })
 }
@@ -79,7 +81,8 @@ function setDialogVisiable(isVisiable) {
 }
 
 onMounted(() => {
-    setTableData()
+    debugger
+    setTableData({projectId: projectId})
 })
 </script>
 

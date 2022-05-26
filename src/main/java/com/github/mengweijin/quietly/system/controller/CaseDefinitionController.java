@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -61,7 +60,7 @@ public class CaseDefinitionController  {
      * @return CaseDefinition
      */
     @GetMapping("/{id}")
-    public CaseDefinition getById(@PathVariable("id") Serializable id) {
+    public CaseDefinition getById(@PathVariable("id") Long id) {
         return caseDefinitionService.getById(id);
     }
 
@@ -94,7 +93,7 @@ public class CaseDefinitionController  {
      * @param id id
      */
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Serializable id) {
+    public void delete(@PathVariable("id") Long id) {
         caseDefinitionService.removeById(id);
     }
 

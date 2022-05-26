@@ -7,8 +7,22 @@
         <el-form-item label="NAME" prop="name" :label-width="formLabelWidth">
             <el-input v-model="form.name" clearable autocomplete="off" />
         </el-form-item>
-        <el-form-item label="BASE_URL" prop="baseUrl" :label-width="formLabelWidth">
-            <el-input v-model="form.baseUrl" clearable autocomplete="off" placeholder="For Example: http://localhost:8080/"/>
+        <el-form-item label="DB_TYPE" prop="dbType" :label-width="formLabelWidth">
+            <el-select v-model="form.dbType" clearable filterable>
+                <el-option v-for="item in dbTypeOptions" :key="item" :label="item" :value="item"/>
+            </el-select>
+        </el-form-item> 
+        <el-form-item label="JDBC_URL" prop="url" :label-width="formLabelWidth">
+            <el-input v-model="form.url" clearable autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="USERNAME" prop="username" :label-width="formLabelWidth">
+            <el-input v-model="form.username" clearable autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="PASSWORD" prop="password" :label-width="formLabelWidth">
+            <el-input v-model="form.password" clearable autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="AS_DEFAULT" prop="asDefault" :label-width="formLabelWidth">
+            <el-input v-model="form.asDefault" clearable autocomplete="off" disabled/>
         </el-form-item>
         </el-form>
         <template #footer>
@@ -23,7 +37,7 @@
 
 <script setup>
 // toRefs: 转为普通对象，解构
-import { reactive, ref, toRef, toRefs } from 'vue'
+import { reactive, ref, toRef, toRefs, inject } from 'vue'
 const $axios = inject('$axios')
 
 const formLabelWidth = ref('140px')
@@ -33,6 +47,13 @@ const formLabelWidth = ref('140px')
  */
 const props = defineProps({'data': Object})
 const emit = defineEmits(['closeDialogEmit', 'refreshEmit'])
+
+const dbTypeOptions = ref([])
+function initDbTypeOptions() {
+    $axios.get('/datasource/getDbTypes').then((response) => {
+        dbTypeOptions.value = response.data
+    })
+}
 
 /**
  * 这样获取到的是值传递，非响应式的。const data = ref(props.data);
@@ -46,26 +67,34 @@ const formRef = ref(null)
 const form = ref({
     id: null,
     name: null,
-    baseUrl: null,
+    dbType: null,
+    url: null,
+    username: null,
+    password: null,
+    asDefault: null,
+    projectId: null
 })
 
 const rules = reactive({
-  name: [
-    { required: true, message: 'Please input name', trigger: 'blur' },
-    { min: 1, max: 50, message: 'Length should be 1 to 50', trigger: 'blur' },
-  ],
+    name: [
+        { required: true, message: 'Please input name', trigger: 'blur' },
+        { min: 1, max: 50, message: 'Length should be 1 to 50', trigger: 'blur' },
+    ],
+    dbType: [{required: true }],
+    url: [{required: true }],
+    username: [{required: true }]
 })
 
 const submitForm = () => {
     formRef.value.validate((valid, fields) => {
         if (valid) {
             if(form.value.id) {
-                $axios.put('/project', form.value).then((response) => {
+                $axios.put('/datasource', form.value).then((response) => {
                     closeDialog()
                     refreshTable()
                 })
             } else {
-                $axios.post('/project', form.value).then((response) => {
+                $axios.post('/datasource', form.value).then((response) => {
                     closeDialog()
                     refreshTable()
                 })
@@ -77,14 +106,22 @@ const submitForm = () => {
 }
 
 function onOpenDialog() {
+    initDbTypeOptions()
     if(data.value.id) {
-        $axios.get('/project/' + data.value.id).then((response) => {
+        $axios.get('/datasource/' + data.value.id).then((response) => {
             form.value.id = response.data.id
             form.value.name = response.data.name
-            form.value.baseUrl = response.data.baseUrl
+            form.value.dbType = response.data.dbType
+            form.value.url = response.data.url
+            form.value.username = response.data.username
+            form.value.password = response.data.password
+            form.value.asDefault = response.data.asDefault
+            form.value.projectId = response.data.projectId
         })
     } else {
-        form.value = {}
+        form.value = {
+            asDefault: 'N'
+        }
     }
 }
 function resetForm() {
@@ -96,5 +133,4 @@ function closeDialog() {
 function refreshTable() {
     emit('refreshEmit')
 }
-
 </script>

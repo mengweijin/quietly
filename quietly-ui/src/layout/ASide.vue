@@ -6,7 +6,7 @@
     </div>
     
     <el-menu router mode="vertical" :collapse="isCollapse" :collapse-transition="false" unique-opened>
-      <el-menu-item index="/">
+      <el-menu-item index="/datasource">
         <el-icon><Coin /></el-icon> <template #title>数据库管理</template>
       </el-menu-item>
       <el-sub-menu index="/">

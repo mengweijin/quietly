@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -54,7 +53,7 @@ public class ProjectController  {
      * @return Project
      */
     @GetMapping("/{id}")
-    public Project getById(@PathVariable("id") Serializable id) {
+    public Project getById(@PathVariable("id") Long id) {
         return projectService.getById(id);
     }
 

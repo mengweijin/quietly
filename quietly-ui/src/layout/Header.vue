@@ -6,7 +6,7 @@
             <el-menu-item :index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
             <el-menu-item :index="'/'" style="height: var(--el-menu-item-height);">
               <span>当前项目：</span>
-              <el-select v-model="currentProjectId" placeholder="选择项目" size="small">
+              <el-select v-model="currentProjectId" placeholder="选择项目" size="small" @change="setCurrentProjectIdToLocalStorage">
                 <el-option v-for="item in projectList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-menu-item>
@@ -39,23 +39,20 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
+import projectStore from '@/store/projectStore.js'
 const $axios = inject('$axios')
 
 /**
- * window.localStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
- * window.sessionStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+ * state、getters、actions 里面属性或者方法  都是通过 projectStore “点” 出来使用的
+ * 如果想将状态数据解构出来直接使用  必须引入storeToRefs（否则不是响应式） 来自于 pinia（类似于 reactive响应式，结构使用toRefs）
+ * import { storeToRefs } from 'pinia'
+ * import projectStore from '@/store/projectStore.js'
+ * const { projectId } = storeToRefs(projectStore)
  */
-const getCurrentProjectIdFromLocalStorage = function() {
-  return window.localStorage.getItem('CURRENT_USER_ACTIVE_PROJECT_ID')
-}
-
-const setCurrentProjectIdToLocalStorage = function(projectId) {
-  window.localStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', projectId)
-}
 
 // ref 和 reactive 都可以给变量添加响应性。
 // ref 取值和赋值要用 .value。如赋值：currentProjectId.value = '1'
-const currentProjectId = ref(getCurrentProjectIdFromLocalStorage())
+const currentProjectId = ref(null)
 const projectList = ref([])
 
 /**
@@ -65,17 +62,35 @@ const projectList = ref([])
 provide('currentProjectId', readonly(currentProjectId))
 
 const setProjectList = () => {
-  $axios.get('/project/list').then((response) => {
-    projectList.value = response.data
-    if(!currentProjectId.value && projectList.value && projectList.value.length > 0) {
-      currentProjectId.value = projectList.value[0].id
-      setCurrentProjectIdToLocalStorage(currentProjectId.value)
-    }
-  })
+    $axios.get('/project/list').then((response) => {
+        projectList.value = response.data
+        if(!currentProjectId.value && projectList.value && projectList.value.length > 0) {
+          currentProjectId.value = projectList.value[0].id
+          setCurrentProjectIdToLocalStorage(currentProjectId.value)
+        }
+        debugger
+        projectStoreChange(currentProjectId.value)
+    })
+}
+
+/**
+ * window.localStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+ * window.sessionStorage.removeItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+ */
+function getCurrentProjectIdFromLocalStorage() {
+    return window.localStorage.getItem('CURRENT_USER_ACTIVE_PROJECT_ID')
+}
+function setCurrentProjectIdToLocalStorage(projectId) {
+    window.localStorage.setItem('CURRENT_USER_ACTIVE_PROJECT_ID', projectId)
+}
+
+function projectStoreChange(projectId) {
+    projectStore.projectId = projectId
 }
 
 onMounted(() => {
-  setProjectList()
+    currentProjectId.value = getCurrentProjectIdFromLocalStorage()
+    setProjectList()
 })
 </script>
 

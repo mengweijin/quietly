@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,8 +45,8 @@ public class StepDefinitionController  {
     private StepDefinitionService stepDefinitionService;
 
     @Cacheable("stepDefinition")
-    @GetMapping("/getStepList")
-    public List<CaseStepDto> getStepList() {
+    @GetMapping("/getStepTypes")
+    public List<CaseStepDto> getStepTypes() {
         return Arrays.stream(StepType.values())
                 .map(step -> new CaseStepDto().setKey(step.name()).setName(step.getLabel()))
                 .collect(Collectors.toList());
@@ -61,7 +60,7 @@ public class StepDefinitionController  {
      * @return StepDefinition
      */
     @GetMapping("/{id}")
-    public StepDefinition getById(@PathVariable("id") Serializable id) {
+    public StepDefinition getById(@PathVariable("id") Long id) {
         return stepDefinitionService.getById(id);
     }
 
@@ -94,7 +93,7 @@ public class StepDefinitionController  {
      * @param id id
      */
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Serializable id) {
+    public void delete(@PathVariable("id") Long id) {
         stepDefinitionService.removeById(id);
     }
 

@@ -1,9 +1,12 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.mengweijin.quietly.system.entity.Datasource;
 import com.github.mengweijin.quietly.system.service.DatasourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -28,7 +31,7 @@ import java.io.Serializable;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/environment-datasource")
+@RequestMapping("/datasource")
 public class DatasourceController {
 
     /**
@@ -39,6 +42,17 @@ public class DatasourceController {
     @Autowired
     private DatasourceService datasourceService;
 
+    @GetMapping("/getDbTypes")
+    @Cacheable("DB_TYPE_ARRAY")
+    public DbType[] getDbTypes() {
+        return DbType.values();
+    }
+
+    @GetMapping("/list")
+    public List<Datasource> list(Datasource datasource) {
+        return datasourceService.list(new QueryWrapper<>(datasource));
+    }
+
     /**
      * <p>
      * Get EnvironmentDatasource by id
@@ -47,7 +61,7 @@ public class DatasourceController {
      * @return EnvironmentDatasource
      */
     @GetMapping("/{id}")
-    public Datasource getById(@PathVariable("id") Serializable id) {
+    public Datasource getById(@PathVariable("id") Long id) {
         return datasourceService.getById(id);
     }
 
@@ -80,7 +94,7 @@ public class DatasourceController {
      * @param id id
      */
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Serializable id) {
+    public void delete(@PathVariable("id") Long id) {
         datasourceService.removeById(id);
     }
 
