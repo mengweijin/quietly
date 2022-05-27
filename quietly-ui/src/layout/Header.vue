@@ -6,8 +6,8 @@
             <el-menu-item :index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
             <el-menu-item :index="'/'" style="height: var(--el-menu-item-height);">
               <span>当前项目：</span>
-              <el-select v-model="currentProjectId" placeholder="选择项目" size="small" @change="onCurrentProjectIdChange">
-                <el-option v-for="item in projectList" :key="item.id" :label="item.name" :value="item.id" />
+              <el-select v-model="activedProjectId" placeholder="选择项目" size="small" @change="onCurrentProjectIdChange">
+                <el-option v-for="item in projectDataList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-menu-item>
             <el-menu-item index="/project/home">
@@ -39,12 +39,19 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import projectLocalStorage from '@/util/projectLocalStorage.js'
+import projectLocalStorage from '@/storage/projectLocalStorage.js'
+import { useProject } from "@/store/store.js"
+ // 使普通数据变响应式的函数  
+import { storeToRefs } from 'pinia'
 const $axios = inject('$axios')
+// 实例化仓库函数
+const store = useProject()
+// 解构并使数据具有响应式 ref
+const { activedProjectId, projectDataList } = storeToRefs(store)
 
 /**
  * state、getters、actions 里面属性或者方法  都是通过 projectStore “点” 出来使用的
- * 如果想将状态数据解构出来直接使用  必须引入storeToRefs（否则不是响应式） 来自于 pinia（类似于 reactive响应式，结构使用toRefs）
+ * 如果想将状态数据解构出来直接使用  必须引入storeToRefs（否则不是响应式） 来自于 pinia（类似于 reactive响应式，解构使用toRefs）
  * import { storeToRefs } from 'pinia'
  * import projectStore from '@/store/projectStore.js'
  * const { projectId } = storeToRefs(projectStore)
@@ -52,8 +59,8 @@ const $axios = inject('$axios')
 
 // ref 和 reactive 都可以给变量添加响应性。
 // ref 取值和赋值要用 .value。如赋值：currentProjectId.value = '1'
-const currentProjectId = ref(null)
-const projectList = ref([])
+// const currentProjectId = ref(null)
+// const projectSelectDataList = ref([])
 
 /**
  * import { inject } from "vue"
@@ -61,24 +68,33 @@ const projectList = ref([])
  */
 //provide('currentProjectId', readonly(currentProjectId))
 
-const setProjectList = () => {
+function initProjectDataList() {
     $axios.get('/project/list').then((response) => {
-        projectList.value = response.data
-        if(!currentProjectId.value && projectList.value && projectList.value.length > 0) {
-          currentProjectId.value = projectList.value[0].id
-          projectLocalStorage.setProjectId(currentProjectId.value)
-        }
+        projectDataList.value = response.data
+
+        initActivedProjectId(response.data)
     })
+}
+
+function initActivedProjectId(dataList) {
+    activedProjectId.value = projectLocalStorage.getProjectId()
+    if(!activedProjectId.value && dataList && dataList.length > 0) {
+          activedProjectId.value = dataList[0].id
+          projectLocalStorage.setProjectId(activedProjectId.value)
+    }
 }
 
 function onCurrentProjectIdChange(projectId) {
     projectLocalStorage.setProjectId(projectId)
-    // // TODO 通过路由刷新整个页面
+    // 刷新整个页面
+    //location.reload()
+    activedProjectId.value = projectId
 }
 
 onMounted(() => {
-    currentProjectId.value = projectLocalStorage.getProjectId()
-    setProjectList()
+    // projectLocalStorage.removeProjectId() // only for test
+    initProjectDataList()
+    
 })
 </script>
 

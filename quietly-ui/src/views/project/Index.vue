@@ -6,7 +6,7 @@
             <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
         </div>
 
-        <el-table :data="tableDataList" stripe border highlight-current-row height="calc(100vh - 60px - 40px - 150px)">
+        <el-table :data="projectDataList" stripe border highlight-current-row height="calc(100vh - 60px - 40px - 150px)">
             <el-table-column prop="id" label="ID" width="180" />
             <el-table-column prop="name" label="NAME" />
             <el-table-column prop="baseUrl" label="BASE_URL" />
@@ -39,7 +39,7 @@
             </el-table-column>
         </el-table>
 
-        <TableEdit :data="data" @closeDialogEmit="setDialogVisiable(false)" @refreshEmit="setTableData()"></TableEdit>
+        <TableEdit :data="data" @closeDialogEmit="setDialogVisiable(false)" @refreshEmit="loadTableData()"></TableEdit>
     </div>
 </template>
 
@@ -48,24 +48,31 @@ import { ref, reactive, provide, inject, readonly } from "vue"
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
+import { useProject } from "@/store/store.js"
+ // 使普通数据变响应式的函数  
+import { storeToRefs } from 'pinia'
 const $axios = inject('$axios')
+// 实例化仓库函数
+const store = useProject()
+// 解构并使数据具有响应式 ref
+const { projectDataList } = storeToRefs(store)
 
 const data = ref({
     visiable: false,
     id: null
 })
 
-const tableDataList = ref([])
+// const tableDataList = ref([])
 
-function setTableData(args) {
-    $axios.get('/project/list', {params: args}).then((response) => {
-        tableDataList.value = response.data
+function loadTableData() {
+    $axios.get('/project/list', {params: {}}).then((response) => {
+        projectDataList.value = response.data
     })
 }
 
 function handleDelete(index, row) {
     $axios.delete('/project/' + row.id).then((response) => {
-        tableDataList.value.splice(index, 1)
+        projectDataList.value.splice(index, 1)
     })
 }
 
@@ -79,7 +86,7 @@ function setDialogVisiable(isVisiable) {
 }
 
 onMounted(() => {
-    setTableData()
+    //setTableData()
 })
 </script>
 

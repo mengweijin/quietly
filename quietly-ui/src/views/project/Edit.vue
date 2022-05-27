@@ -24,7 +24,14 @@
 <script setup>
 // toRefs: 转为普通对象，解构
 import { reactive, ref, toRef, toRefs } from 'vue'
+import { useProject } from "@/store/store.js"
+ // 使普通数据变响应式的函数  
+import { storeToRefs } from 'pinia'
 const $axios = inject('$axios')
+// 实例化仓库函数
+const store = useProject()
+// 解构并使数据具有响应式 ref
+const { projectDataList } = storeToRefs(store)
 
 const formLabelWidth = ref('140px')
 /**
@@ -94,7 +101,6 @@ function closeDialog() {
     emit('closeDialogEmit')
 }
 function refreshTable() {
-    // TODO 改为直接通过路由刷新整个页面
     emit('refreshEmit')
 }
 
