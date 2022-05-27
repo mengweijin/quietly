@@ -25,12 +25,11 @@ const searchForm = ref({
     name: null,
 })
 
-const handleSearch = () => {
-    // 处理 empty String issue
-    emit('searchEmit', Utils.trimObjectValue(searchForm.value))
-}
 const resetForm = () => {
     searchFormRef.value.resetFields() 
 }
-
+function handleSearch() {
+    // 处理 empty String issue
+    emit('searchEmit', Utils.trimObjectValue(searchForm.value))
+}
 </script>

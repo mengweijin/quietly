@@ -31,12 +31,11 @@ const searchForm = ref({
     name: null,
 })
 
-const handleSearch = () => {
-    // 处理 empty String issue
-    emit('searchEmit', Utils.trimObjectValue(searchForm.value))
-}
 const resetForm = () => {
     searchFormRef.value.resetFields() 
+}
+function handleSearch() {
+    emit('searchEmit', Utils.trimObjectValue(searchForm.value))
 }
 function initDbTypeOptions() {
     $axios.get('/datasource/getDbTypes').then((response) => {

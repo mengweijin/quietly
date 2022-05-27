@@ -36,40 +36,18 @@
 </template>
 
 <script setup>
-// toRefs: 转为普通对象，解构
 import { reactive, ref, toRef, toRefs, inject } from 'vue'
 import { useProject } from "@/store/store.js"
- // 使普通数据变响应式的函数  
 import { storeToRefs } from 'pinia'
-// 实例化仓库函数
 const store = useProject()
-// 解构并使数据具有响应式 ref
 const { activedProjectId } = storeToRefs(store)
 const $axios = inject('$axios')
 
 const formLabelWidth = ref('140px')
-/**
- * defineProps()接收父组件传递来的数据
- * defineEmits()抛出父组件将响应的方法
- */
 const props = defineProps({'data': Object})
 const emit = defineEmits(['closeDialogEmit', 'refreshEmit'])
-
 const dbTypeOptions = ref([])
-function initDbTypeOptions() {
-    $axios.get('/datasource/getDbTypes').then((response) => {
-        dbTypeOptions.value = response.data
-    })
-}
-
-/**
- * 这样获取到的是值传递，非响应式的。const data = ref(props.data);
- * 响应式应该这样获取：
- * 方法1：const msg = toRef(props, 'data');
- * 方法2：const { data } = toRefs(props);
- */
 const data = toRef(props, 'data')
-
 const formRef = ref(null)
 const form = reactive({
     entity: {
@@ -114,6 +92,12 @@ const submitForm = () => {
     })
 }
 
+function initDbTypeOptions() {
+    $axios.get('/datasource/getDbTypes').then((response) => {
+        dbTypeOptions.value = response.data
+    })
+}
+
 function onOpenDialog() {
     initDbTypeOptions()
     if(data.value.id) {
@@ -127,7 +111,6 @@ function onOpenDialog() {
             projectId: activedProjectId.value
         }
     }
-    
 }
 function resetForm() {
     formRef.value.resetFields() 
