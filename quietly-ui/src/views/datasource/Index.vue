@@ -1,6 +1,6 @@
 <template>
     <div style="padding: 20px 20px">
-        <TableSearch @searchEmit="setTableData"></TableSearch>
+        <TableSearch @searchEmit="loadTableData"></TableSearch>
 
         <div class="flex" style="margin: 10px 10px;">
             <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
@@ -36,7 +36,7 @@
             </el-table-column>
         </el-table>
 
-        <TableEdit :data="data" @closeDialogEmit="setDialogVisiable(false)" @refreshEmit="setTableData()"></TableEdit>
+        <TableEdit :data="data" @closeDialogEmit="setDialogVisiable(false)" @refreshEmit="loadTableData()"></TableEdit>
     </div>
 </template>
 
@@ -45,12 +45,8 @@ import { ref, reactive, provide, inject, readonly } from "vue"
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
-import { storeToRefs } from 'pinia'
-import projectStore from '@/store/projectStore.js'
-const { projectId } = storeToRefs(projectStore)
 const $axios = inject('$axios')
 
-debugger
 const data = ref({
     visiable: false,
     id: null,
@@ -59,7 +55,7 @@ const data = ref({
 
 const tableDataList = ref([])
 
-function setTableData(args) {
+function loadTableData(args) {
     $axios.get('/datasource/list', {params: args}).then((response) => {
         tableDataList.value = response.data
     })
@@ -81,8 +77,7 @@ function setDialogVisiable(isVisiable) {
 }
 
 onMounted(() => {
-    debugger
-    setTableData({projectId: projectId})
+    loadTableData()
 })
 </script>
 

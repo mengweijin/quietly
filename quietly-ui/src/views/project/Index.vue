@@ -1,6 +1,6 @@
 <template>
     <div style="padding: 20px 20px">
-        <TableSearch @searchEmit="setTableData"></TableSearch>
+        <TableSearch @searchEmit="loadTableData"></TableSearch>
 
         <div class="flex" style="margin: 10px 10px;">
             <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
@@ -62,10 +62,8 @@ const data = ref({
     id: null
 })
 
-// const tableDataList = ref([])
-
-function loadTableData() {
-    $axios.get('/project/list', {params: {}}).then((response) => {
+function loadTableData(args) {
+    $axios.get('/project/list', {params: args}).then((response) => {
         projectDataList.value = response.data
     })
 }
