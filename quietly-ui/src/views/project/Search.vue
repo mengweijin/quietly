@@ -1,10 +1,10 @@
 <template>
     <el-form ref="searchFormRef" :model="searchForm" :inline="true">
         <el-form-item label="ID" prop="id">
-            <el-input v-model="searchForm.id" />
+            <el-input v-model="searchForm.id" clearable/>
         </el-form-item>
         <el-form-item label="NAME" prop="name">
-            <el-input v-model="searchForm.name" />
+            <el-input v-model="searchForm.name" clearable/>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" :icon="Search" @click="handleSearch()">Search</el-button>

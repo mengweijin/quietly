@@ -86,9 +86,11 @@ function initActivedProjectId(dataList) {
 
 function onCurrentProjectIdChange(projectId) {
     projectLocalStorage.setProjectId(projectId)
+    activedProjectId.value = projectId
     // 刷新整个页面
     //location.reload()
-    activedProjectId.value = projectId
+    // 回首页
+    window.location.href = '/'
 }
 
 onMounted(() => {

@@ -1,28 +1,28 @@
 <template>
     <el-dialog v-model="data.visiable" @open="onOpenDialog" :title="data.id ? 'Edit' : 'Add'">
-        <el-form ref="formRef" :model="form" :rules="rules">
+        <el-form ref="formRef" :model="form.entity" :rules="rules">
         <el-form-item label="ID" prop="id" :label-width="formLabelWidth" v-if="data.id">
-            <el-input v-model="form.id" disabled autocomplete="off" />
+            <el-input v-model="form.entity.id" disabled autocomplete="off" />
         </el-form-item>
         <el-form-item label="NAME" prop="name" :label-width="formLabelWidth">
-            <el-input v-model="form.name" clearable autocomplete="off" />
+            <el-input v-model="form.entity.name" clearable autocomplete="off" />
         </el-form-item>
         <el-form-item label="DB_TYPE" prop="dbType" :label-width="formLabelWidth">
-            <el-select v-model="form.dbType" clearable filterable>
+            <el-select v-model="form.entity.dbType" clearable filterable>
                 <el-option v-for="item in dbTypeOptions" :key="item" :label="item" :value="item"/>
             </el-select>
         </el-form-item> 
         <el-form-item label="JDBC_URL" prop="url" :label-width="formLabelWidth">
-            <el-input v-model="form.url" clearable autocomplete="off"/>
+            <el-input v-model="form.entity.url" clearable autocomplete="off"/>
         </el-form-item>
         <el-form-item label="USERNAME" prop="username" :label-width="formLabelWidth">
-            <el-input v-model="form.username" clearable autocomplete="off"/>
+            <el-input v-model="form.entity.username" clearable autocomplete="off"/>
         </el-form-item>
         <el-form-item label="PASSWORD" prop="password" :label-width="formLabelWidth">
-            <el-input v-model="form.password" clearable autocomplete="off"/>
+            <el-input v-model="form.entity.password" clearable autocomplete="off"/>
         </el-form-item>
         <el-form-item label="AS_DEFAULT" prop="asDefault" :label-width="formLabelWidth">
-            <el-input v-model="form.asDefault" clearable autocomplete="off" disabled/>
+            <el-input v-model="form.entity.asDefault" clearable autocomplete="off" disabled/>
         </el-form-item>
         </el-form>
         <template #footer>
@@ -38,6 +38,13 @@
 <script setup>
 // toRefs: 转为普通对象，解构
 import { reactive, ref, toRef, toRefs, inject } from 'vue'
+import { useProject } from "@/store/store.js"
+ // 使普通数据变响应式的函数  
+import { storeToRefs } from 'pinia'
+// 实例化仓库函数
+const store = useProject()
+// 解构并使数据具有响应式 ref
+const { activedProjectId } = storeToRefs(store)
 const $axios = inject('$axios')
 
 const formLabelWidth = ref('140px')
@@ -64,15 +71,17 @@ function initDbTypeOptions() {
 const data = toRef(props, 'data')
 
 const formRef = ref(null)
-const form = ref({
-    id: null,
-    name: null,
-    dbType: null,
-    url: null,
-    username: null,
-    password: null,
-    asDefault: null,
-    projectId: null
+const form = reactive({
+    entity: {
+        id: null,
+        name: null,
+        dbType: null,
+        url: null,
+        username: null,
+        password: null,
+        asDefault: null,
+        projectId: null
+    }
 })
 
 const rules = reactive({
@@ -88,13 +97,13 @@ const rules = reactive({
 const submitForm = () => {
     formRef.value.validate((valid, fields) => {
         if (valid) {
-            if(form.value.id) {
-                $axios.put('/datasource', form.value).then((response) => {
+            if(form.entity.id) {
+                $axios.put('/datasource', form.entity).then((response) => {
                     closeDialog()
                     refreshTable()
                 })
             } else {
-                $axios.post('/datasource', form.value).then((response) => {
+                $axios.post('/datasource', form.entity).then((response) => {
                     closeDialog()
                     refreshTable()
                 })
@@ -109,20 +118,16 @@ function onOpenDialog() {
     initDbTypeOptions()
     if(data.value.id) {
         $axios.get('/datasource/' + data.value.id).then((response) => {
-            form.value.id = response.data.id
-            form.value.name = response.data.name
-            form.value.dbType = response.data.dbType
-            form.value.url = response.data.url
-            form.value.username = response.data.username
-            form.value.password = response.data.password
-            form.value.asDefault = response.data.asDefault
-            form.value.projectId = response.data.projectId
+            form.entity = response.data
+            form.entity.projectId = activedProjectId.value
         })
     } else {
-        form.value = {
-            asDefault: 'N'
+        form.entity = {
+            asDefault: 'N',
+            projectId: activedProjectId.value
         }
     }
+    
 }
 function resetForm() {
     formRef.value.resetFields() 

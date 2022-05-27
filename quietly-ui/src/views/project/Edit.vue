@@ -1,15 +1,15 @@
 <template>
     <el-dialog v-model="data.visiable" @open="onOpenDialog" :title="data.id ? 'Edit' : 'Add'">
-        <el-form ref="formRef" :model="form" :rules="rules">
-        <el-form-item label="ID" prop="id" :label-width="formLabelWidth" v-if="data.id">
-            <el-input v-model="form.id" disabled autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="NAME" prop="name" :label-width="formLabelWidth">
-            <el-input v-model="form.name" clearable autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="BASE_URL" prop="baseUrl" :label-width="formLabelWidth">
-            <el-input v-model="form.baseUrl" clearable autocomplete="off" placeholder="For Example: http://localhost:8080/"/>
-        </el-form-item>
+        <el-form ref="formRef" :model="form.entity" :rules="rules">
+            <el-form-item label="ID" prop="id" :label-width="formLabelWidth" v-if="data.id">
+                <el-input v-model="form.entity.id" disabled autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="NAME" prop="name" :label-width="formLabelWidth">
+                <el-input v-model="form.entity.name" clearable autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="BASE_URL" prop="baseUrl" :label-width="formLabelWidth">
+                <el-input v-model="form.entity.baseUrl" clearable autocomplete="off" placeholder="For Example: http://localhost:8080/"/>
+            </el-form-item>
         </el-form>
         <template #footer>
         <span class="dialog-footer">
@@ -51,9 +51,11 @@ const data = toRef(props, 'data')
 
 const formRef = ref(null)
 const form = ref({
-    id: null,
-    name: null,
-    baseUrl: null,
+    entity: {
+        id: null,
+        name: null,
+        baseUrl: null,
+    }
 })
 
 const rules = reactive({
@@ -66,13 +68,13 @@ const rules = reactive({
 const submitForm = () => {
     formRef.value.validate((valid, fields) => {
         if (valid) {
-            if(form.value.id) {
-                $axios.put('/project', form.value).then((response) => {
+            if(form.value.entity.id) {
+                $axios.put('/project', form.value.entity).then((response) => {
                     closeDialog()
                     refreshTable()
                 })
             } else {
-                $axios.post('/project', form.value).then((response) => {
+                $axios.post('/project', form.value.entity).then((response) => {
                     closeDialog()
                     refreshTable()
                 })
@@ -86,12 +88,10 @@ const submitForm = () => {
 function onOpenDialog() {
     if(data.value.id) {
         $axios.get('/project/' + data.value.id).then((response) => {
-            form.value.id = response.data.id
-            form.value.name = response.data.name
-            form.value.baseUrl = response.data.baseUrl
+            form.value.entity = response.data
         })
     } else {
-        form.value = {}
+        form.value.entity = {}
     }
 }
 function resetForm() {

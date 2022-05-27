@@ -45,6 +45,13 @@ import { ref, reactive, provide, inject, readonly } from "vue"
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
+import { useProject } from "@/store/store.js"
+ // 使普通数据变响应式的函数  
+import { storeToRefs } from 'pinia'
+// 实例化仓库函数
+const store = useProject()
+// 解构并使数据具有响应式 ref
+const { activedProjectId } = storeToRefs(store)
 const $axios = inject('$axios')
 
 const data = ref({
@@ -56,6 +63,10 @@ const data = ref({
 const tableDataList = ref([])
 
 function loadTableData(args) {
+    if(!args) {
+        args = {}
+    }
+    args.projectId = activedProjectId.value
     $axios.get('/datasource/list', {params: args}).then((response) => {
         tableDataList.value = response.data
     })
