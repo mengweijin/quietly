@@ -13,6 +13,7 @@ import com.github.mengweijin.quietly.system.mapper.DatasourceMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -70,6 +71,16 @@ public class DatasourceService extends ServiceImpl<DatasourceMapper, Datasource>
             throw new QuickBootException("Multiple default datasource configurations were found, please check your datasource configuration.");
         }
         return datasourceList.get(0);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void setAsDefault(Long id, Long projectId) {
+        this.lambdaUpdate().set(Datasource::getAsDefault, Const.N)
+                .eq(Datasource::getProjectId, projectId).eq(Datasource::getAsDefault, Const.Y)
+                .update();
+        this.lambdaUpdate().set(Datasource::getAsDefault, Const.Y)
+                .eq(Datasource::getId, id)
+                .update();
     }
 }
 

@@ -28,10 +28,10 @@
             </el-table-column>
             <el-table-column fixed="right" label="Operations" width="200">
                 <template #default="scope">
-                    <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.row.id)"/>
+                    <el-button type="primary" :icon="Edit" circle size="small" title="Edit" @click="handleAddOrEdit(scope.row.id)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" >
                         <template #reference>
-                            <el-button type="danger" :icon="Delete" circle size="small"/>
+                            <el-button type="danger" :icon="Delete" circle size="small" title="Delete"/>
                         </template>
                     </el-popconfirm>
                     

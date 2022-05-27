@@ -17,18 +17,29 @@
                 </template>
             </el-table-column>
             <el-table-column prop="id" label="ID" width="180" />
-            <el-table-column prop="name" label="NAME" />
+            <el-table-column prop="name" label="NAME" width="200"/>
             <el-table-column prop="dbType" label="DB_TYPE" width="100"/>
             <el-table-column prop="url" label="JDBC_URL" />
             <el-table-column prop="username" label="USERNAME" width="120" />
-            <el-table-column prop="password" label="PASSWORD" />
-            <el-table-column prop="asDefault" label="AS_DEFAULT" width="150"/>
-            <el-table-column fixed="right" label="Operations">
+            <el-table-column prop="password" label="PASSWORD" width="150" />
+            <el-table-column prop="asDefault" label="AS_DEFAULT" width="150">
                 <template #default="scope">
-                    <el-button type="primary" :icon="Edit" circle size="small" @click="handleAddOrEdit(scope.row.id)"/>
+                    <div style="display: flex; align-items: center">
+                        <el-popconfirm title="Are you sure to set this as default datasource?" @confirm="handleSetAsDefault(scope.row.id)" >
+                            <template #reference>
+                                <el-button v-if="scope.row.asDefault == 'Y'" type="success" round size="small" title="Set as default">{{ scope.row.asDefault }}</el-button>
+                                <el-button v-else type="danger" round size="small" title="Set as default">{{ scope.row.asDefault }}</el-button>
+                            </template>
+                        </el-popconfirm>
+                    </div>
+                </template>
+            </el-table-column>   
+            <el-table-column fixed="right" label="Operations" width="120">
+                <template #default="scope">
+                    <el-button type="primary" :icon="Edit" circle size="small" title="Edit" @click="handleAddOrEdit(scope.row.id)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" >
                         <template #reference>
-                            <el-button type="danger" :icon="Delete" circle size="small"/>
+                            <el-button type="danger" :icon="Delete" circle size="small" title="Delete"/>
                         </template>
                     </el-popconfirm>
                     
@@ -42,7 +53,7 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import { Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { Plus, Edit, Delete, Open } from '@element-plus/icons-vue'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
 import { useProject } from "@/store/store.js"
@@ -72,15 +83,19 @@ function loadTableData(args) {
     })
 }
 
+function handleSetAsDefault(id) {
+    $axios.post('/datasource/setAsDefault/' + id + "?projectId=" + activedProjectId.value).then((response) => {
+        loadTableData()
+    })
+}
+function handleAddOrEdit(id) {
+    data.value.id = id ? id : null
+    setDialogVisiable(true)
+}
 function handleDelete(index, row) {
     $axios.delete('/datasource/' + row.id).then((response) => {
         tableDataList.value.splice(index, 1)
     })
-}
-
-function handleAddOrEdit(id) {
-    data.value.id = id ? id : null
-    setDialogVisiable(true)
 }
 
 function setDialogVisiable(isVisiable) {

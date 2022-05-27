@@ -6,18 +6,16 @@
     </div>
     
     <el-menu router mode="vertical" :collapse="isCollapse" :collapse-transition="false" unique-opened>
-      <el-menu-item index="/datasource">
-        <el-icon><Coin /></el-icon> <template #title>数据库管理</template>
-      </el-menu-item>
-      <el-sub-menu index="/">
+      <el-menu-item index="/datasource">    <el-icon><Coin />   </el-icon> <template #title>数据库管理</template></el-menu-item>
+      <el-menu-item index="/api-definition"><el-icon><Link />   </el-icon> <template #title>接口定义</template></el-menu-item>
+      <el-menu-item index="/">              <el-icon><Tickets /></el-icon>API 测试用例</el-menu-item>
+      <el-menu-item index="/">              <el-icon><Tickets /></el-icon>E2E 测试用例</el-menu-item>
+      <el-menu-item index="/" disabled>              <el-icon><Tickets /></el-icon>UI 测试用例</el-menu-item>
+      <!-- <el-sub-menu index="/">
         <template #title><el-icon><Platform /></el-icon> <span>接口测试</span></template>
-        <el-menu-item index="/"><el-icon><Link /></el-icon>接口定义</el-menu-item>
-        <el-menu-item index="/"><el-icon><Tickets /></el-icon>测试用例</el-menu-item>
-      </el-sub-menu>
-      <el-menu-item index="/">
-        <el-icon><QuestionFilled /></el-icon>
-        <template #title>使用文档</template>
-      </el-menu-item>
+        <el-menu-item index="/"><el-icon><Tickets /></el-icon>接口测试用例</el-menu-item>
+      </el-sub-menu> -->
+      <el-menu-item index="/">              <el-icon><QuestionFilled /></el-icon><template #title>使用文档</template></el-menu-item>
     </el-menu>
   </el-aside>
   

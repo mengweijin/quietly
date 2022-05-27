@@ -42,8 +42,13 @@ public class DatasourceController {
     @Autowired
     private DatasourceService datasourceService;
 
+    @PostMapping("/setAsDefault/{id}")
+    public void setAsDefault(@PathVariable("id") Long id, Long projectId) {
+        datasourceService.setAsDefault(id, projectId);
+    }
+
     @GetMapping("/getDbTypes")
-    @Cacheable("DB_TYPE_ARRAY")
+    @Cacheable("DATASOURCE_DB_TYPE_ARRAY")
     public DbType[] getDbTypes() {
         return DbType.values();
     }
