@@ -69,6 +69,7 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
+import {useRouter} from 'vue-router'
 import { Plus, Edit, Delete, VideoPlay, CopyDocument, Tickets, Setting } from '@element-plus/icons-vue'
 import JsonViewer from 'vue-json-viewer'
 import TableSearch from './Search.vue'
@@ -82,6 +83,7 @@ const store = useProject()
 // 解构并使数据具有响应式 ref
 const { activedProjectId } = storeToRefs(store)
 const $axios = inject('$axios')
+const router = useRouter()
 
 const data = ref({
     visiable: false,
@@ -103,6 +105,10 @@ function handleChangeEnabled(row) {
     $axios.post('/case-definition/changeEnabled/' + row.id + '?enabled=' + enabled).then((response) => {
         row.enabled = enabled
     })
+}
+
+function handleStepDetail(row) {
+    router.push({ path: '/quietly/step-definition', query: { caseId: row.id, name: row.name } })
 }
 
 function handleRunCase(row) {

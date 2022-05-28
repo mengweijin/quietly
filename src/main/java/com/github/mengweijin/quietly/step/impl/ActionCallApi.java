@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -92,15 +91,11 @@ public class ActionCallApi extends AbstractStep {
             dto.setUrl(url);
             dto.setHeaders(headers);
             dto.setRequestBody(requestBody);
-            String info = objectMapper.writeValueAsString(dto);
-            stepDefinitionService.updateApiRequestActualInfoById(stepId, info);
+            stepDefinitionService.updateApiRequestActualInfoById(stepId, dto);
 
             responseEntity = restTemplate.exchange(url, apiDefinition.getHttpMethod(), httpEntity, Object.class);
         } catch (HttpStatusCodeException e) {
             responseEntity = ResponseEntity.status(e.getRawStatusCode()).headers(e.getResponseHeaders()).body(e.getResponseBodyAsString());
-        } catch (JsonProcessingException e) {
-            responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-            throw new QuickBootException(e);
         } finally {
             String body = this.getResponseEntityBody(responseEntity);
             stepDefinitionService.updateActualValueById(stepId, body);

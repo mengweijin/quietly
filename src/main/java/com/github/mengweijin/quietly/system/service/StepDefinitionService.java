@@ -3,8 +3,12 @@ package com.github.mengweijin.quietly.system.service;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
+import com.github.mengweijin.quietly.system.dto.ApiRequestActualInfoDto;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.mapper.StepDefinitionMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +40,9 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
     @Autowired
     private StepDefinitionMapper stepDefinitionMapper;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     public void updateStatusById(Long stepId, CaseStepStatus caseStepStatus) {
         StepDefinition stepDefinition = new StepDefinition();
         stepDefinition.setId(stepId);
@@ -55,9 +62,16 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
         return this.lambdaQuery().eq(StepDefinition::getCaseId, caseId).orderByAsc(StepDefinition::getSeq).list();
     }
 
-    public void updateApiRequestActualInfoById(Long stepId, String info) {
+    public void updateApiRequestActualInfoById(Long stepId, ApiRequestActualInfoDto dto) {
+        String info;
+        try {
+            info = objectMapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            throw new QuickBootException(e);
+        }
         StepDefinition stepDefinition = new StepDefinition();
         stepDefinition.setId(stepId);
+        stepDefinition.setExpression(dto.getUrl());
         stepDefinition.setApiRequestActualInfo(info);
         stepDefinitionMapper.updateById(stepDefinition);
     }
@@ -84,5 +98,43 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
         this.lambdaUpdate().set(StepDefinition::getErrorInfo, errorInfo).eq(StepDefinition::getId, stepId).update();
     }
 
+    public void copy(Long id) {
+        StepDefinition stepDefinition = stepDefinitionMapper.selectById(id);
+        stepDefinition.setId(null);
+        stepDefinition.setSeq(stepDefinition.getSeq() + 1);
+        stepDefinitionMapper.insert(stepDefinition);
+    }
+
+    public void sequenceUp(Long id) {
+        StepDefinition stepDefinition = stepDefinitionMapper.selectById(id);
+        Integer seq = stepDefinition.getSeq();
+
+        // preSeq + 1 = seq
+        this.lambdaUpdate().set(StepDefinition::getSeq, seq)
+                .eq(StepDefinition::getCaseId, stepDefinition.getCaseId())
+                .eq(StepDefinition::getSeq, seq - 1)
+                .update();
+
+        // seq - 1
+        this.lambdaUpdate().set(StepDefinition::getSeq, seq - 1)
+                .eq(StepDefinition::getId, id)
+                .update();
+    }
+
+    public void sequenceDown(Long id) {
+        StepDefinition stepDefinition = stepDefinitionMapper.selectById(id);
+        Integer seq = stepDefinition.getSeq();
+
+        // nextSeq - 1 = seq
+        this.lambdaUpdate().set(StepDefinition::getSeq, seq)
+                .eq(StepDefinition::getCaseId, stepDefinition.getCaseId())
+                .eq(StepDefinition::getSeq, seq + 1)
+                .update();
+
+        // seq + 1
+        this.lambdaUpdate().set(StepDefinition::getSeq, seq + 1)
+                .eq(StepDefinition::getId, id)
+                .update();
+    }
 }
 

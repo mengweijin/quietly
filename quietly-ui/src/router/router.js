@@ -48,6 +48,12 @@ const routes = [
                         components: {
                             default: () => import ('@/views/caseDefinition/Index.vue')
                         }
+                    },
+                    {
+                        path: 'step-definition',
+                        components: {
+                            default: () => import ('@/views/stepDefinition/Index.vue')
+                        }
                     }
                 ]
             },

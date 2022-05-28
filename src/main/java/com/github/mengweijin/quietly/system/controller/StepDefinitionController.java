@@ -1,5 +1,6 @@
 package com.github.mengweijin.quietly.system.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.system.dto.CaseStepDto;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
@@ -50,6 +51,26 @@ public class StepDefinitionController  {
         return Arrays.stream(StepType.values())
                 .map(step -> new CaseStepDto().setKey(step.name()).setName(step.getLabel()))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/list")
+    public List<StepDefinition> list(StepDefinition stepDefinition) {
+        return stepDefinitionService.list(new LambdaQueryWrapper<>(stepDefinition).orderByAsc(StepDefinition::getSeq));
+    }
+
+    @PostMapping("/sequenceUp/{id}")
+    public void sequenceUp(@PathVariable("id") Long id) {
+        stepDefinitionService.sequenceUp(id);
+    }
+
+    @PostMapping("/sequenceDown/{id}")
+    public void sequenceDown(@PathVariable("id") Long id) {
+        stepDefinitionService.sequenceDown(id);
+    }
+
+    @PostMapping("/copy/{id}")
+    public void copy(@PathVariable("id") Long id) {
+        stepDefinitionService.copy(id);
     }
 
     /**
