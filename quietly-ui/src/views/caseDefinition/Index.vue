@@ -44,6 +44,7 @@
             <el-table-column prop="updateTime" label="UPDATE_TIME" width="180" />
             <el-table-column fixed="right" label="Operations" width="240">
                 <template #default="scope">
+                    <el-button type="primary" :icon="Setting" circle size="small" title="Step Setting"/>
                     <el-button type="primary" :icon="Tickets" circle size="small" title="Step detail" @click="handleStepDetail(scope.row)"/>
                     <el-popconfirm title="Are you sure to run this test case?" @confirm="handleRunCase(scope.row)" v-if="scope.row.enabled == 'Y' && (scope.row.status == 'CREATED' || scope.row.status == 'SUCCESS' || scope.row.status == 'FAILED' || scope.row.status == 'CANCELED')">
                         <template #reference>
@@ -68,7 +69,7 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import { Plus, Edit, Delete, VideoPlay, CopyDocument, Tickets } from '@element-plus/icons-vue'
+import { Plus, Edit, Delete, VideoPlay, CopyDocument, Tickets, Setting } from '@element-plus/icons-vue'
 import JsonViewer from 'vue-json-viewer'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
