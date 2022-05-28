@@ -43,7 +43,7 @@ public class ApiDefinition extends BaseEntity {
     /**
      * api url。以 ${} 作为占位符。如：http://localhost:8080/quietly?username=${username}&status=${status}。如果需要给参数设置默认值，直接在 url 中写死就行。
      */
-    @TableField("URL")
+    @TableField(value = "URL", condition = SqlCondition.LIKE)
     private String url;
 
     /**
