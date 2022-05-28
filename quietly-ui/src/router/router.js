@@ -42,6 +42,12 @@ const routes = [
                         components: {
                             default: () => import ('@/views/apiDefinition/Index.vue')
                         }
+                    },
+                    {
+                        path: 'case-definition',
+                        components: {
+                            default: () => import ('@/views/caseDefinition/Index.vue')
+                        }
                     }
                 ]
             },

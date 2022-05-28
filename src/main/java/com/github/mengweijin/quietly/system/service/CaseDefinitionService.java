@@ -77,5 +77,9 @@ public class CaseDefinitionService extends ServiceImpl<CaseDefinitionMapper, Cas
     public AbstractStep getStepByStepType(StepType stepType) {
         return AbstractStepList.stream().filter(AbstractStep -> AbstractStep.stepType() == stepType).findFirst().get();
     }
+
+    public void changeEnabled(Long id, String enabled) {
+        this.lambdaUpdate().set(CaseDefinition::getEnabled, enabled).eq(CaseDefinition::getId, id).update();
+    }
 }
 

@@ -1,5 +1,6 @@
 package com.github.mengweijin.quietly.system.entity;
 
+import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -60,7 +61,7 @@ public class ApiDefinition extends BaseEntity {
     /**
      * api name
      */
-    @TableField("NAME")
+    @TableField(value = "NAME", condition = SqlCondition.LIKE)
     private String name;
 
     /**
