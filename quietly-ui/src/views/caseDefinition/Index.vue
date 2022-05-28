@@ -45,7 +45,7 @@
             <el-table-column fixed="right" label="Operations" width="240">
                 <template #default="scope">
                     <el-button type="primary" :icon="Tickets" circle size="small" title="Step detail" @click="handleStepDetail(scope.row)"/>
-                    <el-popconfirm title="Are you sure to run this test case?" @confirm="handleRunCase(scope.row)">
+                    <el-popconfirm title="Are you sure to run this test case?" @confirm="handleRunCase(scope.row)" v-if="scope.row.enabled == 'Y' && (scope.row.status == 'CREATED' || scope.row.status == 'SUCCESS' || scope.row.status == 'FAILED' || scope.row.status == 'CANCELED')">
                         <template #reference>
                             <el-button type="primary" :icon="VideoPlay" circle size="small" title="Run Case"/>
                         </template>

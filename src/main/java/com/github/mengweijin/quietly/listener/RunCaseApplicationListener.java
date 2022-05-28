@@ -1,6 +1,7 @@
 package com.github.mengweijin.quietly.listener;
 
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
+import com.github.mengweijin.quietly.listener.event.CaseCancelEvent;
 import com.github.mengweijin.quietly.listener.event.CaseFailedEvent;
 import com.github.mengweijin.quietly.listener.event.CaseStartEvent;
 import com.github.mengweijin.quietly.listener.event.CaseSuccessEvent;
@@ -82,5 +83,10 @@ public class RunCaseApplicationListener {
     @EventListener(value = CaseFailedEvent.class)
     public void onApplicationEvent(CaseFailedEvent event) {
         caseDefinitionService.updateStatusById(event.getCaseId(), CaseStepStatus.FAILED);
+    }
+
+    @EventListener(value = CaseCancelEvent.class)
+    public void onApplicationEvent(CaseCancelEvent event) {
+        caseDefinitionService.updateStatusById(event.getCaseId(), CaseStepStatus.CANCELED);
     }
 }

@@ -1,6 +1,8 @@
 package com.github.mengweijin.quietly.config.thread;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.github.mengweijin.quietly.listener.event.CaseCancelEvent;
 import com.github.mengweijin.quietly.listener.event.CaseFailedEvent;
 import com.github.mengweijin.quietly.listener.event.CaseStartEvent;
 import com.github.mengweijin.quietly.listener.event.CaseSuccessEvent;
@@ -30,8 +32,11 @@ public class RunCaseTask implements Runnable {
 
         try {
             publisher.publishEvent(new CaseStartEvent(this, id));
-
             List<StepDefinition> stepDefinitionList = stepService.getByCaseIdOrderBySeqAsc(id);
+            if(CollUtil.isEmpty(stepDefinitionList)) {
+                publisher.publishEvent(new CaseCancelEvent(this, id));
+                return;
+            }
             stepDefinitionList.forEach(stepDefinition -> {
                 AbstractStep step = caseService.getStepByStepType(stepDefinition.getStepType());
                 step.run(stepDefinition.getId());

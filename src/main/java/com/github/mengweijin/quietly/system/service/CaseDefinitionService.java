@@ -51,6 +51,7 @@ public class CaseDefinitionService extends ServiceImpl<CaseDefinitionMapper, Cas
     private ApplicationEventPublisher applicationEventPublisher;
 
     public void runCase(Long id) {
+        this.updateStatusById(id, CaseStepStatus.QUEUING);
         CaseDefinition caseDefinition = caseDefinitionMapper.selectById(id);
         ThreadPoolExecutor executor = ProjectThreadPoolFactory.getThreadPool(caseDefinition.getProjectId());
         executor.submit(new RunCaseTask(id, applicationEventPublisher));
