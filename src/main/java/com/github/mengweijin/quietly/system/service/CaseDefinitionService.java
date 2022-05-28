@@ -3,11 +3,10 @@ package com.github.mengweijin.quietly.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quietly.config.thread.ProjectThreadPoolFactory;
+import com.github.mengweijin.quietly.config.thread.RunCaseTask;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.enums.StepType;
-import com.github.mengweijin.quietly.listener.event.CaseFailedEvent;
-import com.github.mengweijin.quietly.listener.event.CaseStartEvent;
-import com.github.mengweijin.quietly.listener.event.CaseSuccessEvent;
 import com.github.mengweijin.quietly.step.AbstractStep;
 import com.github.mengweijin.quietly.system.entity.CaseDefinition;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
@@ -18,6 +17,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -47,26 +47,13 @@ public class CaseDefinitionService extends ServiceImpl<CaseDefinitionMapper, Cas
     @Autowired
     private List<AbstractStep> AbstractStepList;
 
-    /**
-     * publish an application event of spring application.
-     */
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     public void runCase(Long id) {
-        try {
-            applicationEventPublisher.publishEvent(new CaseStartEvent(this, id));
-
-            List<StepDefinition> stepDefinitionList = stepDefinitionService.getByCaseIdOrderBySeqAsc(id);
-            stepDefinitionList.forEach(stepDefinition -> {
-                AbstractStep step = this.getStepByStepType(stepDefinition.getStepType());
-                step.run(stepDefinition.getId());
-            });
-
-            applicationEventPublisher.publishEvent(new CaseSuccessEvent(this, id));
-        } catch (Throwable t) {
-            applicationEventPublisher.publishEvent(new CaseFailedEvent(this, id));
-        }
+        CaseDefinition caseDefinition = caseDefinitionMapper.selectById(id);
+        ThreadPoolExecutor executor = ProjectThreadPoolFactory.getThreadPool(caseDefinition.getProjectId());
+        executor.submit(new RunCaseTask(id, applicationEventPublisher));
     }
 
     public void updateStatusById(Long id, CaseStepStatus status) {

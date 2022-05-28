@@ -17,7 +17,17 @@
             </el-table-column>
             <el-table-column prop="id" label="ID" width="180" />
             <el-table-column prop="name" label="NAME" />
-            <el-table-column prop="status" label="STATUS" width="130"/>
+            <el-table-column prop="status" label="STATUS" width="130">
+                <template #default="scope">
+                    <div style="display: flex; align-items: center">
+                        <el-button v-if="scope.row.status == 'SUCCESS'" type="success" round size="small">{{ scope.row.status }}</el-button>
+                        <el-button v-else-if="scope.row.status == 'FAILED'" type="danger" round size="small">{{ scope.row.status }}</el-button>
+                        <el-button v-else-if="scope.row.status == 'QUEUING'" type="warning" round size="small">{{ scope.row.status }}</el-button>
+                        <el-button v-else-if="scope.row.status == 'CANCELED'" type="warning" round size="small">{{ scope.row.status }}</el-button>
+                        <el-button v-else type="primary" round size="small">{{ scope.row.status }}</el-button>
+                    </div>
+                </template>
+            </el-table-column>
             <el-table-column prop="enabled" label="ENABLED" width="130">
                 <template #default="scope">
                     <div style="display: flex; align-items: center">
@@ -96,7 +106,7 @@ function handleChangeEnabled(row) {
 
 function handleRunCase(row) {
     $axios.get('/case-definition/runCase/' + row.id).then((response) => {
-        row.status = 'RUNNING'
+        row.status = 'QUEUING'
     })
 }
 
