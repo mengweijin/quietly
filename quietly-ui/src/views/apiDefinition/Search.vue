@@ -6,9 +6,9 @@
         <el-form-item label="NAME" prop="name">
             <el-input v-model="searchForm.name" clearable />
         </el-form-item>
-        <el-form-item label="DB_TYPE" prop="dbType">
-            <el-select v-model="searchForm.dbType" clearable filterable>
-                <el-option v-for="item in dbTypeOptions" :key="item" :label="item" :value="item"/>
+        <el-form-item label="HTTP_METHOD" prop="httpMethod">
+            <el-select v-model="searchForm.httpMethod" clearable filterable>
+                <el-option v-for="item in httpMethodOptions" :key="item" :label="item" :value="item"/>
             </el-select>
         </el-form-item> 
         <el-form-item>
@@ -24,12 +24,12 @@ import { Search } from '@element-plus/icons-vue'
 import Utils from '@/util/utils.js'
 const $axios = inject('$axios')
 const emit = defineEmits(['searchEmit'])
-const dbTypeOptions = ref([])
+const httpMethodOptions = ref([])
 const searchFormRef = ref(null)
 const searchForm = ref({
     id: null,
     name: null,
-    dbType: null,
+    httpMethod: null,
 })
 
 const resetForm = () => {
@@ -38,12 +38,12 @@ const resetForm = () => {
 function handleSearch() {
     emit('searchEmit', Utils.trimObjectValue(searchForm.value))
 }
-function initDbTypeOptions() {
-    $axios.get('/datasource/getDbTypes').then((response) => {
-        dbTypeOptions.value = response.data
+function initHttpMethodOptions() {
+    $axios.get('/api-definition/getHttpMethods').then((response) => {
+        httpMethodOptions.value = response.data
     })
 }
 onMounted(() => {
-    initDbTypeOptions()
+    initHttpMethodOptions()
 })
 </script>

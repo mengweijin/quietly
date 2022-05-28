@@ -47,7 +47,7 @@ create TABLE QTL_API_DEFINITION (
   body_args_sample varchar NULL COMMENT 'request body 中的参数，以 JSON 格式存储。如：{"username"="admin", "status"="Y"}',
   name varchar(100) NOT NULL COMMENT 'api name',
   description varchar(500) NULL COMMENT 'api description',
-  request_media_type varchar(100) NULL DEFAULT 'application/json;charset=UTF-8' COMMENT '请求media类型. For example: "application/json;charset=UTF-8". Refer to ${@link class org.springframework.http.MediaType}',
+  request_media_type varchar(100) NULL DEFAULT 'application/json' COMMENT '请求media类型. For example: "application/json". Refer to ${@link class org.springframework.http.MediaType}',
   deleted int NOT NULL DEFAULT 0 COMMENT '逻辑删除。0：未删除；1：已删除；',
   create_by varchar(64) NULL COMMENT 'Creator',
   create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'creation time',
@@ -56,7 +56,7 @@ create TABLE QTL_API_DEFINITION (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='QTL_API_DEFINITION';
 
-insert into QTL_API_DEFINITION values (1, 1, 'GET', 'http://localhost:8080/step-definition/getStepList', '{"token": "${token}"}', '{"username"="admin", "status"="Y"}', '/step-definition/getStepList', '获取步骤定义列表', 'application/json;charset=UTF-8', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_API_DEFINITION values (1, 1, 'GET', '/step-definition/getStepList', '{"token": "${token}"}', '{"username": "admin", "status": "Y"}', '获取系统 step 定义集合', '获取步骤定义列表', 'application/json', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 

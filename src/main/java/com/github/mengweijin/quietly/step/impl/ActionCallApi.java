@@ -2,17 +2,22 @@ package com.github.mengweijin.quietly.step.impl;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.http.HttpUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
+import com.github.mengweijin.quickboot.framework.util.Const;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.step.AbstractStep;
 import com.github.mengweijin.quietly.step.StepArgs;
 import com.github.mengweijin.quietly.system.dto.ApiArgsDto;
 import com.github.mengweijin.quietly.system.dto.ApiRequestActualInfoDto;
 import com.github.mengweijin.quietly.system.entity.ApiDefinition;
+import com.github.mengweijin.quietly.system.entity.Project;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.ApiDefinitionService;
+import com.github.mengweijin.quietly.system.service.ProjectService;
 import com.github.mengweijin.quietly.system.service.StepDefinitionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +68,8 @@ public class ActionCallApi extends AbstractStep {
 
         Long apiId = stepDefinition.getApiId();
         ApiDefinition apiDefinition = apiDefinitionService.getById(apiId);
-        String url = this.processPlaceholder(apiDefinition.getUrl(), argsMap);
+
+        String url = this.processPlaceholder(this.getApiUrl(apiDefinition), argsMap);
 
         String requestMediaType = apiDefinition.getRequestMediaType();
 
@@ -110,5 +116,23 @@ public class ActionCallApi extends AbstractStep {
             }
         }
         return content;
+    }
+
+    private String getApiUrl(ApiDefinition apiDefinition) {
+        ProjectService projectService = SpringUtil.getBean(ProjectService.class);
+        Project project = projectService.getById(apiDefinition.getProjectId());
+        String baseUrl = project.getBaseUrl();
+        String url = apiDefinition.getUrl();
+        if(StrUtil.isBlank(baseUrl) || StrUtil.isBlank(url)) {
+            return url;
+        }
+
+        if(HttpUtil.isHttp(url) || HttpUtil.isHttps(url)) {
+            return url;
+        }
+
+        baseUrl = baseUrl.endsWith(Const.SLASH) ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        url = url.startsWith(Const.SLASH) ? url.substring(1) : url;
+        return String.join(Const.SLASH, baseUrl, url);
     }
 }

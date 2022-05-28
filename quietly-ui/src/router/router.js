@@ -20,6 +20,12 @@ const routes = [
                 components: {
                     default: () => import ('@/views/datasource/Index.vue')
                 }
+            },
+            {
+                path: '/api-definition',
+                components: {
+                    default: () => import ('@/views/apiDefinition/Index.vue')
+                }
             }
         ]
     }, 

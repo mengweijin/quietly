@@ -13,31 +13,21 @@
                         <p>PROJECT_ID: {{ props.row.projectId }}</p>
                         <p>CREATE_TIME: {{ props.row.createTime }}</p>
                         <p>UPDATE_TIME: {{ props.row.updateTime }}</p>
+                        <p>DESCRIPTION: {{ props.row.description }}</p>
+                        <p style="border-style:solid;border-width:1px;">HEADERS_SAMPLE: <json-viewer copyable preview-mode show-double-quotes :value="JSON.parse(props.row.headersSample)"></json-viewer></p>
+                        <p style="border-style:solid;border-width:1px;">BODY_ARGS_SAMPLE: <json-viewer copyable preview-mode show-double-quotes :value="JSON.parse(props.row.bodyArgsSample)"></json-viewer></p>
                     </div>
                 </template>
             </el-table-column>
             <el-table-column prop="id" label="ID" width="180" />
-            <el-table-column prop="name" label="NAME" width="200"/>
-            <el-table-column prop="dbType" label="DB_TYPE" width="100"/>
-            <el-table-column prop="url" label="JDBC_URL" />
-            <el-table-column prop="username" label="USERNAME" width="120" />
-            <el-table-column prop="password" label="PASSWORD" width="150" />
-            <el-table-column prop="asDefault" label="AS_DEFAULT" width="150">
-                <template #default="scope">
-                    <div style="display: flex; align-items: center">
-                        <el-popconfirm title="Are you sure to set this as default datasource?" @confirm="handleSetAsDefault(scope.row.id)" >
-                            <template #reference>
-                                <el-button v-if="scope.row.asDefault == 'Y'" type="success" round size="small" title="Set as default">{{ scope.row.asDefault }}</el-button>
-                                <el-button v-else type="danger" round size="small" title="Set as default">{{ scope.row.asDefault }}</el-button>
-                            </template>
-                        </el-popconfirm>
-                    </div>
-                </template>
-            </el-table-column>   
+            <el-table-column prop="name" label="NAME" />
+            <el-table-column prop="httpMethod" label="HTTP_METHOD" width="130"/>
+            <el-table-column prop="url" label="API_URL" />
+            <el-table-column prop="requestMediaType" label="REQUEST_MEDIA_TYPE" width="240" />  
             <el-table-column fixed="right" label="Operations" width="120">
                 <template #default="scope">
                     <el-button type="primary" :icon="Edit" circle size="small" title="Edit" @click="handleAddOrEdit(scope.row.id)"/>
-                    <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)"  v-if="false">
+                    <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)" v-if="false">
                         <template #reference>
                             <el-button type="danger" :icon="Delete" circle size="small" title="Delete"/>
                         </template>
@@ -54,8 +44,10 @@
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
 import { Plus, Edit, Delete, Open } from '@element-plus/icons-vue'
+import JsonViewer from 'vue-json-viewer'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
+import Utils from '@/util/utils.js'
 import { useProject } from "@/store/store.js"
  // 使普通数据变响应式的函数  
 import { storeToRefs } from 'pinia'
@@ -73,26 +65,19 @@ const data = ref({
 const tableDataList = ref([])
 
 function loadTableData(args) {
-    if(!args) {
-        args = {}
-    }
+    args = args ? args : {}
     args.projectId = activedProjectId.value
-    $axios.get('/datasource/list', {params: args}).then((response) => {
-        tableDataList.value = response.data
+    $axios.get('/api-definition/page', {params: args}).then((response) => {
+        tableDataList.value = response.data.records
     })
 }
 
-function handleSetAsDefault(id) {
-    $axios.post('/datasource/setAsDefault/' + id + "?projectId=" + activedProjectId.value).then((response) => {
-        loadTableData()
-    })
-}
 function handleAddOrEdit(id) {
     data.value.id = id ? id : null
     setDialogVisiable(true)
 }
 function handleDelete(index, row) {
-    $axios.delete('/datasource/' + row.id).then((response) => {
+    $axios.delete('/api-definition/' + row.id).then((response) => {
         tableDataList.value.splice(index, 1)
     })
 }

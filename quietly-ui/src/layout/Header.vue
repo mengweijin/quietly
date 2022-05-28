@@ -2,9 +2,9 @@
   <div>
       <el-row>
         <el-col :span="18">
-          <el-menu router mode="horizontal">
+          <el-menu router mode="horizontal" :default-active="activeMenu" @select="onSelectMenu">
             <el-menu-item :index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
-            <el-menu-item :index="'/'" style="height: var(--el-menu-item-height);">
+            <el-menu-item :index="'#'" style="height: var(--el-menu-item-height);">
               <span>当前项目：</span>
               <el-select v-model="activedProjectId" placeholder="选择项目" size="small" @change="onCurrentProjectIdChange">
                 <el-option v-for="item in projectDataList" :key="item.id" :label="item.name" :value="item.id" />
@@ -17,8 +17,7 @@
         </el-col>
         <el-col :span="6">
             <el-menu router mode="horizontal" style="justify-content:flex-end; ">
-              <!-- <el-menu-item v-bind:index="''"><el-icon><avatar /></el-icon>Admin</el-menu-item> -->
-              <el-menu-item :index="'/'"><el-icon><avatar /></el-icon>Admin</el-menu-item>
+              <el-menu-item :index="'/'"><el-icon><avatar /></el-icon>mengweijin</el-menu-item>
               <el-menu-item :index="'https://gitee.com/mengweijin/'">
                 <a href="https://gitee.com/mengweijin/" target="_blank" style="text-decoration:none;">
                   <img alt="Gitee" src="/favicon-gitee.ico" style="height: 18px;vertical-align: middle;"> Gitee
@@ -48,7 +47,7 @@ const $axios = inject('$axios')
 const store = useProject()
 // 解构并使数据具有响应式 ref
 const { activedProjectId, projectDataList } = storeToRefs(store)
-
+const activeMenu = ref('')
 /**
  * state、getters、actions 里面属性或者方法  都是通过 projectStore “点” 出来使用的
  * 如果想将状态数据解构出来直接使用  必须引入storeToRefs（否则不是响应式） 来自于 pinia（类似于 reactive响应式，解构使用toRefs）
@@ -92,7 +91,9 @@ function onCurrentProjectIdChange(projectId) {
     // 回首页
     window.location.href = '/'
 }
-
+function onSelectMenu(index, indexPath) {
+    activeMenu.value = index
+}
 onMounted(() => {
     // projectLocalStorage.removeProjectId() // only for test
     initProjectDataList()

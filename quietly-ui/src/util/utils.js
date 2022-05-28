@@ -45,6 +45,13 @@ const utils = {
         }
         return itemArray
     },
+    stringToJson: function(string) {
+        return JSON.parse(string)
+    },
+    jsonToString: function(json) {
+        return JSON.stringify(json)
+    },
+
 }
 
 export default utils
