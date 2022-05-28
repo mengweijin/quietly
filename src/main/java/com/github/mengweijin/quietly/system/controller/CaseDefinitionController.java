@@ -88,6 +88,11 @@ public class CaseDefinitionController  {
         caseDefinitionService.save(caseDefinition);
     }
 
+    @PostMapping("/copy/{id}")
+    public void copy(@PathVariable("id") Long id) {
+        caseDefinitionService.copy(id);
+    }
+
     /**
      * <p>
      * Update CaseDefinition

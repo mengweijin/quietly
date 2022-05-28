@@ -34,8 +34,7 @@
             <el-table-column prop="updateTime" label="UPDATE_TIME" width="180" />
             <el-table-column fixed="right" label="Operations" width="240">
                 <template #default="scope">
-                    <el-button type="primary" :icon="Tickets" circle size="small" title="Step detail"/>
-                    <el-button type="primary" :icon="Setting" circle size="small" title="Step setting"/>
+                    <el-button type="primary" :icon="Tickets" circle size="small" title="Step detail" @click="handleStepDetail(scope.row)"/>
                     <el-popconfirm title="Are you sure to run this test case?" @confirm="handleRunCase(scope.row)">
                         <template #reference>
                             <el-button type="primary" :icon="VideoPlay" circle size="small" title="Run Case"/>
@@ -43,6 +42,7 @@
                     </el-popconfirm>
                     
                     <el-button type="primary" :icon="Edit" circle size="small" title="Edit" @click="handleAddOrEdit(scope.row.id)"/>
+                    <el-button type="primary" :icon="CopyDocument" circle size="small" title="Copy" @click="handleCopy(scope.row.id)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)">
                         <template #reference>
                             <el-button type="danger" :icon="Delete" circle size="small" title="Delete"/>
@@ -58,7 +58,7 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import { Plus, Edit, Delete, VideoPlay, Setting, Tickets } from '@element-plus/icons-vue'
+import { Plus, Edit, Delete, VideoPlay, CopyDocument, Tickets } from '@element-plus/icons-vue'
 import JsonViewer from 'vue-json-viewer'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
@@ -103,6 +103,11 @@ function handleRunCase(row) {
 function handleAddOrEdit(id) {
     data.value.id = id ? id : null
     setDialogVisiable(true)
+}
+function handleCopy(id) {
+    $axios.post('/case-definition/copy/' + id).then((response) => {
+        loadTableData()
+    })
 }
 function handleDelete(index, row) {
     $axios.delete('/case-definition/' + row.id).then((response) => {

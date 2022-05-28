@@ -2,6 +2,7 @@ package com.github.mengweijin.quietly.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.mengweijin.quickboot.framework.util.Const;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.listener.event.CaseFailedEvent;
@@ -17,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -80,6 +82,22 @@ public class CaseDefinitionService extends ServiceImpl<CaseDefinitionMapper, Cas
 
     public void changeEnabled(Long id, String enabled) {
         this.lambdaUpdate().set(CaseDefinition::getEnabled, enabled).eq(CaseDefinition::getId, id).update();
+    }
+
+    public void copy(Long id) {
+        CaseDefinition caseDefinition = caseDefinitionMapper.selectById(id);
+        caseDefinition.setId(null);
+        caseDefinition.setName(caseDefinition.getName() + "(duplicate)");
+        caseDefinition.setEnabled(Const.N);
+        // 会自动回填 ID
+        caseDefinitionMapper.insert(caseDefinition);
+
+        List<StepDefinition> stepDefinitionList = stepDefinitionService.getByCaseIdOrderBySeqAsc(id);
+        stepDefinitionList = stepDefinitionList.stream().peek(step -> {
+            step.setId(null);
+            step.setCaseId(caseDefinition.getId());
+        }).collect(Collectors.toList());
+        stepDefinitionService.saveBatch(stepDefinitionList);
     }
 }
 
