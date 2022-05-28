@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -85,7 +86,7 @@ public class ActionCallApi extends AbstractStep {
         }
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<Object> responseEntity;
+        ResponseEntity<Object> responseEntity = null;
         try {
             ApiRequestActualInfoDto dto = new ApiRequestActualInfoDto();
             dto.setUrl(url);
@@ -96,12 +97,13 @@ public class ActionCallApi extends AbstractStep {
 
             responseEntity = restTemplate.exchange(url, apiDefinition.getHttpMethod(), httpEntity, Object.class);
         } catch (HttpStatusCodeException e) {
-            responseEntity = ResponseEntity
-                    .status(e.getRawStatusCode())
-                    .headers(e.getResponseHeaders())
-                    .body(e.getResponseBodyAsString());
+            responseEntity = ResponseEntity.status(e.getRawStatusCode()).headers(e.getResponseHeaders()).body(e.getResponseBodyAsString());
         } catch (JsonProcessingException e) {
-            throw new QuickBootException(e.getMessage());
+            responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            throw new QuickBootException(e);
+        } finally {
+            String body = this.getResponseEntityBody(responseEntity);
+            stepDefinitionService.updateActualValueById(stepId, body);
         }
 
         Map<String, Object> map = new HashMap<>(1);
@@ -134,5 +136,20 @@ public class ActionCallApi extends AbstractStep {
         baseUrl = baseUrl.endsWith(Const.SLASH) ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
         url = url.startsWith(Const.SLASH) ? url.substring(1) : url;
         return String.join(Const.SLASH, baseUrl, url);
+    }
+
+    private String getResponseEntityBody(ResponseEntity<Object> responseEntity) {
+        if(responseEntity == null) {
+            return Const.EMPTY;
+        }
+        Object body = responseEntity.getBody();
+        if(body == null) {
+            return Const.EMPTY;
+        }
+        try {
+            return objectMapper.writeValueAsString(body);
+        } catch (JsonProcessingException e) {
+            throw new QuickBootException(e);
+        }
     }
 }

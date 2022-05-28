@@ -44,7 +44,7 @@ public class StepDefinitionController  {
     @Autowired
     private StepDefinitionService stepDefinitionService;
 
-    @Cacheable("stepDefinition")
+    @Cacheable("STEP_DEFINITION_STEP_TYPE_LIST")
     @GetMapping("/getStepTypes")
     public List<CaseStepDto> getStepTypes() {
         return Arrays.stream(StepType.values())

@@ -32,15 +32,22 @@
             </el-table-column>
             <el-table-column prop="createTime" label="CREATE_TIME" width="180" />
             <el-table-column prop="updateTime" label="UPDATE_TIME" width="180" />
-            <el-table-column fixed="right" label="Operations" width="120">
+            <el-table-column fixed="right" label="Operations" width="240">
                 <template #default="scope">
+                    <el-button type="primary" :icon="Tickets" circle size="small" title="Step detail"/>
+                    <el-button type="primary" :icon="Setting" circle size="small" title="Step setting"/>
+                    <el-popconfirm title="Are you sure to run this test case?" @confirm="handleRunCase(scope.row)">
+                        <template #reference>
+                            <el-button type="primary" :icon="VideoPlay" circle size="small" title="Run Case"/>
+                        </template>
+                    </el-popconfirm>
+                    
                     <el-button type="primary" :icon="Edit" circle size="small" title="Edit" @click="handleAddOrEdit(scope.row.id)"/>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)">
                         <template #reference>
                             <el-button type="danger" :icon="Delete" circle size="small" title="Delete"/>
                         </template>
                     </el-popconfirm>
-                    
                 </template>
             </el-table-column>
         </el-table>
@@ -51,7 +58,7 @@
 
 <script setup>
 import { ref, reactive, provide, inject, readonly } from "vue"
-import { Plus, Edit, Delete, Open } from '@element-plus/icons-vue'
+import { Plus, Edit, Delete, VideoPlay, Setting, Tickets } from '@element-plus/icons-vue'
 import JsonViewer from 'vue-json-viewer'
 import TableSearch from './Search.vue'
 import TableEdit from './Edit.vue'
@@ -86,6 +93,13 @@ function handleChangeEnabled(row) {
         row.enabled = enabled
     })
 }
+
+function handleRunCase(row) {
+    $axios.get('/case-definition/runCase/' + row.id).then((response) => {
+        row.status = 'RUNNING'
+    })
+}
+
 function handleAddOrEdit(id) {
     data.value.id = id ? id : null
     setDialogVisiable(true)

@@ -56,7 +56,7 @@ create TABLE QTL_API_DEFINITION (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='QTL_API_DEFINITION';
 
-insert into QTL_API_DEFINITION values (1, 1, 'GET', '/step-definition/getStepList', '{"token": "${token}"}', '{"username": "admin", "status": "Y"}', '获取系统 step 定义集合', '获取步骤定义列表', 'application/json', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_API_DEFINITION values (1, 1, 'GET', '/step-definition/getStepTypes', '{"token": "${token}"}', '{"username": "admin", "status": "Y"}', '获取系统 step 定义集合', '获取步骤定义列表', 'application/json', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 
