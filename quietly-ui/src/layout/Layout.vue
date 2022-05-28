@@ -1,22 +1,19 @@
 <template>
   <el-container>
-      <el-header> <Header/> </el-header>
-        <el-container>
-          <ASide/>
-          <el-main> <router-view /> </el-main>
-        </el-container>
-      <el-footer> <Footer/> </el-footer>
-    </el-container>
+    <el-header> <Header/> </el-header>
+    <router-view />
+    <el-footer> <Footer/> </el-footer>
+  </el-container>
 </template>
 
 <script setup>
 import Header from './Header.vue'
 import Footer from './Footer.vue'
-import ASide from './ASide.vue'
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .el-header {
     background-color: #393D49;
     color: #D2D2D2;

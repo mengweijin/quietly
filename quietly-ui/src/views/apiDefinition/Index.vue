@@ -1,5 +1,5 @@
 <template>
-    <div style="padding: 20px 20px">
+    <div>
         <TableSearch @searchEmit="loadTableData"></TableSearch>
 
         <div class="flex" style="margin: 10px 10px;">

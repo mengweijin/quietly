@@ -1,12 +1,12 @@
 <template>
-    <div style="padding: 20px 20px">
+    <div>
         <TableSearch @searchEmit="loadTableData"></TableSearch>
 
         <div class="flex" style="margin: 10px 10px;">
             <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
         </div>
 
-        <el-table :data="projectDataList" stripe border highlight-current-row height="calc(100vh - 60px - 40px - 150px)">
+        <el-table :data="projectDataList" stripe highlight-current-row height="calc(100vh - 60px - 40px - 145px)">
             <el-table-column prop="id" label="ID" width="180" />
             <el-table-column prop="name" label="NAME" />
             <el-table-column prop="baseUrl" label="BASE_URL" />

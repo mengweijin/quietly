@@ -1,47 +1,54 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '../layout/Layout.vue'
-import LayoutWithOutASide from '../layout/LayoutWithOutASide.vue'
+import LayoutMain from '../layout/LayoutMain.vue'
+import LayoutAsideMain from '../layout/LayoutAsideMain.vue'
 
 const routes = [
     { 
         path: '/', 
-        name: 'home',
         component: Layout,
-        redirect: '/home',
+        redirect: '/quietly/home',
         children: [
             {
-                path: '/home',
-                components: {
-                    default: () => import ('../views/Home.vue')
-                }
+                path: '/project',
+                component: LayoutMain,
+                children: [
+                    {
+                        path: '/project/home',
+                        components: {
+                            default: () => import ('@/views/project/Index.vue')
+                        }
+                    }
+                ]
             },
             {
-                path: '/datasource',
-                components: {
-                    default: () => import ('@/views/datasource/Index.vue')
-                }
+                path: '/quietly',
+                component: LayoutAsideMain,
+                children: [
+                    {
+                        path: 'home',
+                        components: {
+                            default: () => import ('../views/Home.vue')
+                        }
+                    },
+                    {
+                        path: 'datasource',
+                        components: {
+                            default: () => import ('@/views/datasource/Index.vue')
+                        }
+                    },
+                    {
+                        path: 'api-definition',
+                        components: {
+                            default: () => import ('@/views/apiDefinition/Index.vue')
+                        }
+                    }
+                ]
             },
-            {
-                path: '/api-definition',
-                components: {
-                    default: () => import ('@/views/apiDefinition/Index.vue')
-                }
-            }
+            
         ]
     }, 
-    {
-        path: '/project',
-        name: 'project',
-        component: LayoutWithOutASide,
-        children: [
-            {
-                path: 'home',
-                components: {
-                    default: () => import ('@/views/project/Index.vue')
-                }
-            }
-        ]
-    }
+    
 ]
 
 // 路由根路径：'/ui/'; 为什么设置路由根路径？避免路由路径和后台接口路径一样，当刷新页面时变成调用后台接口而返回 JSON 的问题。

@@ -4,7 +4,7 @@
         <el-col :span="18">
           <el-menu router mode="horizontal" :default-active="activeMenu" @select="onSelectMenu">
             <el-menu-item :index="'/'"><img src="/logo.png" style="height: var(--el-menu-item-height);"></el-menu-item>
-            <el-menu-item :index="'#'" style="height: var(--el-menu-item-height);">
+            <el-menu-item :index="'/'" style="height: var(--el-menu-item-height);">
               <span>当前项目：</span>
               <el-select v-model="activedProjectId" placeholder="选择项目" size="small" @change="onCurrentProjectIdChange">
                 <el-option v-for="item in projectDataList" :key="item.id" :label="item.name" :value="item.id" />
