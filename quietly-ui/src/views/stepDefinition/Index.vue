@@ -92,7 +92,8 @@ const tableDataList = ref([])
 
 const data = ref({
     visiable: false,
-    id: null
+    id: null,
+    caseId: null
 })
 
 const apiDetailData = ref({ visiable: false, id: null })
@@ -127,6 +128,7 @@ function handleDelete(index, row) {
 
 function handleAddOrEdit(id) {
     data.value.id = id ? id : null
+    data.value.caseId = caseId.value
     setDialogVisiable(true)
 }
 
