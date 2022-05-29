@@ -17,7 +17,7 @@
           <template #title><el-icon><Platform /></el-icon> <span>接口测试</span></template>
           <el-menu-item index="/"><el-icon><Tickets /></el-icon>接口测试用例</el-menu-item>
         </el-sub-menu> -->
-        <el-menu-item index="/quietly/datasource">              <el-icon><QuestionFilled /></el-icon><template #title>使用文档</template></el-menu-item>
+        <el-menu-item index="/quietly/datasource" disabled>              <el-icon><QuestionFilled /></el-icon><template #title>使用文档</template></el-menu-item>
       </el-menu>
     </el-aside>
     <el-main> <router-view /> </el-main>

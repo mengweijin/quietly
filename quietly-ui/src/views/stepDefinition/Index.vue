@@ -5,6 +5,9 @@
             <el-breadcrumb-item>测试用例 ID：{{ route.query.caseId }}</el-breadcrumb-item>
             <el-breadcrumb-item>测试用例名称：{{ route.query.name }}</el-breadcrumb-item>
         </el-breadcrumb>
+        <el-breadcrumb separator="|" style="margin-bottom: 20px;">
+            <el-breadcrumb-item><span style="color: red;">提示：单元格文字太多被隐藏，想复制文本？鼠标快速三次单机单元格，然后 Ctrl + C 即可复制。</span></el-breadcrumb-item>
+        </el-breadcrumb>
 
         <div class="flex" style="margin: 10px 10px;">
             <el-button type="primary" :icon="Plus" @click="handleAddOrEdit()">添加</el-button>
@@ -13,25 +16,29 @@
         <el-table :data="tableDataList" stripe highlight-current-row height="calc(100vh - 60px - 40px - 145px)">
             <el-table-column type="expand">
                 <template #default="props">
+                    <el-table :data="[tableDataList[props.$index]]" stripe>
+                        <el-table-column prop="id" label="ID" width="180"></el-table-column>
+                        <el-table-column prop="caseId" label="CASE_ID" width="180"></el-table-column>
+                        <el-table-column prop="apiId" label="API_ID" width="180">
+                            <template #default="scope">
+                                <a href="#" title="Detail" v-if="scope.row.apiId" @click="openApiDetailDialog(scope.row.apiId)">{{scope.row.apiId}}</a>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="datasourceId" label="DATASOURCE_ID" width="180"></el-table-column>
+                        <el-table-column prop="createTime" label="CREATE_TIME"></el-table-column>
+                    </el-table>
                     <div>
-                        <p>ID: {{ props.row.id }}</p>
-                        <p>CASE_ID: {{ props.row.caseId }}</p>
-                        <p>CREATE_TIME: {{ props.row.createTime }}</p>
-                        <p>UPDATE_TIME: {{ props.row.updateTime }}</p>
-                        <p>EXPECT_VALUE: {{ props.row.expectValue }}</p>
-                        <p>ACTUAL_VALUE: {{ props.row.actualValue }}</p>
-                        <p>ERROR_INFO: {{ props.row.errorInfo }}</p>
-                        <p>DATASOURCE_ID: {{ props.row.datasourceId }}</p>
-                        <p>API_ID: {{ props.row.apiId }}</p>
-                        <p>API_ARGS: {{ props.row.apiArgs }}</p>
-                        <p style="border-style:solid;border-width:1px;">API_ARGS: <json-viewer copyable preview-mode show-double-quotes :value="JSON.parse(props.row.apiArgs)"></json-viewer></p>
-                        <p style="border-style:solid;border-width:1px;">API_REQUEST_ACTUAL_INFO: <json-viewer copyable preview-mode show-double-quotes :value="JSON.parse(props.row.apiRequestActualInfo)"></json-viewer></p>
+                        <p><span style="font-weight: bold;">API_ARGS: </span>{{ props.row.apiArgs }}</p>
+                        <p><span style="font-weight: bold;">API_REQUEST_ACTUAL_INFO:</span> {{ props.row.apiRequestActualInfo }}</p>
+                        <p><span style="font-weight: bold;">EXPECT_VALUE:</span> {{ props.row.expectValue }}</p>
+                        <p><span style="font-weight: bold;">ACTUAL_VALUE:</span> {{ props.row.actualValue }}</p>
+                        <p><span style="font-weight: bold;">ERROR_INFO:</span> {{ props.row.errorInfo }}</p>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="stepType" label="STEP_TYPE" width="350" />
-            <el-table-column prop="expression" label="EXPRESSION" />
-            <el-table-column prop="expectValue" label="EXPECT_VALUE" />
+            <el-table-column prop="stepType" label="STEP_TYPE" width="320"/>
+            <el-table-column prop="expression" label="EXPRESSION" show-overflow-tooltip/>
+            <el-table-column prop="expectValue" label="EXPECT_VALUE" show-overflow-tooltip/>
             <el-table-column prop="seq" label="SEQUENCE" width="160">
                 <template #default="scope">
                     <el-button type="primary" round size="small" :icon="Top" title="up" :disabled="scope.$index == 0" @click="handleSequenceUp(scope.$index, scope.row)"></el-button>
@@ -50,6 +57,7 @@
                     </div>
                 </template>
             </el-table-column>
+            <el-table-column prop="updateTime" label="UPDATE_TIME" width="180"></el-table-column>
             <el-table-column fixed="right" label="Operations" width="120">
                 <template #default="scope">
                     <el-button type="primary" :icon="CopyDocument" circle size="small" title="Copy" @click="handleCopy(scope.row.id)"/>
@@ -65,6 +73,7 @@
         </el-table>
 
         <TableEdit :data="data" @closeDialogEmit="setDialogVisiable(false)" @refreshEmit="loadTableData()"></TableEdit>
+        <ApiDetail :data="apiDetailData"></ApiDetail>
     </div>
 </template>
 
@@ -74,6 +83,7 @@ import { useRoute } from 'vue-router'
 import JsonViewer from 'vue-json-viewer'
 import { Plus, Edit, Delete, CopyDocument, Bottom, Top } from '@element-plus/icons-vue'
 import TableEdit from './Edit.vue'
+import ApiDetail from '@/views/apiDefinition/Detail.vue'
 const route = useRoute()
 const $axios = inject('$axios')
 const caseId = ref(route.query.caseId)
@@ -84,6 +94,8 @@ const data = ref({
     visiable: false,
     id: null
 })
+
+const apiDetailData = ref({ visiable: false, id: null })
 
 function loadTableData(args) {
     args = args ? args : {}
@@ -121,7 +133,10 @@ function handleAddOrEdit(id) {
 function setDialogVisiable(isVisiable) {
     data.value.visiable = isVisiable
 }
-
+function openApiDetailDialog(apiId) {
+    apiDetailData.value.id = apiId
+    apiDetailData.value.visiable = true
+}
 onMounted(() => {
     loadTableData()
 })

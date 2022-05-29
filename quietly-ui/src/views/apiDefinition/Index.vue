@@ -9,13 +9,16 @@
         <el-table :data="tableDataList" stripe highlight-current-row height="calc(100vh - 60px - 40px - 150px)">
             <el-table-column type="expand">
                 <template #default="props">
+                    <el-table :data="[tableDataList[props.$index]]" stripe>
+                        <el-table-column prop="projectId" label="PROJECT_ID" width="180"></el-table-column>
+                        <el-table-column prop="createTime" label="CREATE_TIME" width="180"></el-table-column>
+                        <el-table-column prop="updateTime" label="UPDATE_TIME" width="180"></el-table-column>
+                    </el-table>
                     <div>
-                        <p>PROJECT_ID: {{ props.row.projectId }}</p>
-                        <p>CREATE_TIME: {{ props.row.createTime }}</p>
-                        <p>UPDATE_TIME: {{ props.row.updateTime }}</p>
-                        <p>DESCRIPTION: {{ props.row.description }}</p>
-                        <p style="border-style:solid;border-width:1px;">HEADERS_SAMPLE: <json-viewer copyable preview-mode show-double-quotes :value="JSON.parse(props.row.headersSample)"></json-viewer></p>
-                        <p style="border-style:solid;border-width:1px;">BODY_ARGS_SAMPLE: <json-viewer copyable preview-mode show-double-quotes :value="JSON.parse(props.row.bodyArgsSample)"></json-viewer></p>
+                        <p><span style="font-weight: bold;">HEADERS_SAMPLE: </span>{{ props.row.headersSample }}</p>
+                        <p><span style="font-weight: bold;">BODY_ARGS_SAMPLE: </span>{{ props.row.bodyArgsSample }}</p>
+                        <p><span style="font-weight: bold;">DESCRIPTION: </span>{{ props.row.description }}</p>
+                        <!-- <p style="border-style:solid;border-width:1px;">BODY_ARGS_SAMPLE: <json-viewer copyable preview-mode show-double-quotes :value="JSON.parse(props.row.bodyArgsSample)"></json-viewer></p> -->
                     </div>
                 </template>
             </el-table-column>

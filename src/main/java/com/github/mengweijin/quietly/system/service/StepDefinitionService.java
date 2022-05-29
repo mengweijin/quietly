@@ -71,7 +71,6 @@ public class StepDefinitionService extends ServiceImpl<StepDefinitionMapper, Ste
         }
         StepDefinition stepDefinition = new StepDefinition();
         stepDefinition.setId(stepId);
-        stepDefinition.setExpression(dto.getUrl());
         stepDefinition.setApiRequestActualInfo(info);
         stepDefinitionMapper.updateById(stepDefinition);
     }
