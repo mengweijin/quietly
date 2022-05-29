@@ -5,7 +5,7 @@
                 <el-input v-model="form.entity.id" disabled autocomplete="off" />
             </el-form-item>
             <el-form-item label="STEP_TYPE" prop="stepType" :label-width="formLabelWidth">
-                <el-select v-model="form.entity.stepType" clearable filterable style="width: 100%;" @change="onStepTypeChange">
+                <el-select v-model="form.entity.stepType" clearable filterable style="width: 100%;" @change="setFormItemVisiable">
                     <el-option v-for="item in stepTypeOptions" :key="item.key" :label="'【' + item.key+ '】' + item.name" :value="item.key"/>
                 </el-select>
             </el-form-item>
@@ -100,7 +100,7 @@ function onOpenDialog() {
     if(data.value.id) {
         $axios.get('/step-definition/' + data.value.id).then((response) => {
             form.value.entity = response.data
-            debugger
+            setFormItemVisiable(form.value.entity.stepType)
         })
     } else {
         form.value.entity = {
@@ -133,9 +133,8 @@ function resetFormItemVisiable() {
         expectValueShow: false,
     }
 }
-function onStepTypeChange(val) {
+function setFormItemVisiable(val) {
     resetFormItemVisiable()
-    debugger
     if('ACTION_CALL_API' == val) {
         formItemVisiable.value.apiIdShow = true
         formItemVisiable.value.apiArgsShow = true
