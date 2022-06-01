@@ -15,18 +15,13 @@
     <description>A application test platform</description>
 
     <properties>
-        <fastjson.version>2.0.3</fastjson.version>
+
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.mengweijin</groupId>
             <artifactId>quickboot-mybatis-plus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

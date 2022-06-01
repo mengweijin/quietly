@@ -13,6 +13,7 @@
     <result column="NAME" property="name" />
     <result column="DESCRIPTION" property="description" />
     <result column="STATUS" property="status" />
+    <result column="CASE_TYPE" property="caseType" />
     <result column="ENABLED" property="enabled" />
     <result column="DELETED" property="deleted" />
     </resultMap>
@@ -24,7 +25,12 @@
         UPDATE_BY,
         UPDATE_TIME,
         PROJECT_ID,
-        NAME, DESCRIPTION, STATUS, ENABLED, DELETED
+        NAME,
+        DESCRIPTION,
+        CASE_TYPE,
+        STATUS,
+        ENABLED,
+        DELETED
     </sql>
 
 </mapper>

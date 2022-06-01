@@ -65,6 +65,7 @@ create TABLE QTL_CASE_DEFINITION (
   id bigint NOT NULL COMMENT 'id',
   project_id bigint NOT NULL COMMENT 'QTL_PROJECT id',
   name varchar(100) NOT NULL COMMENT 'name',
+  case_type varchar(20) NOT NULL COMMENT 'case type. Refer to enum ${@link com.github.mengweijin.quietly.enums.CaseType}',
   description varchar(500) NOT NULL COMMENT 'description',
   status varchar(20) NOT NULL DEFAULT 'CREATED' COMMENT '最新执行状态。Refer to com.github.mengweijin.quietly.enums.CaseStatus enum.',
   enabled char(1) NOT NULL DEFAULT 'Y' COMMENT 'Y, N',
@@ -76,7 +77,7 @@ create TABLE QTL_CASE_DEFINITION (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='QTL_CASE_DEFINITION';
 
-insert into QTL_CASE_DEFINITION values (1, 1, '获取步骤定义列表接口测试', '获取步骤定义列表-成功', 'CREATED', 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_CASE_DEFINITION values (1, 1, '获取步骤定义列表接口测试', 'API', '获取步骤定义列表-成功', 'CREATED', 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 drop table IF EXISTS QTL_STEP_DEFINITION;
