@@ -44,10 +44,38 @@ const routes = [
                         }
                     },
                     {
-                        path: 'case-definition',
+                        path: 'case-definition-api',
                         components: {
                             default: () => import ('@/views/caseDefinition/Index.vue')
-                        }
+                        },
+                        props: { caseType: 'API' }
+                    },
+                    {
+                        path: 'case-definition-e2e-flow',
+                        components: {
+                            default: () => import ('@/views/caseDefinition/Index.vue')
+                        },
+                        props: { caseType: 'E2E_FLOW' }
+                    },
+                    {
+                        path: 'case-definition-web-ui',
+                        components: {
+                            default: () => import ('@/views/caseDefinition/Index.vue')
+                        },
+                        props: { caseType: 'WEB_UI' }
+                    },
+                    {
+                        path: 'case-definition-mobile-ui',
+                        components: {
+                            default: () => import ('@/views/caseDefinition/Index.vue')
+                        },
+                        props: { caseType: 'MOBILE_UI' }
+                    },
+                    {
+                        path: 'case-manual-testing',
+                        components: {
+                            default: () => import ('@/views/caseDefinition/Index.vue')
+                        },
                     },
                     {
                         path: 'step-definition',

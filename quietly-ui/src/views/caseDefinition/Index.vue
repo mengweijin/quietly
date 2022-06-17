@@ -17,6 +17,7 @@
             </el-table-column>
             <el-table-column prop="id" label="ID" width="180" />
             <el-table-column prop="name" label="NAME" />
+            <el-table-column prop="caseType" label="CASE_TYPE" width="120"/>
             <el-table-column prop="status" label="STATUS" width="130">
                 <template #default="scope">
                     <div style="display: flex; align-items: center">
@@ -70,8 +71,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, provide, inject, readonly } from "vue"
-import {useRouter} from 'vue-router'
+import { ref, toRef, reactive, provide, inject, readonly } from "vue"
+import { useRouter, useRoute } from 'vue-router'
 import { Plus, Edit, Delete, VideoPlay, CopyDocument, Tickets, Setting } from '@element-plus/icons-vue'
 import JsonViewer from 'vue-json-viewer'
 import TableSearch from './Search.vue'
@@ -86,7 +87,9 @@ const store = useProject()
 const { activedProjectId } = storeToRefs(store)
 const $axios = inject('$axios')
 const router = useRouter()
-
+const route = useRoute()
+const caseType = ref(route.query.caseType)
+debugger
 const data = ref({
     visiable: false,
     id: null,
@@ -97,6 +100,8 @@ const tableDataList = ref([])
 function loadTableData(args) {
     args = args ? args : {}
     args.projectId = activedProjectId.value
+
+    args.caseType = caseType.value
     $axios.get('/case-definition/page', {params: args}).then((response) => {
         tableDataList.value = response.data.records
     })

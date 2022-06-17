@@ -27,7 +27,7 @@
                     <div style="display: flex; align-items: center">
                         <el-popconfirm title="Are you sure to set this as default datasource?" @confirm="handleSetAsDefault(scope.row.id)" >
                             <template #reference>
-                                <el-button v-if="scope.row.asDefault == 'Y'" type="success" round size="small" title="Set as default">{{ scope.row.asDefault }}</el-button>
+                                <el-button v-if="scope.row.asDefault == 'Y'" type="success" round size="small" title="Set as default" disabled>{{ scope.row.asDefault }}</el-button>
                                 <el-button v-else type="danger" round size="small" title="Set as default">{{ scope.row.asDefault }}</el-button>
                             </template>
                         </el-popconfirm>
