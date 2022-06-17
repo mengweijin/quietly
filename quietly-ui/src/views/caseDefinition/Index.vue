@@ -10,12 +10,13 @@
             <el-table-column type="expand">
                 <template #default="props">
                     <div>
+                        <p>ID: {{ props.row.id }}</p>
                         <p>PROJECT_ID: {{ props.row.projectId }}</p>
                         <p>DESCRIPTION: {{ props.row.description }}</p>
+                        <p>CREATE_TIME: {{ props.row.createTime }}</p>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="id" label="ID" width="180" />
             <el-table-column prop="name" label="NAME" />
             <el-table-column prop="caseType" label="CASE_TYPE" width="120"/>
             <el-table-column prop="status" label="STATUS" width="130">
@@ -41,7 +42,6 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="CREATE_TIME" width="180" />
             <el-table-column prop="updateTime" label="UPDATE_TIME" width="180" />
             <el-table-column fixed="right" label="Operations" width="240">
                 <template #default="scope">

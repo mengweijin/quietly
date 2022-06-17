@@ -7,7 +7,7 @@
       </div>
       
       <el-menu router mode="vertical" :collapse="isCollapse" :collapse-transition="false" unique-opened :default-active="activeMenu" @select="onSelectMenu">
-        <el-menu-item index="/quietly/datasource">                          <el-icon><Coin /></el-icon><template #title>数据库管理</template></el-menu-item>
+        <el-menu-item index="/quietly/datasource">                          <el-icon><Coin /></el-icon><template #title>数据库配置</template></el-menu-item>
         <el-menu-item index="/quietly/api-definition">                      <el-icon><Link /></el-icon><template #title>接口定义</template></el-menu-item>
         <el-menu-item index="/quietly/case-definition-api">                 <el-icon><Tickets /></el-icon><template #title>【接口】测试用例</template></el-menu-item>
         <el-menu-item index="/quietly/case-definition-e2e-flow">            <el-icon><Tickets /></el-icon><template #title>【E2E】测试用例</template></el-menu-item>
