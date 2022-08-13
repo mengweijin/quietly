@@ -2,7 +2,7 @@ package com.github.mengweijin.quietly.step;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
+import com.github.mengweijin.quickboot.exception.QuickBootClientException;
 import com.github.mengweijin.quietly.system.entity.Datasource;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;
 import com.github.mengweijin.quietly.system.service.DatasourceService;

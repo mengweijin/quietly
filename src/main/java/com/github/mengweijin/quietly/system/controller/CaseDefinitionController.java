@@ -2,7 +2,7 @@ package com.github.mengweijin.quietly.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quickboot.util.Const;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.system.entity.CaseDefinition;
 import com.github.mengweijin.quietly.system.service.CaseDefinitionService;

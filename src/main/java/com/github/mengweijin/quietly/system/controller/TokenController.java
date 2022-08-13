@@ -1,7 +1,7 @@
 package com.github.mengweijin.quietly.system.controller;
 
 import cn.hutool.core.util.IdUtil;
-import com.github.mengweijin.quickboot.framework.domain.R;
+import com.github.mengweijin.quickboot.domain.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

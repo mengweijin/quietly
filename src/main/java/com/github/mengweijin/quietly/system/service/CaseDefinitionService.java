@@ -2,7 +2,7 @@ package com.github.mengweijin.quietly.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quickboot.util.Const;
 import com.github.mengweijin.quietly.config.thread.ProjectThreadPoolFactory;
 import com.github.mengweijin.quietly.config.thread.RunCaseTask;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;

@@ -1,6 +1,6 @@
 package com.github.mengweijin.quietly.step;
 
-import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
+import com.github.mengweijin.quickboot.exception.QuickBootException;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.listener.event.StepFailedEvent;
 import com.github.mengweijin.quietly.listener.event.StepStartEvent;

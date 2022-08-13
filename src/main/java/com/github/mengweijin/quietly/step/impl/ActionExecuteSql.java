@@ -1,8 +1,8 @@
 package com.github.mengweijin.quietly.step.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
-import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quickboot.exception.QuickBootClientException;
+import com.github.mengweijin.quickboot.util.Const;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.step.AbstractExecuteSql;
 import com.github.mengweijin.quietly.system.entity.StepDefinition;

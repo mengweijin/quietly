@@ -33,7 +33,7 @@ create TABLE QTL_DATASOURCE (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='QTL_DATASOURCE';
 
-insert into QTL_DATASOURCE values (1, 1, 'Quietly', 'H2', 'jdbc:h2:file:./h2/quickboot;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL', 'sa', null, 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
+insert into QTL_DATASOURCE values (1, 1, 'Quietly', 'H2', 'jdbc:h2:file:./h2/quickboot;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL', 'sa', null, 'Y', 0, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 
 

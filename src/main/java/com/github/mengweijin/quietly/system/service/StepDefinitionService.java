@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.mengweijin.quickboot.framework.exception.QuickBootException;
+import com.github.mengweijin.quickboot.exception.QuickBootException;
 import com.github.mengweijin.quickboot.mybatis.entity.BaseEntity;
 import com.github.mengweijin.quietly.enums.CaseStepStatus;
 import com.github.mengweijin.quietly.system.dto.ApiRequestActualInfoDto;
