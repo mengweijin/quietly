@@ -16,7 +16,7 @@
     <description>A application test platform</description>
 
     <properties>
-        <quickboot.version>1.1.0-SNAPSHOT</quickboot.version>
+        <quickboot.version>1.1.0</quickboot.version>
     </properties>
 
     <dependencies>
@@ -40,7 +40,7 @@
             <plugin>
                 <groupId>com.github.mengweijin</groupId>
                 <artifactId>code-generator-maven-plugin</artifactId>
-                <version>1.0.14</version>
+                <version>1.0.15</version>
                 <configuration>
                     <parameters>
                         <outputPackage>com.github.mengweijin.quietly.system</outputPackage>
