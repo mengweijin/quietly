@@ -21,4 +21,7 @@
 ## 介绍
 接口自动化测试平台
 
+### 预览
+![image](docs/image/test_case.png)
 
+![image](docs/image/test_step.png)
