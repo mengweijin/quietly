@@ -1,1 +1,0 @@
-import{_ as t,m as o,o as _,bs as s,bt as a,h as c}from"./index.bb53805e.js";var r="/logo-16x9-1794x1009.png";const d={},n=e=>(s("data-v-2dc5a31a"),e=e(),a(),e),p={style:{"text-align":"center"}},i=n(()=>c("img",{src:r},null,-1)),l=[i];function m(e,u){return _(),o("div",p,l)}var h=t(d,[["render",m],["__scopeId","data-v-2dc5a31a"]]);export{h as default};
