@@ -19,7 +19,12 @@
 
 
 ## 介绍
-接口自动化测试平台
+接口自动化测试平台; 
+
+启动后端程序，直接访问：http://localhost:8080/
+
+#### 软件技术
+* 前端：Vue3, Element-Plus, SpringBoot, MyBatis-Plus
 
 ### 预览
 ![image](docs/image/test_case.png)
