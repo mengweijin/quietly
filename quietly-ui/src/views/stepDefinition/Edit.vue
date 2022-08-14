@@ -28,8 +28,11 @@
                 <el-col :span="2" style="text-align: right;">URL:</el-col>
                 <el-col :span="12"><el-input disabled/></el-col>
             </el-form-item>
-            <el-form-item label="API_ARGS" prop="apiArgs" :label-width="formLabelWidth" v-if="formItemVisiable.apiArgsShow">
-                <el-input v-model="form.entity.apiArgs" type="textarea" clearable autocomplete="off" placeholder='Data Format: {"headers": {"token": "${token}"},"requestBody": {}}'/>
+            <el-form-item label="API_HEADERS" prop="apiHeaders" :label-width="formLabelWidth" v-if="formItemVisiable.apiArgsShow">
+                <el-input v-model="form.entity.apiHeaders" type="textarea" clearable autocomplete="off" placeholder='Data Format: {"token": "${token}"}'/>
+            </el-form-item>
+            <el-form-item label="API_BODY_ARGS" prop="apiBodyArgs" :label-width="formLabelWidth" v-if="formItemVisiable.apiArgsShow">
+                <el-input v-model="form.entity.apiBodyArgs" type="textarea" clearable autocomplete="off" placeholder='Data Format: {"username": "jack", "userId": "${userId}"}'/>
             </el-form-item>
             <el-form-item label="EXPECT_VALUE" prop="expectValue" :label-width="formLabelWidth" v-if="formItemVisiable.expectValueShow">
                 <el-input v-model="form.entity.expectValue" type="textarea" clearable autocomplete="off" placeholder='For Example: {"username": "Jack"} or plain text'/>
@@ -100,6 +103,7 @@ function onOpenDialog() {
     if(data.value.id) {
         $axios.get('/step-definition/' + data.value.id).then((response) => {
             form.value.entity = response.data
+            debugger
             setFormItemVisiable(form.value.entity.stepType)
         })
     } else {

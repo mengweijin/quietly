@@ -11,7 +11,6 @@ import com.github.mengweijin.quickboot.util.Const;
 import com.github.mengweijin.quietly.enums.StepType;
 import com.github.mengweijin.quietly.step.AbstractStep;
 import com.github.mengweijin.quietly.step.StepArgs;
-import com.github.mengweijin.quietly.system.dto.ApiArgsDto;
 import com.github.mengweijin.quietly.system.dto.ApiRequestActualInfoDto;
 import com.github.mengweijin.quietly.system.entity.ApiDefinition;
 import com.github.mengweijin.quietly.system.entity.Project;
@@ -71,18 +70,16 @@ public class ActionCallApi extends AbstractStep {
 
         String url = this.processPlaceholder(this.getApiUrl(apiDefinition), argsMap);
 
-        String requestMediaType = apiDefinition.getRequestMediaType();
-
-        String apiArgs =  this.processPlaceholder(stepDefinition.getApiArgs(), argsMap);
         // header
+        String requestMediaType = apiDefinition.getRequestMediaType();
         HttpHeaders headers = new HttpHeaders();
-        String requestBody = "";
-        if(StrUtil.isNotBlank(apiArgs)) {
-            ApiArgsDto apiArgsDto = objectMapper.convertValue(apiArgs, ApiArgsDto.class);
-            headers = apiArgsDto.getHeaders();
+        String apiHeaders = this.processPlaceholder(stepDefinition.getApiHeaders(), argsMap);
+        if(StrUtil.isNotBlank(apiHeaders)) {
+            headers = objectMapper.convertValue(apiHeaders, HttpHeaders.class);
             headers.setContentType(MediaType.parseMediaType(requestMediaType));
-            requestBody = apiArgsDto.getRequestBody();
         }
+
+        String requestBody =  this.processPlaceholder(stepDefinition.getApiBodyArgs(), argsMap);
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(requestBody, headers);
         ResponseEntity<Object> responseEntity = null;

@@ -64,16 +64,23 @@ public class StepDefinition extends BaseEntity {
      * 调用接口行为才用得到。固定JSON格式(其中的值可以使用占位符，以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。)
      *
      * {
-     *      "headers": {
-     *          "token": "${token}"
-     *      },
-     *      "requestBody": {
-     *
-     *      }
+     *      "token": "${token}"
      * }
      */
-    @TableField("API_ARGS")
-    private String apiArgs;
+    @TableField("API_HEADERS")
+    private String apiHeaders;
+
+
+    /**
+     * 调用接口行为才用得到。固定JSON格式(其中的值可以使用占位符，以 ${} 作为占位符来引用上一个执行步骤传递过来的参数。)
+     *
+     * {
+     *      "username": "jack"
+     *      "userId": "${userId}"
+     * }
+     */
+    @TableField("API_BODY_ARGS")
+    private String apiBodyArgs;
 
     /**
      * Expect value.

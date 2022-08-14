@@ -28,7 +28,8 @@
                         <el-table-column prop="createTime" label="CREATE_TIME"></el-table-column>
                     </el-table>
                     <div>
-                        <p><span style="font-weight: bold;">API_ARGS: </span>{{ props.row.apiArgs }}</p>
+                        <p><span style="font-weight: bold;">API_HEADERS: </span>{{ props.row.apiHeaders }}</p>
+                        <p><span style="font-weight: bold;">API_BODY_ARGS: </span>{{ props.row.apiBodyArgs }}</p>
                         <p><span style="font-weight: bold;">API_REQUEST_ACTUAL_INFO:</span> {{ props.row.apiRequestActualInfo }}</p>
                         <p><span style="font-weight: bold;">EXPECT_VALUE:</span> {{ props.row.expectValue }}</p>
                         <p><span style="font-weight: bold;">ACTUAL_VALUE:</span> {{ props.row.actualValue }}</p>
